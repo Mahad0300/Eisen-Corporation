@@ -30,9 +30,23 @@ function isPageActive($path) {
             </li>
             
             <li class="nav-item">
+                <a href="<?= BASE_URL ?>/admin/bids" class="nav-link <?= isPageActive('/admin/bids') ?>">
+                    <i data-lucide="gavel"></i>
+                    <span class="link-label">Auction Bids</span>
+                </a>
+            </li>
+            
+            <li class="nav-item">
+                <a href="<?= BASE_URL ?>/admin/reservations" class="nav-link <?= isPageActive('/admin/reservations') ?>">
+                    <i data-lucide="bookmark"></i>
+                    <span class="link-label">Reservations Logs</span>
+                </a>
+            </li>
+            
+            <li class="nav-item">
                 <a href="<?= BASE_URL ?>/admin/customers" class="nav-link <?= isPageActive('/admin/customers') ?>">
-                    <i data-lucide="shield-check"></i>
-                    <span class="link-label">User Verifications</span>
+                    <i data-lucide="users"></i>
+                    <span class="link-label">Customer Registry</span>
                 </a>
             </li>
             

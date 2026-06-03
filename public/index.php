@@ -44,6 +44,8 @@ $router->get('/admin/login', 'Admin\AuthController@showLoginForm');
 $router->post('/admin/login', 'Admin\AuthController@login');
 $router->get('/admin/logout', 'Admin\AuthController@logout');
 $router->get('/admin/inventory', 'Admin\InventoryController@index');
+$router->get('/admin/bids', 'Admin\BidController@index');
+$router->get('/admin/reservations', 'Admin\ReservationController@index');
 $router->get('/admin/customers', 'Admin\CustomerController@index');
 $router->get('/admin/customers/detail', 'Admin\CustomerController@detail'); // Standard detail view fallback for UI
 $router->get('/admin/shipping', 'Admin\ShippingController@index');

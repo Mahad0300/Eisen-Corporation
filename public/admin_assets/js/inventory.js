@@ -253,4 +253,31 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    // ==========================================
+    // 5. Sync Auction API Simulation
+    // ==========================================
+    const syncBtn = document.getElementById('syncAuctionsBtn');
+    if (syncBtn) {
+        syncBtn.addEventListener('click', function() {
+            Swal.fire({
+                title: 'Synchronizing Auctions',
+                html: 'Connecting to <strong>jpcenter.ru</strong> API feeds...',
+                timer: 2000,
+                timerProgressBar: true,
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            }).then((result) => {
+                toastr.options = {
+                    "closeButton": true,
+                    "progressBar": true,
+                    "positionClass": "toast-top-right",
+                    "timeOut": "4000"
+                };
+                toastr.success('Synchronized 142 new Japan auction lots successfully!', 'API Sync Complete');
+            });
+        });
+    }
+
 });

@@ -17,7 +17,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
     <!-- Custom Admin Style -->
-    <link rel="stylesheet" href="<?= BASE_URL ?>/public/admin_assets/css/style.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/public/admin_assets/css/style.css?v=1.2">
 
     <script>
         window.BASE_URL = '<?= BASE_URL ?>';

@@ -24,7 +24,11 @@ foreach ($cars as $car) {
             <h1 class="page-title">Inventory Catalog</h1>
             <p style="color: var(--color-text-muted); margin: 4px 0 0 0;">Manage direct In-Stock imports and live Auction lots</p>
         </div>
-        <div class="header-actions">
+        <div class="header-actions" style="display: flex; gap: 12px;">
+            <button class="btn btn-outline" id="syncAuctionsBtn">
+                <i data-lucide="refresh-cw"></i>
+                <span>Sync Auction API</span>
+            </button>
             <button class="btn btn-primary" id="openAddCarModalBtn">
                 <i data-lucide="plus-circle"></i>
                 <span>Add New Vehicle</span>
@@ -332,9 +336,10 @@ foreach ($cars as $car) {
                     
                     <div class="form-group">
                         <label class="form-label">Upload Car Photos (Minimum 8 required) *</label>
-                        <div style="border: 2px dashed var(--color-silver-300); border-radius: 8px; padding: 20px; text-align: center; background: rgba(0,0,0,0.02); cursor: pointer;">
+                        <div class="upload-dropzone" onclick="document.getElementById('photosUploader').click();">
                             <i data-lucide="upload-cloud" style="width: 32px; height: 32px; color: var(--color-silver-400); margin-bottom: 8px;"></i>
-                            <p style="margin: 0; font-size: 13px; color: var(--color-text-muted);">Drag and drop your photos here, or click to select files</p>
+                            <p style="margin: 0; font-size: 13px; font-weight: 600; color: var(--color-navy-950);">Drag and drop your photos here, or click to browse</p>
+                            <p style="margin: 4px 0 0 0; font-size: 11px; color: var(--color-text-muted);">Supports JPG, PNG, JPEG up to 10MB per image</p>
                             <input type="file" multiple style="display: none;" id="photosUploader">
                         </div>
                     </div>
@@ -349,10 +354,10 @@ foreach ($cars as $car) {
                             <label class="form-label" for="arrival_date">Arrival Date</label>
                             <input class="form-control" type="date" id="arrival_date" name="arrival_date">
                         </div>
-                        <div class="form-group" style="display: flex; align-items: center; height: 100%; padding-top: 24px;">
-                            <label class="form-checkbox" style="margin-bottom: 0;">
+                        <div class="form-group">
+                            <label class="checkbox-wrapper" for="featured_checkbox">
                                 <input type="checkbox" name="featured" id="featured_checkbox">
-                                <span>Featured (Show on Homepage)</span>
+                                <span>Featured on Homepage</span>
                             </label>
                         </div>
                     </div>
