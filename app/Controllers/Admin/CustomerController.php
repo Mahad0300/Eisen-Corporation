@@ -3,22 +3,21 @@ namespace App\Controllers\Admin;
 
 class CustomerController extends AdminController {
     
-    // List all users and verification status
+    // List all users and registry details
     public function index() {
         $customers = $this->getMockCustomers();
         
         $this->view('admin/customers', [
-            'pageTitle' => 'User Verifications | Eisen Admin',
+            'pageTitle' => 'Customer Registry | Eisen Admin',
             'pageScript' => 'customers.js',
             'customers' => $customers
         ]);
     }
 
-    // Detail page to review uploaded documents side-by-side
+    // Detail page to review complete customer profile, holds, bids, and deposits
     public function detail() {
         $customers = $this->getMockCustomers();
         
-        // Use first customer (Tariq Mahmood) as default mock selection for UI detailing
         $customerId = $_GET['id'] ?? '1001';
         $customer = null;
         
@@ -34,7 +33,7 @@ class CustomerController extends AdminController {
         }
 
         $this->view('admin/customer-detail', [
-            'pageTitle' => 'Review Documents - ' . $customer['name'] . ' | Eisen Admin',
+            'pageTitle' => 'Customer Profile - ' . $customer['name'] . ' | Eisen Admin',
             'pageScript' => 'customers.js',
             'customer' => $customer
         ]);
@@ -47,61 +46,64 @@ class CustomerController extends AdminController {
                 'name' => 'Tariq Mahmood',
                 'email' => 'tariq.m@example.com',
                 'phone' => '+92 300 1234567',
+                'whatsapp' => '+92 300 1234567',
                 'country' => 'Pakistan',
-                'port' => 'Karachi Port',
-                'status' => 'Pending Review',
-                'doc_name' => 'Passport_Scan_Tariq_Mahmood.pdf',
-                'doc_type' => 'Passport',
-                'doc_url' => 'https://images.unsplash.com/photo-1554774853-aae0a22c8aa4?w=800&q=80', // placeholder for visual doc preview
-                'uploaded_at' => '2026-06-03 14:30',
+                'account_type' => 'Corporate Buyer',
+                'asf_confirmed' => 'Yes',
+                'newsletter' => 'Yes',
                 'company' => 'TM Auto Imports Ltd.',
-                'holds' => 'Honda Vezel (RU3-1204928)'
+                'registered_at' => '2026-06-03 14:30',
+                'holds' => 'Honda Vezel EX-L (2023)',
+                'bids' => 'None',
+                'deposits' => '$5,000 (Pending Verification)'
             ],
             [
                 'id' => '1002',
                 'name' => 'Sarah Jenkins',
                 'email' => 'sarah.j@example.com',
                 'phone' => '+254 712 345678',
+                'whatsapp' => '+254 712 345678',
                 'country' => 'Kenya',
-                'port' => 'Mombasa Port',
-                'status' => 'Verified',
-                'doc_name' => 'NationalID_Sarah_J.jpg',
-                'doc_type' => 'National ID',
-                'doc_url' => 'https://images.unsplash.com/photo-1554774853-aae0a22c8aa4?w=800&q=80',
-                'uploaded_at' => '2026-06-02 09:15',
+                'account_type' => 'Corporate Buyer',
+                'asf_confirmed' => 'Yes',
+                'newsletter' => 'Yes',
                 'company' => 'S.J. Auto Solutions',
-                'holds' => 'BMW 5 Series (WBA5A31000K29)'
+                'registered_at' => '2026-06-02 09:15',
+                'holds' => 'BMW 5 Series (2021)',
+                'bids' => '$32,200 on BMW 5 Series (2021)',
+                'deposits' => '$10,000 (Approved)'
             ],
             [
                 'id' => '1003',
                 'name' => 'Kenji Tanaka',
                 'email' => 'kenji.t@example.co.jp',
                 'phone' => '+81 90 8765 4321',
+                'whatsapp' => '+81 90 8765 4321',
                 'country' => 'Japan',
-                'port' => 'Yokohama',
-                'status' => 'No Uploads',
-                'doc_name' => '',
-                'doc_type' => '',
-                'doc_url' => '',
-                'uploaded_at' => '',
+                'account_type' => 'Individual Buyer',
+                'asf_confirmed' => 'Yes',
+                'newsletter' => 'No',
                 'company' => 'Individual Buyer',
-                'holds' => 'Toyota Aqua (NHP10-2394851)'
+                'registered_at' => '2026-06-01 11:20',
+                'holds' => 'Toyota Aqua Hybrid (2022)',
+                'bids' => 'None',
+                'deposits' => 'None'
             ],
             [
                 'id' => '1004',
                 'name' => 'Mohammed Al-Mansoor',
                 'email' => 'mansoor@example.com',
                 'phone' => '+971 50 123 4567',
+                'whatsapp' => '+971 50 999 8888',
                 'country' => 'UAE',
-                'port' => 'Jebel Ali Port',
-                'status' => 'Rejected',
-                'doc_name' => 'Document_ID_Scan_Blurry.jpg',
-                'doc_type' => 'Passport',
-                'doc_url' => 'https://images.unsplash.com/photo-1554774853-aae0a22c8aa4?w=800&q=80',
-                'uploaded_at' => '2026-06-01 17:45',
+                'account_type' => 'Corporate Buyer',
+                'asf_confirmed' => 'Yes',
+                'newsletter' => 'Yes',
                 'company' => 'Al-Mansoor Trading LLC',
+                'registered_at' => '2026-06-01 17:45',
                 'holds' => 'None',
-                'rejection_reason' => 'The uploaded passport image is extremely blurry and the date of birth cannot be read. Please upload a clear photo scan.'
+                'bids' => '$34,500 on Audi Q5 Premium (2022)',
+                'deposits' => '$2,000 (Rejected)'
             ]
         ];
     }

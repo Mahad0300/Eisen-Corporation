@@ -28,25 +28,25 @@ include dirname(__DIR__) . '/admin/partials/header.php';
 
     <!-- Section 1: Security Deposits Requests -->
     <div class="tab-section" id="section-deposits">
-        <div class="card">
+        <div class="card" style="padding: 0;">
             <div class="table-responsive">
                 <table class="data-table-minimal" id="depositsTable">
                     <thead>
                         <tr>
-                            <th>Deposit ID</th>
+                            <th style="padding-left: 24px;">Deposit ID</th>
                             <th>Customer Name</th>
                             <th>Amount Deposited</th>
                             <th>Requested Bid Limit</th>
                             <th>Slip Receipt</th>
                             <th>Uploaded At</th>
                             <th>Status</th>
-                            <th style="text-align: right;">Actions</th>
+                            <th style="text-align: right; padding-right: 24px;">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php foreach ($deposits as $dep): ?>
                         <tr data-status="<?= $dep['status'] ?>">
-                            <td><strong>#<?= $dep['id'] ?></strong></td>
+                            <td style="padding-left: 24px; white-space: nowrap;"><strong>#<?= $dep['id'] ?></strong></td>
                             <td>
                                 <strong><?= htmlspecialchars($dep['customer_name']) ?></strong>
                                 <div style="font-size: 11px; color: var(--color-text-muted);">ID: #<?= $dep['customer_id'] ?></div>
@@ -69,7 +69,7 @@ include dirname(__DIR__) . '/admin/partials/header.php';
                                 ?>
                                 <span class="badge <?= $badge ?>"><?= $dep['status'] ?></span>
                             </td>
-                            <td style="text-align: right;">
+                            <td style="text-align: right; padding-right: 24px;">
                                 <div style="display: flex; justify-content: flex-end; gap: 8px;">
                                     <?php if ($dep['status'] === 'Pending Verification'): ?>
                                         <button class="btn btn-primary btn-sm approve-dep-btn" data-id="<?= $dep['id'] ?>" data-name="<?= htmlspecialchars($dep['customer_name']) ?>">
@@ -97,25 +97,25 @@ include dirname(__DIR__) . '/admin/partials/header.php';
 
     <!-- Section 2: Active Auction Bids -->
     <div class="tab-section" id="section-active-bids" style="display: none;">
-        <div class="card">
+        <div class="card" style="padding: 0;">
             <div class="table-responsive">
                 <table class="data-table-minimal" id="bidsTable">
                     <thead>
                         <tr>
-                            <th>Bid ID</th>
+                            <th style="padding-left: 24px;">Bid ID</th>
                             <th>Bidder Name</th>
                             <th>Auction Lot</th>
                             <th>Starting Price</th>
                             <th>Bid Limit Locked</th>
                             <th>Placed Bid Amount</th>
                             <th>Placed At</th>
-                            <th style="text-align: right;">Bidding Status</th>
+                            <th style="text-align: right; padding-right: 24px;">Bidding Status</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php foreach ($activeBids as $bid): ?>
                         <tr>
-                            <td><strong>#<?= $bid['id'] ?></strong></td>
+                            <td style="padding-left: 24px; white-space: nowrap;"><strong>#<?= $bid['id'] ?></strong></td>
                             <td><strong><?= htmlspecialchars($bid['customer_name']) ?></strong></td>
                             <td>
                                 <strong><?= htmlspecialchars($bid['car_detail']) ?></strong>
@@ -125,7 +125,7 @@ include dirname(__DIR__) . '/admin/partials/header.php';
                             <td><strong style="color: var(--color-success);">$<?= number_format($bid['max_limit_allowed']) ?></strong></td>
                             <td><strong style="color: var(--color-navy-950); font-size: 15px;">$<?= number_format($bid['placed_bid']) ?></strong></td>
                             <td><span style="font-size: 12px; color: var(--color-text-muted);"><?= $bid['placed_at'] ?></span></td>
-                            <td style="text-align: right;">
+                            <td style="text-align: right; padding-right: 24px;">
                                 <?php 
                                 $badge = 'badge-active';
                                 if ($bid['status'] === 'Active Winner') $badge = 'badge-success';

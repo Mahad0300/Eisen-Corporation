@@ -51,7 +51,82 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ==========================================
-    // 2. Call Log Modal Management
+    // 2. Master-Detail Interactivity
+    // ==========================================
+    const listItems = document.querySelectorAll('.res-list-item');
+    const detailsPanes = document.querySelectorAll('.res-details-pane');
+
+    listItems.forEach(item => {
+        item.addEventListener('click', function() {
+            const id = this.getAttribute('data-id');
+
+            // Toggle active list item
+            listItems.forEach(li => li.classList.remove('active'));
+            this.classList.add('active');
+
+            // Switch details pane
+            detailsPanes.forEach(pane => {
+                if (pane.getAttribute('data-res-id') === id) {
+                    pane.style.display = 'block';
+                } else {
+                    pane.style.display = 'none';
+                }
+            });
+        });
+    });
+
+    // ==========================================
+    // 3. Search and Status Filtering Logic
+    // ==========================================
+    const searchInput = document.getElementById('resSearchInput');
+    const filterPills = document.querySelectorAll('.filter-pill');
+
+    let currentSearch = '';
+    let currentFilter = 'all';
+
+    function applyFilters() {
+        listItems.forEach(item => {
+            const searchStr = item.getAttribute('data-search-str') || '';
+            const status = item.getAttribute('data-status') || '';
+            
+            const matchesSearch = searchStr.includes(currentSearch);
+            const matchesStatus = (currentFilter === 'all' || status === currentFilter);
+
+            if (matchesSearch && matchesStatus) {
+                item.style.display = 'block';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+
+        // Auto-select the first visible item if the currently active one is hidden
+        const activeItem = document.querySelector('.res-list-item.active');
+        if (activeItem && activeItem.style.display === 'none') {
+            const firstVisible = Array.from(listItems).find(li => li.style.display !== 'none');
+            if (firstVisible) {
+                firstVisible.click();
+            }
+        }
+    }
+
+    if (searchInput) {
+        searchInput.addEventListener('input', function() {
+            currentSearch = this.value.trim().toLowerCase();
+            applyFilters();
+        });
+    }
+
+    filterPills.forEach(pill => {
+        pill.addEventListener('click', function() {
+            filterPills.forEach(p => p.classList.remove('active'));
+            this.classList.add('active');
+            currentFilter = this.getAttribute('data-filter');
+            applyFilters();
+        });
+    });
+
+    // ==========================================
+    // 4. Call Log Modal Management
     // ==========================================
     const modal = document.getElementById('callLogModal');
     const closeBtn = document.getElementById('closeCallLogModalBtn');
@@ -86,14 +161,16 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    document.querySelectorAll('.log-call-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-            const resId = this.getAttribute('data-res-id');
-            const name = this.getAttribute('data-name');
-            const car = this.getAttribute('data-car');
-            const status = this.getAttribute('data-status');
+    // Set listener on body to handle dynamically/statically created details pane buttons
+    document.addEventListener('click', function(e) {
+        const btn = e.target.closest('.log-call-btn');
+        if (btn) {
+            const resId = btn.getAttribute('data-res-id');
+            const name = btn.getAttribute('data-name');
+            const car = btn.getAttribute('data-car');
+            const status = btn.getAttribute('data-status');
             openModal(resId, name, car, status);
-        });
+        }
     });
 
     if (closeBtn) closeBtn.addEventListener('click', closeModal);
@@ -107,7 +184,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ==========================================
-    // 3. Form Submission (Simulated Save & Log Appending)
+    // 5. Form Submission (Simulated Save & Log Appending)
     // ==========================================
     if (form) {
         form.addEventListener('submit', function(e) {
@@ -117,31 +194,49 @@ document.addEventListener('DOMContentLoaded', function() {
             const newStatus = logCallStatusSelect.value;
             const noteText = logCallNoteTextarea.value;
             
-            // Locate target card elements
-            const card = document.querySelector(`.res-card[data-res-id="${resId}"]`);
+            // Locate target card elements in Right Detail Pane
+            const card = document.querySelector(`.res-details-pane[data-res-id="${resId}"]`);
+            // Locate target list item in Left Master List
+            const listItem = document.querySelector(`.res-list-item[data-id="${resId}"]`);
+
             if (!card) {
                 closeModal();
                 return;
             }
 
-            // Update status badge
-            const badge = card.querySelector('td:nth-child(3) .badge') || card.querySelector('.badge:not(.badge-info)');
-            if (badge) {
-                badge.textContent = newStatus;
+            // 1. Update Details Pane Status Badge
+            const detailsBadge = card.querySelector('.badge:not(.badge-info)');
+            if (detailsBadge) {
+                detailsBadge.textContent = newStatus;
                 
-                // Set appropriate badge class
                 let badgeClass = 'badge badge-draft';
                 if (newStatus === 'Deposit Received - Booking Locked') badgeClass = 'badge badge-success';
                 else if (newStatus === 'Contacted - Awaiting Wire Deposit') badgeClass = 'badge badge-warning';
                 else if (newStatus === 'Pending Call') badgeClass = 'badge badge-danger';
                 
-                badge.className = badgeClass;
+                detailsBadge.className = badgeClass;
             }
 
-            // Update status data-attribute on the trigger button
+            // 2. Update Details Pane button status attribute
             const logBtn = card.querySelector('.log-call-btn');
             if (logBtn) {
                 logBtn.setAttribute('data-status', newStatus);
+            }
+
+            // 3. Update Left List Item status badge & data attributes
+            if (listItem) {
+                const listBadge = listItem.querySelector('.badge');
+                if (listBadge) {
+                    listBadge.textContent = newStatus === 'Deposit Received - Booking Locked' ? 'Locked' : (newStatus === 'Contacted - Awaiting Wire Deposit' ? 'Contacted' : 'Pending');
+                    
+                    let badgeClass = 'badge badge-draft';
+                    if (newStatus === 'Deposit Received - Booking Locked') badgeClass = 'badge badge-success';
+                    else if (newStatus === 'Contacted - Awaiting Wire Deposit') badgeClass = 'badge badge-warning';
+                    else if (newStatus === 'Pending Call') badgeClass = 'badge badge-danger';
+                    
+                    listBadge.className = badgeClass;
+                }
+                listItem.setAttribute('data-status', newStatus);
             }
 
             // Format current timestamp
@@ -161,14 +256,16 @@ document.addEventListener('DOMContentLoaded', function() {
             if (timeline) {
                 const logItem = document.createElement('div');
                 logItem.style.display = 'flex';
-                logItem.style.gap = '10px';
-                logItem.style.fontSize = '12.5px';
-                logItem.style.animation = 'slideUp var(--transition-fast)';
+                logItem.style.gap = '12px';
+                logItem.style.fontSize = '13px';
+                logItem.style.animation = 'fadeIn var(--transition-fast) ease-out';
                 logItem.innerHTML = `
-                    <div style="width: 8px; height: 8px; border-radius: 50%; background-color: var(--color-gold-500); margin-top: 5px; flex-shrink: 0;"></div>
+                    <div style="width: 8px; height: 8px; border-radius: 50%; background-color: var(--color-gold-500); margin-top: 6px; flex-shrink: 0;"></div>
                     <div style="flex: 1;">
-                        <span style="font-size: 11px; color: var(--color-text-muted); font-weight: 500;">${timeStr} · <strong>Eisen Admin</strong></span>
-                        <p style="margin: 2px 0 0 0; color: var(--color-navy-950); line-height: 1.35;">${escapeHtml(noteText)}</p>
+                        <div style="font-size: 11px; color: var(--color-text-muted); font-weight: 500;">
+                            ${timeStr} · <strong style="color: var(--color-navy-900);">Eisen Admin</strong>
+                        </div>
+                        <p style="margin: 4px 0 0 0; color: var(--color-navy-950); line-height: 1.45;">${escapeHtml(noteText)}</p>
                     </div>
                 `;
                 timeline.insertBefore(logItem, timeline.firstChild);
@@ -176,8 +273,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
             closeModal();
             
-            toastr.options = { "closeButton": true, "progressBar": true };
-            toastr.success(`Call status updated to "${newStatus}"! Log notes saved.`, 'Hold Logged');
+            // Re-apply filters in case the status filter was active and this item is now filtered out
+            applyFilters();
+            
+            if (window.toastr) {
+                toastr.options = { "closeButton": true, "progressBar": true };
+                toastr.success(`Call status updated to "${newStatus}"! Log notes saved.`, 'Hold Logged');
+            }
         });
     }
 
