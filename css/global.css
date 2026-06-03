@@ -373,6 +373,88 @@ dl {
   object-position: left center;
 }
 
+.header-locale {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.75rem, 2.5vw, 1.25rem);
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.header-locale__group {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.header-locale__label {
+  font-family: var(--font-body);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.72);
+  white-space: nowrap;
+}
+
+.header-locale__select {
+  min-width: 6.5rem;
+  max-width: 9rem;
+  padding: 0.35rem 1.75rem 0.35rem 0.5rem;
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--color-white);
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23ffffff' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.45rem center;
+  transition: border-color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.header-locale__select:hover {
+  background-color: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.45);
+}
+
+.header-locale__select:focus {
+  outline: none;
+}
+
+.header-locale__select:focus-visible {
+  border-color: rgba(255, 255, 255, 0.65);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
+}
+
+.header-locale__select option {
+  color: var(--color-text);
+  background: var(--color-white);
+}
+
+@media (max-width: 479px) {
+  .header-locale__label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .header-locale__select {
+    min-width: 5.25rem;
+    font-size: 0.75rem;
+  }
+}
+
 .header-bar {
   width: 100%;
   background: var(--color-bar-gray);
@@ -2313,7 +2395,6 @@ dl {
   margin-bottom: var(--space-6);
   padding: 0;
   border: 1px solid var(--color-silver-300);
-  border-radius: var(--radius-sm);
   box-shadow: var(--shadow-sm);
   overflow: hidden;
 }
@@ -2355,6 +2436,9 @@ dl {
 
 .inventory-toolbar__select:focus {
   outline: none;
+}
+
+.inventory-toolbar__select:focus-visible {
   box-shadow: inset 0 0 0 2px var(--color-navy-600);
 }
 
@@ -2388,7 +2472,9 @@ dl {
   align-items: center;
   justify-content: center;
   gap: var(--space-2);
-  width: 100%;
+  width: auto;
+  min-width: 7.5rem;
+  padding: 0.55rem 1.25rem;
 }
 
 .inventory-filters-toggle__count {
@@ -2711,17 +2797,33 @@ dl {
   color: var(--color-text-muted);
 }
 
-.inventory-load-more {
+.inventory-pagination {
   display: flex;
+  align-items: center;
   justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--space-2);
   margin-top: var(--space-8);
 }
 
-.inventory-load-more__btn {
+.inventory-pagination[hidden] {
+  display: none !important;
+}
+
+.inventory-pagination__pages {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+}
+
+.inventory-pagination__btn {
   display: inline-flex;
   align-items: center;
-  gap: var(--space-2);
-  padding: 0.75rem 1.5rem;
+  justify-content: center;
+  min-width: 2.25rem;
+  height: 2.25rem;
+  padding: 0 0.5rem;
   font-family: var(--font-body);
   font-size: var(--text-sm);
   font-weight: 600;
@@ -2736,16 +2838,42 @@ dl {
     color var(--transition-fast);
 }
 
-.inventory-load-more__btn:hover {
+.inventory-pagination__btn:hover:not(:disabled) {
   background: var(--color-silver-100);
   border-color: var(--color-navy-600);
-  color: var(--color-navy-900);
+}
+
+.inventory-pagination__btn.is-active {
+  color: var(--color-white);
+  background: var(--color-navy-700);
+  border-color: var(--color-navy-700);
+}
+
+.inventory-pagination__btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.inventory-pagination__btn--arrow {
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.inventory-pagination__ellipsis {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.5rem;
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
 }
 
 @media (max-width: 1023px) {
   .inventory-filters-toggle {
     display: inline-flex;
     grid-column: 1 / -1;
+    justify-self: end;
+    margin-left: auto;
   }
 
   .inventory-filters-backdrop:not([hidden]) {

@@ -1,71 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Eisen Corporation — premium imported vehicles, auction-grade stock, and expert export services." />
-  <title>Eisen Corporation | Premium Auto Dealership</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Montserrat:ital,wght@0,600;0,700;0,800;1,600;1,700;1,800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/global.css" />
-</head>
-<body>
-  <a class="skip-link" href="#main">Skip to content</a>
-
-  <header class="site-header">
-    <div class="header-brand">
-      <div class="container header-brand__inner">
-        <a href="/" class="logo" aria-label="Eisen Corporation home">
-          <img
-            class="logo__img"
-            src="image/eisen-logo.png"
-            alt="Eisen Corporation"
-            width="220"
-            height="64"
-            fetchpriority="high"
-          />
-        </a>
-      </div>
-    </div>
-
-    <div class="header-bar">
-      <div class="container header-bar__inner">
-        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
-          <span class="nav-toggle__bar" aria-hidden="true"></span>
-          <span class="visually-hidden">Menu</span>
-        </button>
-
-        <nav id="site-nav" class="site-nav" aria-label="Primary">
-          <ul class="site-nav__list">
-            <li class="site-nav__item"><a class="site-nav__link is-active" href="#" aria-current="page">Home</a></li>
-            <li class="site-nav__item"><a class="site-nav__link" href="#about">About Us</a></li>
-            <li class="site-nav__item"><a class="site-nav__link" href="#blog">Blog</a></li>
-            <li class="site-nav__item"><a class="site-nav__link" href="#news">News</a></li>
-            <li class="site-nav__item"><a class="site-nav__link" href="#sellers">For Sellers</a></li>
-            <li class="site-nav__item"><a class="site-nav__link" href="#contacts">Contacts</a></li>
-          </ul>
-        </nav>
-
-        <form class="header-search" role="search" aria-label="Site search">
-          <label class="visually-hidden" for="header-search-input">Search on site</label>
-          <input
-            id="header-search-input"
-            class="header-search__input"
-            type="search"
-            name="q"
-            placeholder="Search On Site"
-            autocomplete="off"
-          />
-          <button class="btn btn--primary header-search__btn" type="submit">search</button>
-        </form>
-      </div>
-    </div>
-  </header>
+<?php include 'header.php'; ?>
 
   <main id="main">
 
-    <section class="hero" aria-label="Featured vehicles and search">
+    <section class="hero" data-i18n-aria-label="hero.aria" aria-label="Featured vehicles and search">
       <div class="container hero__grid">
         <div class="hero-slider card" data-slider>
           <div class="hero-slider__track">
@@ -82,12 +19,12 @@
                 <div class="hero-slide__info">
                   <h2 class="hero-slide__title">Toyota <span class="text-gold">Aqua</span></h2>
                   <dl class="hero-slide__specs">
-                    <div><dt>Mileage</dt><dd>25,000 km</dd></div>
-                    <div><dt>Engine</dt><dd>1.5L Hybrid</dd></div>
+                    <div><dt data-i18n="spec.mileage">Mileage</dt><dd>25,000 km</dd></div>
+                    <div><dt data-i18n="spec.engine">Engine</dt><dd>1.5L Hybrid</dd></div>
                   </dl>
                 </div>
                 <div class="hero-slide__aside">
-                  <p class="hero-slide__price"><span class="visually-hidden">Price</span>$32,200</p>
+                  <p class="hero-slide__price"><span class="visually-hidden" data-i18n="spec.price">Price</span>$32,200</p>
                 </div>
               </div>
             </article>
@@ -105,8 +42,8 @@
                 <div class="hero-slide__info">
                   <h2 class="hero-slide__title">Mercedes-Benz <span class="text-gold">E-Class</span></h2>
                   <dl class="hero-slide__specs">
-                    <div><dt>Mileage</dt><dd>18,400 km</dd></div>
-                    <div><dt>Engine</dt><dd>2.0L Turbo</dd></div>
+                    <div><dt data-i18n="spec.mileage">Mileage</dt><dd>18,400 km</dd></div>
+                    <div><dt data-i18n="spec.engine">Engine</dt><dd>2.0L Turbo</dd></div>
                   </dl>
                 </div>
                 <div class="hero-slide__aside">
@@ -128,8 +65,8 @@
                 <div class="hero-slide__info">
                   <h2 class="hero-slide__title">BMW <span class="text-gold">5 Series</span></h2>
                   <dl class="hero-slide__specs">
-                    <div><dt>Mileage</dt><dd>12,100 km</dd></div>
-                    <div><dt>Engine</dt><dd>3.0L Inline-6</dd></div>
+                    <div><dt data-i18n="spec.mileage">Mileage</dt><dd>12,100 km</dd></div>
+                    <div><dt data-i18n="spec.engine">Engine</dt><dd>3.0L Inline-6</dd></div>
                   </dl>
                 </div>
                 <div class="hero-slide__aside">
@@ -151,8 +88,8 @@
                 <div class="hero-slide__info">
                   <h2 class="hero-slide__title">Audi <span class="text-gold">A8</span></h2>
                   <dl class="hero-slide__specs">
-                    <div><dt>Mileage</dt><dd>9,800 km</dd></div>
-                    <div><dt>Engine</dt><dd>3.0L TFSI</dd></div>
+                    <div><dt data-i18n="spec.mileage">Mileage</dt><dd>9,800 km</dd></div>
+                    <div><dt data-i18n="spec.engine">Engine</dt><dd>3.0L TFSI</dd></div>
                   </dl>
                 </div>
                 <div class="hero-slide__aside">
@@ -174,8 +111,8 @@
                 <div class="hero-slide__info">
                   <h2 class="hero-slide__title">Lexus <span class="text-gold">RX 350</span></h2>
                   <dl class="hero-slide__specs">
-                    <div><dt>Mileage</dt><dd>31,200 km</dd></div>
-                    <div><dt>Engine</dt><dd>3.5L V6</dd></div>
+                    <div><dt data-i18n="spec.mileage">Mileage</dt><dd>31,200 km</dd></div>
+                    <div><dt data-i18n="spec.engine">Engine</dt><dd>3.5L V6</dd></div>
                   </dl>
                 </div>
                 <div class="hero-slide__aside">
@@ -186,7 +123,7 @@
           </div>
 
           <div class="hero-slider__aside-ui">
-            <div class="hero-slider__dots" role="tablist" aria-label="Featured slides">
+            <div class="hero-slider__dots" role="tablist" data-i18n-aria-label="slider.slides" aria-label="Featured slides">
               <button class="hero-slider__dot is-active" type="button" role="tab" aria-selected="true" aria-label="Slide 1" data-goto="0"></button>
               <button class="hero-slider__dot" type="button" role="tab" aria-selected="false" aria-label="Slide 2" data-goto="1"></button>
               <button class="hero-slider__dot" type="button" role="tab" aria-selected="false" aria-label="Slide 3" data-goto="2"></button>
@@ -195,17 +132,17 @@
             </div>
           </div>
 
-          <button class="hero-slider__arrow hero-slider__arrow--prev" type="button" aria-label="Previous slide" data-prev></button>
-          <button class="hero-slider__arrow hero-slider__arrow--next" type="button" aria-label="Next slide" data-next></button>
+          <button class="hero-slider__arrow hero-slider__arrow--prev" type="button" data-i18n-aria-label="slider.prev" aria-label="Previous slide" data-prev></button>
+          <button class="hero-slider__arrow hero-slider__arrow--next" type="button" data-i18n-aria-label="slider.next" aria-label="Next slide" data-next></button>
         </div>
 
         <aside class="search-filter card" aria-labelledby="search-filter-title">
-          <h2 id="search-filter-title" class="search-filter__title">Search Auto</h2>
+          <h2 id="search-filter-title" class="search-filter__title" data-i18n="filter.title">Search Auto</h2>
           <form class="search-filter__form">
             <div class="form-field">
-              <label class="form-label" for="manufacturer">Manufacturer</label>
+              <label class="form-label" for="manufacturer" data-i18n="filter.manufacturer">Manufacturer</label>
               <select class="form-control" id="manufacturer" name="manufacturer">
-                <option value="">All manufacturers</option>
+                <option value="" data-i18n="filter.allManufacturers">All manufacturers</option>
                 <option>Toyota</option>
                 <option>Honda</option>
                 <option>Nissan</option>
@@ -217,21 +154,21 @@
             </div>
 
             <div class="form-field">
-              <label class="form-label" for="model">Model</label>
+              <label class="form-label" for="model" data-i18n="filter.model">Model</label>
               <select class="form-control" id="model" name="model">
-                <option value="">All models</option>
-                <option>Sedan</option>
-                <option>SUV</option>
-                <option>Hatchback</option>
-                <option>Hybrid</option>
+                <option value="" data-i18n="filter.allModels">All models</option>
+                <option data-i18n="filter.sedan">Sedan</option>
+                <option data-i18n="filter.suv">SUV</option>
+                <option data-i18n="filter.hatchback">Hatchback</option>
+                <option data-i18n="filter.hybrid">Hybrid</option>
               </select>
             </div>
 
             <div class="form-row">
               <div class="form-field">
-                <label class="form-label" for="year-from">Year from</label>
+                <label class="form-label" for="year-from" data-i18n="filter.yearFrom">Year from</label>
                 <select class="form-control" id="year-from" name="year_from">
-                  <option value="">Any</option>
+                  <option value="" data-i18n="filter.any">Any</option>
                   <option>2024</option>
                   <option>2023</option>
                   <option>2022</option>
@@ -240,9 +177,9 @@
                 </select>
               </div>
               <div class="form-field">
-                <label class="form-label" for="year-to">Year to</label>
+                <label class="form-label" for="year-to" data-i18n="filter.yearTo">Year to</label>
                 <select class="form-control" id="year-to" name="year_to">
-                  <option value="">Any</option>
+                  <option value="" data-i18n="filter.any">Any</option>
                   <option>2024</option>
                   <option>2023</option>
                   <option>2022</option>
@@ -254,9 +191,9 @@
 
             <div class="form-row">
               <div class="form-field">
-                <label class="form-label" for="price-from">Price from</label>
+                <label class="form-label" for="price-from" data-i18n="filter.priceFrom">Price from</label>
                 <select class="form-control" id="price-from" name="price_from">
-                  <option value="">Any</option>
+                  <option value="" data-i18n="filter.any">Any</option>
                   <option>$10,000</option>
                   <option>$20,000</option>
                   <option>$30,000</option>
@@ -264,9 +201,9 @@
                 </select>
               </div>
               <div class="form-field">
-                <label class="form-label" for="price-to">Price to</label>
+                <label class="form-label" for="price-to" data-i18n="filter.priceTo">Price to</label>
                 <select class="form-control" id="price-to" name="price_to">
-                  <option value="">Any</option>
+                  <option value="" data-i18n="filter.any">Any</option>
                   <option>$30,000</option>
                   <option>$50,000</option>
                   <option>$75,000</option>
@@ -277,18 +214,18 @@
 
             <div class="form-row">
               <div class="form-field">
-                <label class="form-label" for="mileage-from">Mileage from</label>
+                <label class="form-label" for="mileage-from" data-i18n="filter.mileageFrom">Mileage from</label>
                 <select class="form-control" id="mileage-from" name="mileage_from">
-                  <option value="">Any</option>
+                  <option value="" data-i18n="filter.any">Any</option>
                   <option>0 km</option>
                   <option>10,000 km</option>
                   <option>50,000 km</option>
                 </select>
               </div>
               <div class="form-field">
-                <label class="form-label" for="mileage-to">Mileage to</label>
+                <label class="form-label" for="mileage-to" data-i18n="filter.mileageTo">Mileage to</label>
                 <select class="form-control" id="mileage-to" name="mileage_to">
-                  <option value="">Any</option>
+                  <option value="" data-i18n="filter.any">Any</option>
                   <option>30,000 km</option>
                   <option>80,000 km</option>
                   <option>150,000 km</option>
@@ -298,10 +235,10 @@
 
             <label class="form-checkbox">
               <input type="checkbox" name="new_only" />
-              <span>Only new cars</span>
+              <span data-i18n="filter.newOnly">Only new cars</span>
             </label>
 
-            <button class="btn btn--primary btn--block search-filter__submit" type="submit">Search</button>
+            <button class="btn btn--primary btn--block search-filter__submit" type="submit" data-i18n="filter.submit">Search</button>
           </form>
         </aside>
       </div>
@@ -310,8 +247,8 @@
     <section id="listings" class="listings section" aria-labelledby="listings-title">
       <div class="container">
         <header class="section-header">
-          <h2 id="listings-title" class="section-title">Recent Listings</h2>
-          <a class="section-link" href="#">View all inventory</a>
+          <h2 id="listings-title" class="section-title" data-i18n="listings.title">Recent Listings</h2>
+          <a class="section-link" href="#" data-i18n="listings.viewAll">View all inventory</a>
         </header>
 
         <ul class="listing-grid">
@@ -370,10 +307,10 @@
               </svg>
             </div>
             <div class="cta-banner__content">
-              <h3 class="cta-banner__title">Looking for a car?</h3>
-              <p class="cta-banner__text">1000 new offers everyday 35,000 car offers on site</p>
+              <h3 class="cta-banner__title" data-i18n="cta.buy.title">Looking for a car?</h3>
+              <p class="cta-banner__text" data-i18n="cta.buy.text">1000 new offers everyday 35,000 car offers on site</p>
             </div>
-            <a class="btn btn--white" href="#">Search</a>
+            <a class="btn btn--white" href="#" data-i18n="cta.buy.btn">Search</a>
           </article>
 
           <article class="cta-banner cta-banner--sell">
@@ -381,10 +318,10 @@
               <span class="cta-banner__dollar">$</span>
             </div>
             <div class="cta-banner__content">
-              <h3 class="cta-banner__title">Want to sell a car?</h3>
-              <p class="cta-banner__text">200000 visitors everyday. Add your offer now</p>
+              <h3 class="cta-banner__title" data-i18n="cta.sell.title">Want to sell a car?</h3>
+              <p class="cta-banner__text" data-i18n="cta.sell.text">200000 visitors everyday. Add your offer now</p>
             </div>
-            <a class="btn btn--white" href="#sellers">Sell</a>
+            <a class="btn btn--white" href="#sellers" data-i18n="cta.sell.btn">Sell</a>
           </article>
         </div>
       </div>
@@ -393,8 +330,8 @@
     <section id="blog" class="blog-hub section" aria-labelledby="blog-hub-title">
       <div class="container">
         <header class="section-header">
-          <h2 id="blog-hub-title" class="section-title">Recent from the blog</h2>
-          <a class="section-link" href="#blog">View all blog</a>
+          <h2 id="blog-hub-title" class="section-title" data-i18n="blog.title">Recent from the blog</h2>
+          <a class="section-link" href="#blog" data-i18n="blog.viewAll">View all blog</a>
         </header>
 
         <div class="blog-hub__layout">
@@ -406,9 +343,9 @@
                     <img src="https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=600&q=80" alt="Luxury SUV on road" width="600" height="360" loading="lazy" />
                   </div>
                   <div class="blog-card__body">
-                    <h3 class="blog-card__title">The importance of luxury SUV sales expand</h3>
-                    <time class="blog-card__date" datetime="2020-09-16">September, 16, 2020</time>
-                    <p class="blog-card__excerpt">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                    <h3 class="blog-card__title" data-i18n="blog.card.title">The importance of luxury SUV sales expand</h3>
+                    <time class="blog-card__date" datetime="2020-09-16" data-i18n="blog.card.date">September, 16, 2020</time>
+                    <p class="blog-card__excerpt" data-i18n="blog.excerpt1">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
                   </div>
                 </a>
               </article>
@@ -419,9 +356,9 @@
                     <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=600&q=80" alt="Sports car front view" width="600" height="360" loading="lazy" />
                   </div>
                   <div class="blog-card__body">
-                    <h3 class="blog-card__title">The importance of luxury SUV sales expand</h3>
-                    <time class="blog-card__date" datetime="2020-09-16">September, 16, 2020</time>
-                    <p class="blog-card__excerpt">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>
+                    <h3 class="blog-card__title" data-i18n="blog.card.title">The importance of luxury SUV sales expand</h3>
+                    <time class="blog-card__date" datetime="2020-09-16" data-i18n="blog.card.date">September, 16, 2020</time>
+                    <p class="blog-card__excerpt" data-i18n="blog.excerpt2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>
                   </div>
                 </a>
               </article>
@@ -432,24 +369,24 @@
                     <img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=600&q=80" alt="Blue performance car" width="600" height="360" loading="lazy" />
                   </div>
                   <div class="blog-card__body">
-                    <h3 class="blog-card__title">The importance of luxury SUV sales expand</h3>
-                    <time class="blog-card__date" datetime="2020-09-16">September, 16, 2020</time>
-                    <p class="blog-card__excerpt">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis aute irure dolor in reprehenderit in voluptate velit.</p>
+                    <h3 class="blog-card__title" data-i18n="blog.card.title">The importance of luxury SUV sales expand</h3>
+                    <time class="blog-card__date" datetime="2020-09-16" data-i18n="blog.card.date">September, 16, 2020</time>
+                    <p class="blog-card__excerpt" data-i18n="blog.excerpt3">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis aute irure dolor in reprehenderit in voluptate velit.</p>
                   </div>
                 </a>
               </article>
             </div>
 
             <div class="directory-tabs" data-directory-tabs>
-              <div class="directory-tabs__nav" role="tablist" aria-label="Directory">
-                <button class="directory-tabs__btn is-active" type="button" role="tab" id="tab-dealers" aria-selected="true" aria-controls="panel-dealers" data-tab="dealers">Dealers</button>
-                <button class="directory-tabs__btn" type="button" role="tab" id="tab-service" aria-selected="false" aria-controls="panel-service" data-tab="service">Service Stations</button>
-                <button class="directory-tabs__btn" type="button" role="tab" id="tab-insurance" aria-selected="false" aria-controls="panel-insurance" data-tab="insurance">Insurance</button>
+              <div class="directory-tabs__nav" role="tablist" data-i18n-aria-label="directory.aria" aria-label="Directory">
+                <button class="directory-tabs__btn is-active" type="button" role="tab" id="tab-dealers" aria-selected="true" aria-controls="panel-dealers" data-tab="dealers" data-i18n="directory.dealers">Dealers</button>
+                <button class="directory-tabs__btn" type="button" role="tab" id="tab-service" aria-selected="false" aria-controls="panel-service" data-tab="service" data-i18n="directory.service">Service Stations</button>
+                <button class="directory-tabs__btn" type="button" role="tab" id="tab-insurance" aria-selected="false" aria-controls="panel-insurance" data-tab="insurance" data-i18n="directory.insurance">Insurance</button>
               </div>
 
               <div class="directory-tabs__panels">
                 <div class="directory-panel is-active" id="panel-dealers" role="tabpanel" aria-labelledby="tab-dealers" data-panel="dealers">
-                  <p class="directory-panel__count">Found 454 dealers</p>
+                  <p class="directory-panel__count" data-i18n="directory.countDealers">Found 454 dealers</p>
                   <div class="dealer-logos-marquee">
                     <ul class="dealer-logos dealer-logos--slide">
                       <li class="dealer-logos__item">
@@ -481,7 +418,7 @@
                 </div>
 
                 <div class="directory-panel" id="panel-service" role="tabpanel" aria-labelledby="tab-service" data-panel="service" hidden>
-                  <p class="directory-panel__count">Found 128 service stations</p>
+                  <p class="directory-panel__count" data-i18n="directory.countService">Found 128 service stations</p>
                   <div class="dealer-logos-marquee">
                     <ul class="dealer-logos dealer-logos--slide">
                       <li class="dealer-logos__item">
@@ -513,7 +450,7 @@
                 </div>
 
                 <div class="directory-panel" id="panel-insurance" role="tabpanel" aria-labelledby="tab-insurance" data-panel="insurance" hidden>
-                  <p class="directory-panel__count">Found 86 insurance partners</p>
+                  <p class="directory-panel__count" data-i18n="directory.countInsurance">Found 86 insurance partners</p>
                   <div class="dealer-logos-marquee">
                     <ul class="dealer-logos dealer-logos--slide">
                       <li class="dealer-logos__item">
@@ -549,7 +486,7 @@
 
           <aside class="blog-sidebar" aria-labelledby="blog-sidebar-title">
             <div class="blog-sidebar__head">
-              <h2 id="blog-sidebar-title" class="blog-sidebar__title">Auto news</h2>
+              <h2 id="blog-sidebar-title" class="blog-sidebar__title" data-i18n="sidebar.title">Auto news</h2>
             </div>
 
             <div class="blog-sidebar__posts">
@@ -558,9 +495,9 @@
                 <div class="news-item__media">
                   <img src="https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=400&q=80" alt="Porsche sports car" width="400" height="240" loading="lazy" />
                 </div>
-                <h3 class="news-item__title">Unofficial Porsche 918 Spyder pricing pops up</h3>
-                <time class="news-item__date" datetime="2020-09-16">September, 16, 2020</time>
-                <p class="news-item__excerpt">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut perspiciatis unde omnis iste natus error.</p>
+                <h3 class="news-item__title" data-i18n="news.title">Unofficial Porsche 918 Spyder pricing pops up</h3>
+                <time class="news-item__date" datetime="2020-09-16" data-i18n="news.date">September, 16, 2020</time>
+                <p class="news-item__excerpt" data-i18n="news.excerpt1">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut perspiciatis unde omnis iste natus error.</p>
               </a>
             </article>
 
@@ -569,14 +506,14 @@
                 <div class="news-item__media">
                   <img src="https://images.unsplash.com/photo-1555215695-3004980ad54e?w=400&q=80" alt="White sedan" width="400" height="240" loading="lazy" />
                 </div>
-                <h3 class="news-item__title">Unofficial Porsche 918 Spyder pricing pops up</h3>
-                <time class="news-item__date" datetime="2020-09-16">September, 16, 2020</time>
-                <p class="news-item__excerpt">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nemo enim ipsam voluptatem quia voluptas sit.</p>
+                <h3 class="news-item__title" data-i18n="news.title">Unofficial Porsche 918 Spyder pricing pops up</h3>
+                <time class="news-item__date" datetime="2020-09-16" data-i18n="news.date">September, 16, 2020</time>
+                <p class="news-item__excerpt" data-i18n="news.excerpt2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nemo enim ipsam voluptatem quia voluptas sit.</p>
               </a>
             </article>
             </div>
 
-            <a class="btn btn--primary btn--block blog-sidebar__btn" href="#news">All news</a>
+            <a class="btn btn--primary btn--block blog-sidebar__btn" href="#news" data-i18n="sidebar.allNews">All news</a>
           </aside>
         </div>
       </div>
@@ -585,8 +522,8 @@
     <section id="videos" class="video-review section" aria-labelledby="video-review-title">
       <div class="container">
         <header class="section-header">
-          <h2 id="video-review-title" class="section-title">Video Review</h2>
-          <a class="section-link" href="#videos">View all Reviews</a>
+          <h2 id="video-review-title" class="section-title" data-i18n="video.title">Video Review</h2>
+          <a class="section-link" href="#videos" data-i18n="video.viewAll">View all Reviews</a>
         </header>
 
         <div class="video-review__layout">
@@ -598,8 +535,8 @@
                     <img src="https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=600&q=80" alt="Black Mercedes G-Class SUV" width="600" height="360" loading="lazy" />
                   </div>
                   <div class="video-card__body">
-                    <h3 class="video-card__title">The importance of luxury SUV sales explained</h3>
-                    <p class="video-card__meta">10 min 32 sec (12.4 Mb)</p>
+                    <h3 class="video-card__title" data-i18n="video.card.title">The importance of luxury SUV sales explained</h3>
+                    <p class="video-card__meta" data-i18n="video.meta1">10 min 32 sec (12.4 Mb)</p>
                   </div>
                 </a>
               </article>
@@ -610,8 +547,8 @@
                     <img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=600&q=80" alt="Ford Mustang on road" width="600" height="360" loading="lazy" />
                   </div>
                   <div class="video-card__body">
-                    <h3 class="video-card__title">The importance of luxury SUV sales explained</h3>
-                    <p class="video-card__meta">8 min 15 sec (9.8 Mb)</p>
+                    <h3 class="video-card__title" data-i18n="video.card.title">The importance of luxury SUV sales explained</h3>
+                    <p class="video-card__meta" data-i18n="video.meta2">8 min 15 sec (9.8 Mb)</p>
                   </div>
                 </a>
               </article>
@@ -622,8 +559,8 @@
                     <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=600&q=80" alt="Luxury SUV front view" width="600" height="360" loading="lazy" />
                   </div>
                   <div class="video-card__body">
-                    <h3 class="video-card__title">The importance of luxury SUV sales explained</h3>
-                    <p class="video-card__meta">12 min 05 sec (14.2 Mb)</p>
+                    <h3 class="video-card__title" data-i18n="video.card.title">The importance of luxury SUV sales explained</h3>
+                    <p class="video-card__meta" data-i18n="video.meta3">12 min 05 sec (14.2 Mb)</p>
                   </div>
                 </a>
               </article>
@@ -632,19 +569,20 @@
 
           <aside class="video-review__aside" aria-label="Promotions">
             <form class="newsletter-box" action="#" method="post">
-              <h3 class="newsletter-box__title">Get Daily News</h3>
+              <h3 class="newsletter-box__title" data-i18n="newsletter.title">Get Daily News</h3>
               <div class="newsletter-box__fields">
-                <label class="visually-hidden" for="newsletter-email">Email address</label>
+                <label class="visually-hidden" for="newsletter-email" data-i18n="newsletter.email">Email address</label>
                 <input
                   id="newsletter-email"
                   class="newsletter-box__input"
                   type="email"
                   name="email"
                   placeholder="Enter Your Email"
+                  data-i18n-placeholder="newsletter.placeholder"
                   autocomplete="email"
                   required
                 />
-                <button class="newsletter-box__btn" type="submit">Subscribe</button>
+                <button class="newsletter-box__btn" type="submit" data-i18n="newsletter.subscribe">Subscribe</button>
               </div>
             </form>
 
@@ -657,7 +595,7 @@
                 height="400"
                 loading="lazy"
               />
-              <span class="urgent-cta__label">Urgent car purchase</span>
+              <span class="urgent-cta__label" data-i18n="urgent.label">Urgent car purchase</span>
             </a>
           </aside>
         </div>
@@ -665,79 +603,4 @@
     </section>
 
   </main>
-
-  <footer id="contacts" class="site-footer">
-    <div class="container site-footer__grid">
-      <div class="site-footer__col site-footer__brand">
-        <a href="/" class="site-footer__logo" aria-label="Eisen Corporation home">
-          <img
-            class="site-footer__logo-img"
-            src="image/eisen-logo.png"
-            alt="Eisen Corporation"
-            width="200"
-            height="58"
-            loading="lazy"
-          />
-        </a>
-        <p class="site-footer__tagline">
-          Premium imported vehicles from Japan auctions. Inspection, logistics, and worldwide export for dealers and private buyers.
-        </p>
-      </div>
-
-      <div class="site-footer__col">
-        <h3 class="site-footer__heading">Quick Links</h3>
-        <ul class="site-footer__links site-footer__links--arrow-hover">
-          <li><a href="#">Home</a></li>
-          <li><a href="#main">About Us</a></li>
-          <li><a href="#blog">Blog</a></li>
-          <li><a href="#blog">News</a></li>
-          <li><a href="#listings">Inventory</a></li>
-          <li><a href="#contacts">Contacts</a></li>
-        </ul>
-      </div>
-
-      <div class="site-footer__col">
-        <h3 class="site-footer__heading">Our Services</h3>
-        <ul class="site-footer__links site-footer__links--arrow-hover">
-          <li><a href="#listings">Vehicle Listings</a></li>
-          <li><a href="#main">Japan Auction Sourcing</a></li>
-          <li><a href="#blog">Dealer Directory</a></li>
-          <li><a href="#blog">Service &amp; Insurance</a></li>
-          <li><a href="#videos">Video Reviews</a></li>
-          <li><a href="#videos">Urgent Purchase</a></li>
-        </ul>
-      </div>
-
-      <div class="site-footer__col">
-        <h3 class="site-footer__heading">Contact Us</h3>
-        <p class="site-footer__text">
-          <strong>Lorem Ipsum Dolor</strong><br />
-          42 Sit Amet Street<br />
-          Consectetur, Adipiscing 00000, Elit
-        </p>
-        <p class="site-footer__text">
-          <a href="mailto:lorem.ipsum@example.com">lorem.ipsum@example.com</a><br />
-          <a href="tel:+10000000000">+00 000-000-0000</a>
-        </p>
-        <p class="site-footer__text">
-          <strong>Business hours</strong><br />
-          Lorem – Ipsum: 00:00 – 00:00<br />
-          Dolor: Sit amet consectetur
-        </p>
-      </div>
-    </div>
-    <div class="site-footer__bottom">
-      <div class="container site-footer__bottom-inner">
-        <p class="site-footer__copy">&copy; <span data-year></span> Eisen Corporation. All rights reserved.</p>
-        <nav class="site-footer__legal" aria-label="Legal">
-          <a href="#">Privacy Policy</a>
-          <a href="#">Terms of Use</a>
-          <a href="#">Sitemap</a>
-        </nav>
-      </div>
-    </div>
-  </footer>
-
-  <script src="js/main.js" defer></script>
-</body>
-</html>
+<?php include 'footer.php'; ?>

@@ -130,3 +130,52 @@
   goTo(0);
   startAutoplay();
 })();
+
+/* Header language & currency (home) */
+(function () {
+  "use strict";
+
+  const localeRoot = document.querySelector("[data-header-locale]");
+  if (!localeRoot) return;
+
+  const langSelect = localeRoot.querySelector("[data-locale-language]");
+  const currencySelect = localeRoot.querySelector("[data-locale-currency]");
+  if (!langSelect || !currencySelect) return;
+
+  const STORAGE_LANG = "eisen-locale-lang";
+  const priceSelector = ".hero-slide__price, .listing-card__price";
+
+  function applyLanguage(lang) {
+    if (window.EisenI18n) window.EisenI18n.apply(lang);
+  }
+
+  const savedLang = localStorage.getItem(STORAGE_LANG);
+  const savedCurrency = localStorage.getItem("eisen-locale-currency");
+
+  if (savedLang && langSelect.querySelector(`option[value="${savedLang}"]`)) {
+    langSelect.value = savedLang;
+  }
+  if (savedCurrency && currencySelect.querySelector(`option[value="${savedCurrency}"]`)) {
+    currencySelect.value = savedCurrency;
+  }
+
+  applyLanguage(langSelect.value);
+
+  if (window.EisenCurrency) {
+    window.EisenCurrency.ready.then(() => {
+      window.EisenCurrency.scanPrices(priceSelector);
+      window.EisenCurrency.applyCurrency(currencySelect.value);
+    });
+  }
+
+  langSelect.addEventListener("change", () => {
+    localStorage.setItem(STORAGE_LANG, langSelect.value);
+    applyLanguage(langSelect.value);
+  });
+
+  currencySelect.addEventListener("change", () => {
+    if (window.EisenCurrency) {
+      window.EisenCurrency.applyCurrency(currencySelect.value);
+    }
+  });
+})();

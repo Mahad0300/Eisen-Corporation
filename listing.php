@@ -1,67 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Eisen Corporation — premium imported vehicles, auction-grade stock, and expert export services." />
-  <title>Vehicle Listings | Eisen Corporation</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Montserrat:ital,wght@0,600;0,700;0,800;1,600;1,700;1,800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/global.css" />
-</head>
-<body>
-  <a class="skip-link" href="#main">Skip to content</a>
-
-  <header class="site-header">
-    <div class="header-brand">
-      <div class="container header-brand__inner">
-        <a href="/" class="logo" aria-label="Eisen Corporation home">
-          <img
-            class="logo__img"
-            src="image/eisen-logo.png"
-            alt="Eisen Corporation"
-            width="220"
-            height="64"
-            fetchpriority="high"
-          />
-        </a>
-      </div>
-    </div>
-
-    <div class="header-bar">
-      <div class="container header-bar__inner">
-        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
-          <span class="nav-toggle__bar" aria-hidden="true"></span>
-          <span class="visually-hidden">Menu</span>
-        </button>
-
-        <nav id="site-nav" class="site-nav" aria-label="Primary">
-          <ul class="site-nav__list">
-            <li class="site-nav__item"><a class="site-nav__link is-active" href="#" aria-current="page">Home</a></li>
-            <li class="site-nav__item"><a class="site-nav__link" href="#about">About Us</a></li>
-            <li class="site-nav__item"><a class="site-nav__link" href="#blog">Blog</a></li>
-            <li class="site-nav__item"><a class="site-nav__link" href="#news">News</a></li>
-            <li class="site-nav__item"><a class="site-nav__link" href="#sellers">For Sellers</a></li>
-            <li class="site-nav__item"><a class="site-nav__link" href="#contacts">Contacts</a></li>
-          </ul>
-        </nav>
-
-        <form class="header-search" role="search" aria-label="Site search">
-          <label class="visually-hidden" for="header-search-input">Search on site</label>
-          <input
-            id="header-search-input"
-            class="header-search__input"
-            type="search"
-            name="q"
-            placeholder="Search On Site"
-            autocomplete="off"
-          />
-          <button class="btn btn--primary header-search__btn" type="submit">search</button>
-        </form>
-      </div>
-    </div>
-  </header>
+<?php include 'header.php'; ?>
 
   <main id="main">
 
@@ -268,107 +205,17 @@
               </div>
             </header>
 
-            <ul class="inventory-grid">
-              <li>
-                <article class="inventory-card">
-                  <a href="#" class="inventory-card__link">
-                    <div class="inventory-card__media">
-                      <img src="https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?w=600&q=80" alt="White Toyota Highlander SUV" width="600" height="400" loading="lazy" />
-                    </div>
-                    <div class="inventory-card__body">
-                      <span class="inventory-card__make">Toyota</span>
-                      <h3 class="inventory-card__model">Highlander XLE</h3>
-                      <p class="inventory-card__price-line"><strong>$26,998</strong> · 67K mi</p>
-                      <p class="inventory-card__location">Available at Eisen Tokyo, Japan</p>
-                    </div>
-                  </a>
-                </article>
-              </li>
-              <li>
-                <article class="inventory-card">
-                  <a href="#" class="inventory-card__link">
-                    <div class="inventory-card__media">
-                      <img src="https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=600&q=80" alt="White Honda CR-V SUV" width="600" height="400" loading="lazy" />
-                    </div>
-                    <div class="inventory-card__body">
-                      <span class="inventory-card__make">Honda</span>
-                      <h3 class="inventory-card__model">CR-V EX-L</h3>
-                      <p class="inventory-card__price-line"><strong>$27,998</strong> · 56K mi</p>
-                      <p class="inventory-card__location">Available at Eisen Osaka, Japan</p>
-                    </div>
-                  </a>
-                </article>
-              </li>
-              <li>
-                <article class="inventory-card">
-                  <a href="#" class="inventory-card__link">
-                    <div class="inventory-card__media">
-                      <img src="https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=600&q=80" alt="Silver Audi Q5 SUV" width="600" height="400" loading="lazy" />
-                    </div>
-                    <div class="inventory-card__body">
-                      <span class="inventory-card__make">Audi</span>
-                      <h3 class="inventory-card__model">Q5 Premium</h3>
-                      <p class="inventory-card__price-line"><strong>$28,998</strong> · 87K mi</p>
-                      <p class="inventory-card__location">Available at Eisen Yokohama, Japan</p>
-                    </div>
-                  </a>
-                </article>
-              </li>
-              <li>
-                <article class="inventory-card">
-                  <a href="#" class="inventory-card__link">
-                    <div class="inventory-card__media">
-                      <img src="https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=600&q=80" alt="White Infiniti QX50 SUV" width="600" height="400" loading="lazy" />
-                    </div>
-                    <div class="inventory-card__body">
-                      <span class="inventory-card__make">Infiniti</span>
-                      <h3 class="inventory-card__model">QX50</h3>
-                      <p class="inventory-card__price-line"><strong>$23,998</strong> · 86K mi</p>
-                      <p class="inventory-card__location">Available at Eisen Nagoya, Japan</p>
-                    </div>
-                  </a>
-                </article>
-              </li>
-              <li>
-                <article class="inventory-card">
-                  <a href="#" class="inventory-card__link">
-                    <div class="inventory-card__media">
-                      <img src="https://images.unsplash.com/photo-1533473357862-305d7748521b?w=600&q=80" alt="Blue Jeep Wrangler SUV" width="600" height="400" loading="lazy" />
-                    </div>
-                    <div class="inventory-card__body">
-                      <span class="inventory-card__make">Jeep</span>
-                      <h3 class="inventory-card__model">Wrangler</h3>
-                      <p class="inventory-card__price-line"><strong>$22,998</strong> · 126K mi</p>
-                      <p class="inventory-card__location">Available at Eisen Fukuoka, Japan</p>
-                    </div>
-                  </a>
-                </article>
-              </li>
-              <li>
-                <article class="inventory-card">
-                  <a href="#" class="inventory-card__link">
-                    <div class="inventory-card__media">
-                      <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=600&q=80" alt="White GMC Acadia SUV" width="600" height="400" loading="lazy" />
-                    </div>
-                    <div class="inventory-card__body">
-                      <span class="inventory-card__make">GMC</span>
-                      <h3 class="inventory-card__model">Acadia</h3>
-                      <p class="inventory-card__price-line"><strong>$26,998</strong> · 72K mi</p>
-                      <p class="inventory-card__location">Available at Eisen Sapporo, Japan</p>
-                    </div>
-                  </a>
-                </article>
-              </li>
-            </ul>
+            <ul class="inventory-grid" data-inventory-grid></ul>
 
-            <div class="inventory-load-more">
-              <button class="inventory-load-more__btn" type="button">
-                Show More Results
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
+            <nav class="inventory-pagination" aria-label="Listings pagination" data-inventory-pagination hidden>
+              <button class="inventory-pagination__btn inventory-pagination__btn--arrow" type="button" data-page-prev aria-label="Previous page" disabled>
+                <span aria-hidden="true">‹</span>
               </button>
-            </div>
+              <div class="inventory-pagination__pages" data-pagination-pages></div>
+              <button class="inventory-pagination__btn inventory-pagination__btn--arrow" type="button" data-page-next aria-label="Next page">
+                <span aria-hidden="true">›</span>
+              </button>
+            </nav>
           </div>
         </div>
       </div>
@@ -376,79 +223,4 @@
 
   </main>
 
-  <footer id="contacts" class="site-footer">
-    <div class="container site-footer__grid">
-      <div class="site-footer__col site-footer__brand">
-        <a href="/" class="site-footer__logo" aria-label="Eisen Corporation home">
-          <img
-            class="site-footer__logo-img"
-            src="image/eisen-logo.png"
-            alt="Eisen Corporation"
-            width="200"
-            height="58"
-            loading="lazy"
-          />
-        </a>
-        <p class="site-footer__tagline">
-          Premium imported vehicles from Japan auctions. Inspection, logistics, and worldwide export for dealers and private buyers.
-        </p>
-      </div>
-
-      <div class="site-footer__col">
-        <h3 class="site-footer__heading">Quick Links</h3>
-        <ul class="site-footer__links site-footer__links--arrow-hover">
-          <li><a href="#">Home</a></li>
-          <li><a href="#main">About Us</a></li>
-          <li><a href="#blog">Blog</a></li>
-          <li><a href="#blog">News</a></li>
-          <li><a href="#listings">Inventory</a></li>
-          <li><a href="#contacts">Contacts</a></li>
-        </ul>
-      </div>
-
-      <div class="site-footer__col">
-        <h3 class="site-footer__heading">Our Services</h3>
-        <ul class="site-footer__links site-footer__links--arrow-hover">
-          <li><a href="#listings">Vehicle Listings</a></li>
-          <li><a href="#main">Japan Auction Sourcing</a></li>
-          <li><a href="#blog">Dealer Directory</a></li>
-          <li><a href="#blog">Service &amp; Insurance</a></li>
-          <li><a href="#videos">Video Reviews</a></li>
-          <li><a href="#videos">Urgent Purchase</a></li>
-        </ul>
-      </div>
-
-      <div class="site-footer__col">
-        <h3 class="site-footer__heading">Contact Us</h3>
-        <p class="site-footer__text">
-          <strong>Lorem Ipsum Dolor</strong><br />
-          42 Sit Amet Street<br />
-          Consectetur, Adipiscing 00000, Elit
-        </p>
-        <p class="site-footer__text">
-          <a href="mailto:lorem.ipsum@example.com">lorem.ipsum@example.com</a><br />
-          <a href="tel:+10000000000">+00 000-000-0000</a>
-        </p>
-        <p class="site-footer__text">
-          <strong>Business hours</strong><br />
-          Lorem – Ipsum: 00:00 – 00:00<br />
-          Dolor: Sit amet consectetur
-        </p>
-      </div>
-    </div>
-    <div class="site-footer__bottom">
-      <div class="container site-footer__bottom-inner">
-        <p class="site-footer__copy">&copy; <span data-year></span> Eisen Corporation. All rights reserved.</p>
-        <nav class="site-footer__legal" aria-label="Legal">
-          <a href="#">Privacy Policy</a>
-          <a href="#">Terms of Use</a>
-          <a href="#">Sitemap</a>
-        </nav>
-      </div>
-    </div>
-  </footer>
-
-  <script src="js/main.js" defer></script>
-  <script src="js/listing-filters.js" defer></script>
-</body>
-</html>
+ <?php include 'footer.php'; ?>
