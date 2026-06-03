@@ -71,6 +71,7 @@
     </div>
   </footer>
 
+  <script>window.BASE_URL = <?= json_encode(BASE_URL) ?>;</script>
   <script src="<?= BASE_URL ?>/public/js/locale-i18n.js" defer></script>
   <script src="<?= BASE_URL ?>/public/js/currency.js" defer></script>
   <script src="<?= BASE_URL ?>/public/js/main.js" defer></script>

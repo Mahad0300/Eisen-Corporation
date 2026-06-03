@@ -131,7 +131,7 @@
   startAutoplay();
 })();
 
-/* Header language & currency (home) */
+/* Header language & currency */
 (function () {
   "use strict";
 
@@ -140,14 +140,96 @@
 
   const langSelect = localeRoot.querySelector("[data-locale-language]");
   const currencySelect = localeRoot.querySelector("[data-locale-currency]");
-  if (!langSelect || !currencySelect) return;
+  const dropdowns = [...localeRoot.querySelectorAll("[data-locale-dropdown]")];
+  if (!langSelect || !currencySelect || !dropdowns.length) return;
 
   const STORAGE_LANG = "eisen-locale-lang";
-  const priceSelector = ".hero-slide__price, .listing-card__price";
+  const priceSelector = ".hero-slide__price, .listing-card__price, .product-price[data-price-usd]";
 
   function applyLanguage(lang) {
     if (window.EisenI18n) window.EisenI18n.apply(lang);
   }
+
+  function syncDropdownUI(dropdown, value) {
+    const options = [...dropdown.querySelectorAll("[data-locale-value]")];
+    const triggerIcon = dropdown.querySelector("[data-locale-trigger-icon]");
+    const triggerLabel = dropdown.querySelector("[data-locale-trigger-label]");
+    const selected = options.find((opt) => opt.getAttribute("data-locale-value") === value) || options[0];
+    if (!selected) return;
+
+    options.forEach((opt) => {
+      const active = opt === selected;
+      opt.classList.toggle("is-active", active);
+      opt.setAttribute("aria-selected", String(active));
+    });
+
+    const optionIcon = selected.querySelector(".header-locale__option-icon");
+    const optionLabel = selected.querySelector(".header-locale__option-label");
+    if (triggerIcon && optionIcon) triggerIcon.innerHTML = optionIcon.innerHTML;
+    if (triggerLabel && optionLabel) triggerLabel.textContent = optionLabel.textContent;
+  }
+
+  function closeDropdown(dropdown) {
+    const trigger = dropdown.querySelector("[data-locale-trigger]");
+    const menu = dropdown.querySelector("[data-locale-menu]");
+    if (!trigger || !menu) return;
+    trigger.setAttribute("aria-expanded", "false");
+    menu.hidden = true;
+  }
+
+  function closeAllDropdowns(except) {
+    dropdowns.forEach((dropdown) => {
+      if (dropdown !== except) closeDropdown(dropdown);
+    });
+  }
+
+  function setLanguage(value) {
+    if (!langSelect.querySelector(`option[value="${value}"]`)) return;
+    langSelect.value = value;
+    localStorage.setItem(STORAGE_LANG, value);
+    applyLanguage(value);
+    syncDropdownUI(localeRoot.querySelector('[data-locale-dropdown="language"]'), value);
+  }
+
+  function setCurrency(value) {
+    if (!currencySelect.querySelector(`option[value="${value}"]`)) return;
+    currencySelect.value = value;
+    if (window.EisenCurrency) window.EisenCurrency.applyCurrency(value);
+    syncDropdownUI(localeRoot.querySelector('[data-locale-dropdown="currency"]'), value);
+  }
+
+  dropdowns.forEach((dropdown) => {
+    const trigger = dropdown.querySelector("[data-locale-trigger]");
+    const menu = dropdown.querySelector("[data-locale-menu]");
+    const type = dropdown.getAttribute("data-locale-dropdown");
+    const options = [...dropdown.querySelectorAll("[data-locale-value]")];
+    if (!trigger || !menu) return;
+
+    trigger.addEventListener("click", (event) => {
+      event.stopPropagation();
+      const isOpen = trigger.getAttribute("aria-expanded") === "true";
+      closeAllDropdowns();
+      if (!isOpen) {
+        trigger.setAttribute("aria-expanded", "true");
+        menu.hidden = false;
+      }
+    });
+
+    options.forEach((option) => {
+      option.addEventListener("click", () => {
+        const value = option.getAttribute("data-locale-value");
+        if (!value) return;
+        if (type === "language") setLanguage(value);
+        if (type === "currency") setCurrency(value);
+        closeDropdown(dropdown);
+      });
+    });
+  });
+
+  document.addEventListener("click", () => closeAllDropdowns());
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") closeAllDropdowns();
+  });
 
   const savedLang = localStorage.getItem(STORAGE_LANG);
   const savedCurrency = localStorage.getItem("eisen-locale-currency");
@@ -159,6 +241,8 @@
     currencySelect.value = savedCurrency;
   }
 
+  syncDropdownUI(localeRoot.querySelector('[data-locale-dropdown="language"]'), langSelect.value);
+  syncDropdownUI(localeRoot.querySelector('[data-locale-dropdown="currency"]'), currencySelect.value);
   applyLanguage(langSelect.value);
 
   if (window.EisenCurrency) {
@@ -167,15 +251,4 @@
       window.EisenCurrency.applyCurrency(currencySelect.value);
     });
   }
-
-  langSelect.addEventListener("change", () => {
-    localStorage.setItem(STORAGE_LANG, langSelect.value);
-    applyLanguage(langSelect.value);
-  });
-
-  currencySelect.addEventListener("change", () => {
-    if (window.EisenCurrency) {
-      window.EisenCurrency.applyCurrency(currencySelect.value);
-    }
-  });
 })();

@@ -197,7 +197,7 @@
     return `
       <li>
         <article class="inventory-card">
-          <a href="#" class="inventory-card__link">
+          <a href="${(window.BASE_URL || "") + "/product"}" class="inventory-card__link">
             <div class="inventory-card__media">
               <img src="${item.image}" alt="${escapeHtml(item.alt)}" width="600" height="400" loading="lazy" />
             </div>

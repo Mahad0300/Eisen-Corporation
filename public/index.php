@@ -35,6 +35,8 @@ $router = new Router();
 $router->get('/', 'Front\HomeController@index');
 $router->get('/listing', 'Front\ListingController@index');
 $router->get('/listings', 'Front\ListingController@index');
+$router->get('/product', 'Front\ProductController@show');
+$router->get('/product/{id}', 'Front\ProductController@show');
 
 // 5. Admin UI Routes
 $router->get('/admin', 'Admin\DashboardController@index');

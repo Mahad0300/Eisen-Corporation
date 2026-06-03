@@ -6,7 +6,7 @@
   const STORAGE_RATE_TIME = "eisen-usd-jpy-rate-time";
   const CACHE_TTL_MS = 60 * 60 * 1000;
   const FALLBACK_RATE = 150;
-  const API_URL = "https://api.frankfurter.app/latest?from=USD&to=JPY";
+  const API_URL = "https://open.er-api.com/v6/latest/USD";
 
   let usdToJpy = FALLBACK_RATE;
   let currentCurrency = localStorage.getItem(STORAGE_CURRENCY) === "jpy" ? "jpy" : "usd";
@@ -73,9 +73,19 @@
     if (!node || node.dataset.priceRegistered) return;
 
     node.dataset.priceRegistered = "1";
-    node.dataset.priceUsd = String(usdAmount);
-    priceNodes.push({ node, usdAmount: Number(usdAmount) });
-    node.textContent = formatPrice(usdAmount);
+    if (!node.dataset.priceUsd) node.dataset.priceUsd = String(usdAmount);
+    const amount = Number(node.dataset.priceUsd);
+    const suffix = node.dataset.priceSuffix || "";
+
+    priceNodes.push({
+      node,
+      usdAmount: amount,
+      render() {
+        node.textContent = formatPrice(amount, currentCurrency) + suffix;
+      },
+    });
+
+    node.textContent = formatPrice(amount, currentCurrency) + suffix;
   }
 
   function scanPrices(selector) {
@@ -95,8 +105,12 @@
     localStorage.setItem(STORAGE_CURRENCY, currentCurrency);
     document.documentElement.dataset.currency = currentCurrency;
 
-    priceNodes.forEach(({ node, usdAmount }) => {
-      node.textContent = formatPrice(usdAmount, currentCurrency);
+    priceNodes.forEach(({ node, usdAmount, render }) => {
+      if (render) {
+        render();
+      } else {
+        node.textContent = formatPrice(usdAmount, currentCurrency);
+      }
     });
 
     document.dispatchEvent(

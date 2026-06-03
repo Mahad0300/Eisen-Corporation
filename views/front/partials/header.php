@@ -28,18 +28,81 @@
         </a>
 
         <div class="header-locale" data-header-locale>
-          <div class="header-locale__group">
-            <label class="header-locale__label" for="header-language" data-i18n="locale.language">Language</label>
-            <select class="header-locale__select" id="header-language" name="language" data-locale-language>
+          <div class="header-locale__dropdown" data-locale-dropdown="language">
+            <label class="visually-hidden" id="header-language-label" data-i18n="locale.language">Language</label>
+            <button
+              type="button"
+              class="header-locale__trigger"
+              id="header-language-btn"
+              data-locale-trigger
+              aria-expanded="false"
+              aria-haspopup="listbox"
+              aria-labelledby="header-language-label"
+            >
+              <span class="header-locale__trigger-icon" data-locale-trigger-icon aria-hidden="true">
+                <svg class="header-locale__flag-svg" width="22" height="15" viewBox="0 0 21 15" xmlns="http://www.w3.org/2000/svg"><rect width="21" height="15" fill="#fff" /><path fill="#B22234" d="M0 0h21v1.154H0Zm0 2.308h21v1.154H0Zm0 2.308h21v1.154H0Zm0 2.308h21v1.154H0Zm0 2.308h21v1.154H0Zm0 2.308h21v1.154H0Zm0 2.308h21H0Z" /><rect width="8.4" height="8.05" fill="#3C3B6E" /></svg>
+              </span>
+              <span class="header-locale__trigger-label" data-locale-trigger-label>English</span>
+              <svg class="header-locale__chevron" width="10" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+            </button>
+            <ul class="header-locale__menu" role="listbox" data-locale-menu hidden>
+              <li role="presentation">
+                <button type="button" class="header-locale__option is-active" role="option" data-locale-value="en" aria-selected="true">
+                  <span class="header-locale__option-icon" aria-hidden="true">
+                    <svg class="header-locale__flag-svg" width="22" height="15" viewBox="0 0 21 15" xmlns="http://www.w3.org/2000/svg"><rect width="21" height="15" fill="#fff" /><path fill="#B22234" d="M0 0h21v1.154H0Zm0 2.308h21v1.154H0Zm0 2.308h21v1.154H0Zm0 2.308h21v1.154H0Zm0 2.308h21v1.154H0Zm0 2.308h21v1.154H0Zm0 2.308h21H0Z" /><rect width="8.4" height="8.05" fill="#3C3B6E" /></svg>
+                  </span>
+                  <span class="header-locale__option-label">English</span>
+                </button>
+              </li>
+              <li role="presentation">
+                <button type="button" class="header-locale__option" role="option" data-locale-value="ja" aria-selected="false">
+                  <span class="header-locale__option-icon" aria-hidden="true">
+                    <svg class="header-locale__flag-svg" width="22" height="15" viewBox="0 0 21 15" xmlns="http://www.w3.org/2000/svg"><rect width="21" height="15" fill="#fff" /><circle cx="10.5" cy="7.5" r="4.2" fill="#BC002D" /></svg>
+                  </span>
+                  <span class="header-locale__option-label">日本語</span>
+                </button>
+              </li>
+            </ul>
+            <select class="visually-hidden" id="header-language" name="language" data-locale-language tabindex="-1" aria-hidden="true">
               <option value="en" selected>English</option>
-              <option value="ja">Japanese</option>
+              <option value="ja">日本語</option>
             </select>
           </div>
-          <div class="header-locale__group">
-            <label class="header-locale__label" for="header-currency" data-i18n="locale.currency">Currency</label>
-            <select class="header-locale__select" id="header-currency" name="currency" data-locale-currency>
-              <option value="usd" selected>Dollar</option>
-              <option value="jpy">Japanese</option>
+
+          <span class="header-locale__divider" aria-hidden="true"></span>
+
+          <div class="header-locale__dropdown" data-locale-dropdown="currency">
+            <label class="visually-hidden" id="header-currency-label" data-i18n="locale.currency">Currency</label>
+            <button
+              type="button"
+              class="header-locale__trigger"
+              id="header-currency-btn"
+              data-locale-trigger
+              aria-expanded="false"
+              aria-haspopup="listbox"
+              aria-labelledby="header-currency-label"
+            >
+              <span class="header-locale__trigger-icon header-locale__trigger-icon--symbol" data-locale-trigger-icon aria-hidden="true">$</span>
+              <span class="header-locale__trigger-label" data-locale-trigger-label>USD</span>
+              <svg class="header-locale__chevron" width="10" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+            </button>
+            <ul class="header-locale__menu" role="listbox" data-locale-menu hidden>
+              <li role="presentation">
+                <button type="button" class="header-locale__option is-active" role="option" data-locale-value="usd" aria-selected="true">
+                  <span class="header-locale__option-icon header-locale__option-icon--symbol" aria-hidden="true">$</span>
+                  <span class="header-locale__option-label">USD</span>
+                </button>
+              </li>
+              <li role="presentation">
+                <button type="button" class="header-locale__option" role="option" data-locale-value="jpy" aria-selected="false">
+                  <span class="header-locale__option-icon header-locale__option-icon--symbol" aria-hidden="true">¥</span>
+                  <span class="header-locale__option-label">JPY</span>
+                </button>
+              </li>
+            </ul>
+            <select class="visually-hidden" id="header-currency" name="currency" data-locale-currency tabindex="-1" aria-hidden="true">
+              <option value="usd" selected>USD</option>
+              <option value="jpy">JPY</option>
             </select>
           </div>
         </div>
