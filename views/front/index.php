@@ -331,7 +331,7 @@
       <div class="container">
         <header class="section-header">
           <h2 id="blog-hub-title" class="section-title" data-i18n="blog.title">Recent from the blog</h2>
-          <a class="section-link" href="#blog" data-i18n="blog.viewAll">View all blog</a>
+          <a class="section-link" href="<?= BASE_URL ?>/blog" data-i18n="blog.viewAll">View all blog</a>
         </header>
 
         <div class="blog-hub__layout">

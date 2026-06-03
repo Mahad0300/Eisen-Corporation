@@ -23,6 +23,47 @@
     });
   }
 
+  /* Active nav link (fallback if server-side class missing) */
+  if (siteNav) {
+    const navLinks = [...siteNav.querySelectorAll(".site-nav__link")];
+    const currentPath = window.location.pathname.replace(/\/+$/, "") || "/";
+    let bestMatch = null;
+    let bestLength = -1;
+
+    navLinks.forEach((link) => {
+      const href = link.getAttribute("href");
+      if (!href || href.startsWith("#")) return;
+
+      let linkPath;
+      try {
+        linkPath = new URL(href, window.location.href).pathname.replace(/\/+$/, "") || "/";
+      } catch {
+        return;
+      }
+
+      let matches = false;
+      if (linkPath === "/") {
+        matches = currentPath === "/";
+      } else if (currentPath === linkPath || currentPath.startsWith(`${linkPath}/`)) {
+        matches = true;
+      }
+
+      if (matches && linkPath.length > bestLength) {
+        bestMatch = link;
+        bestLength = linkPath.length;
+      }
+    });
+
+    if (bestMatch && !bestMatch.classList.contains("is-active")) {
+      navLinks.forEach((link) => {
+        const active = link === bestMatch;
+        link.classList.toggle("is-active", active);
+        if (active) link.setAttribute("aria-current", "page");
+        else link.removeAttribute("aria-current");
+      });
+    }
+  }
+
   /* Directory tabs */
   const directoryTabs = document.querySelector("[data-directory-tabs]");
   if (directoryTabs) {

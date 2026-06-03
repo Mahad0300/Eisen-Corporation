@@ -20,12 +20,12 @@
       <div class="site-footer__col">
         <h3 class="site-footer__heading" data-i18n="footer.quickLinks">Quick Links</h3>
         <ul class="site-footer__links site-footer__links--arrow-hover">
-          <li><a href="#" data-i18n="footer.home">Home</a></li>
-          <li><a href="#main" data-i18n="footer.about">About Us</a></li>
-          <li><a href="#blog" data-i18n="footer.blog">Blog</a></li>
-          <li><a href="#blog" data-i18n="footer.news">News</a></li>
-          <li><a href="#listings" data-i18n="footer.inventory">Inventory</a></li>
-          <li><a href="#contacts" data-i18n="footer.contacts">Contacts</a></li>
+          <li><a href="<?= BASE_URL ?>/" data-i18n="footer.home">Home</a></li>
+          <li><a href="<?= BASE_URL ?>/about" data-i18n="footer.about">About Us</a></li>
+          <li><a href="<?= BASE_URL ?>/blog" data-i18n="footer.blog">Blog</a></li>
+          <li><a href="<?= BASE_URL ?>/blog" data-i18n="footer.news">News</a></li>
+          <li><a href="<?= BASE_URL ?>/listing" data-i18n="footer.inventory">Inventory</a></li>
+          <li><a href="<?= BASE_URL ?>/contact" data-i18n="footer.contacts">Contacts</a></li>
         </ul>
       </div>
 

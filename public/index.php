@@ -37,6 +37,11 @@ $router->get('/listing', 'Front\ListingController@index');
 $router->get('/listings', 'Front\ListingController@index');
 $router->get('/product', 'Front\ProductController@show');
 $router->get('/product/{id}', 'Front\ProductController@show');
+$router->get('/blog', 'Front\BlogController@index');
+$router->get('/blog/{slug}', 'Front\BlogController@show');
+$router->get('/about', 'Front\AboutController@index');
+$router->get('/contact', 'Front\ContactController@index');
+$router->get('/contacts', 'Front\ContactController@index');
 
 // 5. Admin UI Routes
 $router->get('/admin', 'Admin\DashboardController@index');

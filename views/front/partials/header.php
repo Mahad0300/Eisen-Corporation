@@ -1,3 +1,36 @@
+<?php
+$navRequestPath = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '/';
+$navBasePath = parse_url(BASE_URL, PHP_URL_PATH) ?: '';
+if ($navBasePath !== '' && $navBasePath !== '/' && str_starts_with($navRequestPath, $navBasePath)) {
+    $navRequestPath = substr($navRequestPath, strlen($navBasePath)) ?: '/';
+}
+$navRequestPath = '/' . trim($navRequestPath, '/');
+if ($navRequestPath !== '/') {
+    $navRequestPath = rtrim($navRequestPath, '/') ?: '/';
+}
+
+if (!function_exists('eisen_nav_is_active')) {
+    function eisen_nav_is_active(string $key, string $path): bool
+    {
+        switch ($key) {
+            case 'home':
+                return $path === '/';
+            case 'about':
+                return str_starts_with($path, '/about');
+            case 'blog':
+                return str_starts_with($path, '/blog');
+            case 'listing':
+                return str_starts_with($path, '/listing')
+                    || str_starts_with($path, '/listings')
+                    || str_starts_with($path, '/product');
+            case 'contact':
+                return str_starts_with($path, '/contact');
+            default:
+                return false;
+        }
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -118,12 +151,11 @@
 
         <nav id="site-nav" class="site-nav" aria-label="Primary">
           <ul class="site-nav__list">
-            <li class="site-nav__item"><a class="site-nav__link is-active" href="#" aria-current="page" data-i18n="nav.home">Home</a></li>
-            <li class="site-nav__item"><a class="site-nav__link" href="#about" data-i18n="nav.about">About Us</a></li>
-            <li class="site-nav__item"><a class="site-nav__link" href="#blog" data-i18n="nav.blog">Blog</a></li>
-            <li class="site-nav__item"><a class="site-nav__link" href="#news" data-i18n="nav.news">News</a></li>
-            <li class="site-nav__item"><a class="site-nav__link" href="#sellers" data-i18n="nav.sellers">For Sellers</a></li>
-            <li class="site-nav__item"><a class="site-nav__link" href="#contacts" data-i18n="nav.contacts">Contacts</a></li>
+            <li class="site-nav__item"><a class="site-nav__link<?= eisen_nav_is_active('home', $navRequestPath) ? ' is-active' : '' ?>" href="<?= BASE_URL ?>/"<?= eisen_nav_is_active('home', $navRequestPath) ? ' aria-current="page"' : '' ?> data-i18n="nav.home">Home</a></li>
+            <li class="site-nav__item"><a class="site-nav__link<?= eisen_nav_is_active('about', $navRequestPath) ? ' is-active' : '' ?>" href="<?= BASE_URL ?>/about"<?= eisen_nav_is_active('about', $navRequestPath) ? ' aria-current="page"' : '' ?> data-i18n="nav.about">About Us</a></li>
+            <li class="site-nav__item"><a class="site-nav__link<?= eisen_nav_is_active('blog', $navRequestPath) ? ' is-active' : '' ?>" href="<?= BASE_URL ?>/blog"<?= eisen_nav_is_active('blog', $navRequestPath) ? ' aria-current="page"' : '' ?> data-i18n="nav.blog">Blog</a></li>
+            <li class="site-nav__item"><a class="site-nav__link<?= eisen_nav_is_active('listing', $navRequestPath) ? ' is-active' : '' ?>" href="<?= BASE_URL ?>/listing"<?= eisen_nav_is_active('listing', $navRequestPath) ? ' aria-current="page"' : '' ?> data-i18n="nav.sellers">For Sellers</a></li>
+            <li class="site-nav__item"><a class="site-nav__link<?= eisen_nav_is_active('contact', $navRequestPath) ? ' is-active' : '' ?>" href="<?= BASE_URL ?>/contact"<?= eisen_nav_is_active('contact', $navRequestPath) ? ' aria-current="page"' : '' ?> data-i18n="nav.contacts">Contacts</a></li>
           </ul>
         </nav>
 
