@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Eisen Corporation — premium imported vehicles, auction-grade stock, and expert export services." />
+  <title>Vehicle Listings | Eisen Corporation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Montserrat:ital,wght@0,600;0,700;0,800;1,600;1,700;1,800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/global.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="header-brand">
+      <div class="container header-brand__inner">
+        <a href="/" class="logo" aria-label="Eisen Corporation home">
+          <img
+            class="logo__img"
+            src="image/eisen-logo.png"
+            alt="Eisen Corporation"
+            width="220"
+            height="64"
+            fetchpriority="high"
+          />
+        </a>
+      </div>
+    </div>
+
+    <div class="header-bar">
+      <div class="container header-bar__inner">
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+          <span class="nav-toggle__bar" aria-hidden="true"></span>
+          <span class="visually-hidden">Menu</span>
+        </button>
+
+        <nav id="site-nav" class="site-nav" aria-label="Primary">
+          <ul class="site-nav__list">
+            <li class="site-nav__item"><a class="site-nav__link is-active" href="#" aria-current="page">Home</a></li>
+            <li class="site-nav__item"><a class="site-nav__link" href="#about">About Us</a></li>
+            <li class="site-nav__item"><a class="site-nav__link" href="#blog">Blog</a></li>
+            <li class="site-nav__item"><a class="site-nav__link" href="#news">News</a></li>
+            <li class="site-nav__item"><a class="site-nav__link" href="#sellers">For Sellers</a></li>
+            <li class="site-nav__item"><a class="site-nav__link" href="#contacts">Contacts</a></li>
+          </ul>
+        </nav>
+
+        <form class="header-search" role="search" aria-label="Site search">
+          <label class="visually-hidden" for="header-search-input">Search on site</label>
+          <input
+            id="header-search-input"
+            class="header-search__input"
+            type="search"
+            name="q"
+            placeholder="Search On Site"
+            autocomplete="off"
+          />
+          <button class="btn btn--primary header-search__btn" type="submit">search</button>
+        </form>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <section class="inventory-page section" aria-labelledby="inventory-page-title">
+      <div class="container">
+        <h1 id="inventory-page-title" class="visually-hidden">Vehicle listings</h1>
+
+        <form class="inventory-toolbar card" action="#" method="get" aria-label="Quick inventory search">
+          <div class="inventory-toolbar__fields">
+            <label class="inventory-toolbar__field">
+              <span class="visually-hidden">Condition</span>
+              <select class="inventory-toolbar__select" name="condition">
+                <option>New and Used Cars</option>
+                <option>New Cars</option>
+                <option>Used Cars</option>
+              </select>
+            </label>
+            <label class="inventory-toolbar__field">
+              <span class="visually-hidden">Make</span>
+              <select class="inventory-toolbar__select" name="make">
+                <option>All Makes</option>
+                <option>Toyota</option>
+                <option>Honda</option>
+                <option>Audi</option>
+                <option>Nissan</option>
+              </select>
+            </label>
+            <label class="inventory-toolbar__field">
+              <span class="visually-hidden">Model</span>
+              <select class="inventory-toolbar__select" name="model">
+                <option>All Models</option>
+                <option>Highlander</option>
+                <option>CR-V</option>
+                <option>Q5</option>
+              </select>
+            </label>
+            <label class="inventory-toolbar__field">
+              <span class="visually-hidden">Max price</span>
+              <select class="inventory-toolbar__select" name="max_price">
+                <option>No Max Price</option>
+                <option>$20,000</option>
+                <option>$30,000</option>
+                <option>$50,000</option>
+              </select>
+            </label>
+            <label class="inventory-toolbar__field">
+              <span class="visually-hidden">Distance</span>
+              <select class="inventory-toolbar__select" name="distance">
+                <option>From 20 Miles</option>
+                <option>From 50 Miles</option>
+                <option>From 100 Miles</option>
+              </select>
+            </label>
+          </div>
+          <button class="inventory-toolbar__submit" type="submit" aria-label="Search inventory">
+            <svg width="20" height="20" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+              <circle cx="20" cy="20" r="11" stroke="currentColor" stroke-width="3.5" />
+              <line x1="28.5" y1="28.5" x2="40" y2="40" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" />
+            </svg>
+          </button>
+        </form>
+
+        <div class="inventory-layout">
+          <button
+            class="inventory-filters-toggle btn btn--primary"
+            type="button"
+            data-filter-toggle
+            aria-expanded="false"
+            aria-controls="inventory-filters-panel"
+          >
+            Filters<span class="inventory-filters-toggle__count" data-filter-toggle-count hidden></span>
+          </button>
+
+          <div class="inventory-filters-backdrop" data-filter-backdrop hidden></div>
+
+          <aside class="inventory-filters card" id="inventory-filters-panel" aria-label="Filters" data-inventory-filters>
+            <div class="inventory-filters__head">
+              <h2 class="inventory-filters__title">Filters <span class="inventory-filters__count" data-filter-count hidden></span></h2>
+              <div class="inventory-filters__head-actions">
+                <button class="inventory-filters__clear" type="button" data-filter-clear hidden>clear filter</button>
+                <button class="inventory-filters__close" type="button" data-filter-close aria-label="Close filters">×</button>
+              </div>
+            </div>
+
+            <div class="inventory-filters__tags" data-filter-tags hidden></div>
+
+            <div class="inventory-filters__groups">
+              <details class="inventory-filter-group">
+                <summary class="inventory-filter-group__summary">Make</summary>
+                <div class="inventory-filter-group__body">
+                  <label class="inventory-check"><input type="checkbox" name="make" value="toyota" /> Toyota</label>
+                  <label class="inventory-check"><input type="checkbox" name="make" value="honda" /> Honda</label>
+                  <label class="inventory-check"><input type="checkbox" name="make" value="audi" /> Audi</label>
+                  <label class="inventory-check"><input type="checkbox" name="make" value="nissan" /> Nissan</label>
+                </div>
+              </details>
+              <details class="inventory-filter-group">
+                <summary class="inventory-filter-group__summary">Model</summary>
+                <div class="inventory-filter-group__body">
+                  <label class="inventory-check"><input type="checkbox" name="model" value="highlander" /> Highlander</label>
+                  <label class="inventory-check"><input type="checkbox" name="model" value="crv" /> CR-V</label>
+                  <label class="inventory-check"><input type="checkbox" name="model" value="q5" /> Q5</label>
+                </div>
+              </details>
+              <details class="inventory-filter-group">
+                <summary class="inventory-filter-group__summary">Type</summary>
+                <div class="inventory-filter-group__body">
+                  <label class="inventory-check"><input type="checkbox" name="type" value="suv" /> SUV</label>
+                  <label class="inventory-check"><input type="checkbox" name="type" value="sedan" /> Sedan</label>
+                  <label class="inventory-check"><input type="checkbox" name="type" value="coupe" /> Coupe</label>
+                </div>
+              </details>
+              <details class="inventory-filter-group">
+                <summary class="inventory-filter-group__summary">Year</summary>
+                <div class="inventory-filter-group__body">
+                  <label class="inventory-check"><input type="checkbox" name="year" value="2024" /> 2024</label>
+                  <label class="inventory-check"><input type="checkbox" name="year" value="2023" /> 2023</label>
+                  <label class="inventory-check"><input type="checkbox" name="year" value="2022" /> 2022</label>
+                </div>
+              </details>
+              <details class="inventory-filter-group">
+                <summary class="inventory-filter-group__summary">Price / Monthly Payment</summary>
+                <div class="inventory-filter-group__body">
+                  <label class="inventory-check"><input type="checkbox" name="price" value="under-25" /> Under $25,000</label>
+                  <label class="inventory-check"><input type="checkbox" name="price" value="25-35" /> $25,000 – $35,000</label>
+                  <label class="inventory-check"><input type="checkbox" name="price" value="over-35" /> Over $35,000</label>
+                </div>
+              </details>
+              <details class="inventory-filter-group">
+                <summary class="inventory-filter-group__summary">Mileage</summary>
+                <div class="inventory-filter-group__body">
+                  <label class="inventory-check"><input type="checkbox" name="mileage" value="under-50" /> Under 50K mi</label>
+                  <label class="inventory-check"><input type="checkbox" name="mileage" value="50-100" /> 50K – 100K mi</label>
+                  <label class="inventory-check"><input type="checkbox" name="mileage" value="over-100" /> Over 100K mi</label>
+                </div>
+              </details>
+              <details class="inventory-filter-group">
+                <summary class="inventory-filter-group__summary">Features</summary>
+                <div class="inventory-filter-group__body">
+                  <label class="inventory-check"><input type="checkbox" name="features" value="awd" /> AWD</label>
+                  <label class="inventory-check"><input type="checkbox" name="features" value="leather" /> Leather Seats</label>
+                  <label class="inventory-check"><input type="checkbox" name="features" value="sunroof" /> Sunroof</label>
+                </div>
+              </details>
+              <details class="inventory-filter-group">
+                <summary class="inventory-filter-group__summary">Size</summary>
+                <div class="inventory-filter-group__body">
+                  <label class="inventory-check"><input type="checkbox" name="size" value="compact" /> Compact</label>
+                  <label class="inventory-check"><input type="checkbox" name="size" value="mid" /> Mid-size</label>
+                  <label class="inventory-check"><input type="checkbox" name="size" value="full" /> Full-size</label>
+                </div>
+              </details>
+              <details class="inventory-filter-group">
+                <summary class="inventory-filter-group__summary">Exterior Color</summary>
+                <div class="inventory-filter-group__body">
+                  <label class="inventory-check"><input type="checkbox" name="ext_color" value="white" /> White</label>
+                  <label class="inventory-check"><input type="checkbox" name="ext_color" value="black" /> Black</label>
+                  <label class="inventory-check"><input type="checkbox" name="ext_color" value="silver" /> Silver</label>
+                </div>
+              </details>
+              <details class="inventory-filter-group">
+                <summary class="inventory-filter-group__summary">Interior Color</summary>
+                <div class="inventory-filter-group__body">
+                  <label class="inventory-check"><input type="checkbox" name="int_color" value="black" /> Black</label>
+                  <label class="inventory-check"><input type="checkbox" name="int_color" value="beige" /> Beige</label>
+                  <label class="inventory-check"><input type="checkbox" name="int_color" value="gray" /> Gray</label>
+                </div>
+              </details>
+              <details class="inventory-filter-group">
+                <summary class="inventory-filter-group__summary">Transmission</summary>
+                <div class="inventory-filter-group__body">
+                  <label class="inventory-check"><input type="checkbox" name="transmission" value="auto" /> Automatic</label>
+                  <label class="inventory-check"><input type="checkbox" name="transmission" value="manual" /> Manual</label>
+                </div>
+              </details>
+              <details class="inventory-filter-group">
+                <summary class="inventory-filter-group__summary">Cylinders</summary>
+                <div class="inventory-filter-group__body">
+                  <label class="inventory-check"><input type="checkbox" name="cylinders" value="4" /> 4 Cylinder</label>
+                  <label class="inventory-check"><input type="checkbox" name="cylinders" value="6" /> 6 Cylinder</label>
+                  <label class="inventory-check"><input type="checkbox" name="cylinders" value="8" /> 8 Cylinder</label>
+                </div>
+              </details>
+              <details class="inventory-filter-group">
+                <summary class="inventory-filter-group__summary">MPG Highway</summary>
+                <div class="inventory-filter-group__body">
+                  <label class="inventory-check"><input type="checkbox" name="mpg" value="25" /> 25+ MPG</label>
+                  <label class="inventory-check"><input type="checkbox" name="mpg" value="30" /> 30+ MPG</label>
+                  <label class="inventory-check"><input type="checkbox" name="mpg" value="35" /> 35+ MPG</label>
+                </div>
+              </details>
+            </div>
+          </aside>
+
+          <div class="inventory-results">
+            <header class="inventory-results__head">
+              <h2 class="inventory-results__title"><span class="inventory-results__total">926</span> Listings</h2>
+              <div class="inventory-results__actions">
+                <a class="inventory-results__compare" href="#">Compare</a>
+                <span class="inventory-results__sort">
+                  Sort By:
+                  <button class="inventory-results__sort-btn" type="button" aria-haspopup="listbox">Best match</button>
+                </span>
+              </div>
+            </header>
+
+            <ul class="inventory-grid">
+              <li>
+                <article class="inventory-card">
+                  <a href="#" class="inventory-card__link">
+                    <div class="inventory-card__media">
+                      <img src="https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?w=600&q=80" alt="White Toyota Highlander SUV" width="600" height="400" loading="lazy" />
+                    </div>
+                    <div class="inventory-card__body">
+                      <span class="inventory-card__make">Toyota</span>
+                      <h3 class="inventory-card__model">Highlander XLE</h3>
+                      <p class="inventory-card__price-line"><strong>$26,998</strong> · 67K mi</p>
+                      <p class="inventory-card__location">Available at Eisen Tokyo, Japan</p>
+                    </div>
+                  </a>
+                </article>
+              </li>
+              <li>
+                <article class="inventory-card">
+                  <a href="#" class="inventory-card__link">
+                    <div class="inventory-card__media">
+                      <img src="https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=600&q=80" alt="White Honda CR-V SUV" width="600" height="400" loading="lazy" />
+                    </div>
+                    <div class="inventory-card__body">
+                      <span class="inventory-card__make">Honda</span>
+                      <h3 class="inventory-card__model">CR-V EX-L</h3>
+                      <p class="inventory-card__price-line"><strong>$27,998</strong> · 56K mi</p>
+                      <p class="inventory-card__location">Available at Eisen Osaka, Japan</p>
+                    </div>
+                  </a>
+                </article>
+              </li>
+              <li>
+                <article class="inventory-card">
+                  <a href="#" class="inventory-card__link">
+                    <div class="inventory-card__media">
+                      <img src="https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=600&q=80" alt="Silver Audi Q5 SUV" width="600" height="400" loading="lazy" />
+                    </div>
+                    <div class="inventory-card__body">
+                      <span class="inventory-card__make">Audi</span>
+                      <h3 class="inventory-card__model">Q5 Premium</h3>
+                      <p class="inventory-card__price-line"><strong>$28,998</strong> · 87K mi</p>
+                      <p class="inventory-card__location">Available at Eisen Yokohama, Japan</p>
+                    </div>
+                  </a>
+                </article>
+              </li>
+              <li>
+                <article class="inventory-card">
+                  <a href="#" class="inventory-card__link">
+                    <div class="inventory-card__media">
+                      <img src="https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=600&q=80" alt="White Infiniti QX50 SUV" width="600" height="400" loading="lazy" />
+                    </div>
+                    <div class="inventory-card__body">
+                      <span class="inventory-card__make">Infiniti</span>
+                      <h3 class="inventory-card__model">QX50</h3>
+                      <p class="inventory-card__price-line"><strong>$23,998</strong> · 86K mi</p>
+                      <p class="inventory-card__location">Available at Eisen Nagoya, Japan</p>
+                    </div>
+                  </a>
+                </article>
+              </li>
+              <li>
+                <article class="inventory-card">
+                  <a href="#" class="inventory-card__link">
+                    <div class="inventory-card__media">
+                      <img src="https://images.unsplash.com/photo-1533473357862-305d7748521b?w=600&q=80" alt="Blue Jeep Wrangler SUV" width="600" height="400" loading="lazy" />
+                    </div>
+                    <div class="inventory-card__body">
+                      <span class="inventory-card__make">Jeep</span>
+                      <h3 class="inventory-card__model">Wrangler</h3>
+                      <p class="inventory-card__price-line"><strong>$22,998</strong> · 126K mi</p>
+                      <p class="inventory-card__location">Available at Eisen Fukuoka, Japan</p>
+                    </div>
+                  </a>
+                </article>
+              </li>
+              <li>
+                <article class="inventory-card">
+                  <a href="#" class="inventory-card__link">
+                    <div class="inventory-card__media">
+                      <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=600&q=80" alt="White GMC Acadia SUV" width="600" height="400" loading="lazy" />
+                    </div>
+                    <div class="inventory-card__body">
+                      <span class="inventory-card__make">GMC</span>
+                      <h3 class="inventory-card__model">Acadia</h3>
+                      <p class="inventory-card__price-line"><strong>$26,998</strong> · 72K mi</p>
+                      <p class="inventory-card__location">Available at Eisen Sapporo, Japan</p>
+                    </div>
+                  </a>
+                </article>
+              </li>
+            </ul>
+
+            <div class="inventory-load-more">
+              <button class="inventory-load-more__btn" type="button">
+                Show More Results
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer id="contacts" class="site-footer">
+    <div class="container site-footer__grid">
+      <div class="site-footer__col site-footer__brand">
+        <a href="/" class="site-footer__logo" aria-label="Eisen Corporation home">
+          <img
+            class="site-footer__logo-img"
+            src="image/eisen-logo.png"
+            alt="Eisen Corporation"
+            width="200"
+            height="58"
+            loading="lazy"
+          />
+        </a>
+        <p class="site-footer__tagline">
+          Premium imported vehicles from Japan auctions. Inspection, logistics, and worldwide export for dealers and private buyers.
+        </p>
+      </div>
+
+      <div class="site-footer__col">
+        <h3 class="site-footer__heading">Quick Links</h3>
+        <ul class="site-footer__links site-footer__links--arrow-hover">
+          <li><a href="#">Home</a></li>
+          <li><a href="#main">About Us</a></li>
+          <li><a href="#blog">Blog</a></li>
+          <li><a href="#blog">News</a></li>
+          <li><a href="#listings">Inventory</a></li>
+          <li><a href="#contacts">Contacts</a></li>
+        </ul>
+      </div>
+
+      <div class="site-footer__col">
+        <h3 class="site-footer__heading">Our Services</h3>
+        <ul class="site-footer__links site-footer__links--arrow-hover">
+          <li><a href="#listings">Vehicle Listings</a></li>
+          <li><a href="#main">Japan Auction Sourcing</a></li>
+          <li><a href="#blog">Dealer Directory</a></li>
+          <li><a href="#blog">Service &amp; Insurance</a></li>
+          <li><a href="#videos">Video Reviews</a></li>
+          <li><a href="#videos">Urgent Purchase</a></li>
+        </ul>
+      </div>
+
+      <div class="site-footer__col">
+        <h3 class="site-footer__heading">Contact Us</h3>
+        <p class="site-footer__text">
+          <strong>Lorem Ipsum Dolor</strong><br />
+          42 Sit Amet Street<br />
+          Consectetur, Adipiscing 00000, Elit
+        </p>
+        <p class="site-footer__text">
+          <a href="mailto:lorem.ipsum@example.com">lorem.ipsum@example.com</a><br />
+          <a href="tel:+10000000000">+00 000-000-0000</a>
+        </p>
+        <p class="site-footer__text">
+          <strong>Business hours</strong><br />
+          Lorem – Ipsum: 00:00 – 00:00<br />
+          Dolor: Sit amet consectetur
+        </p>
+      </div>
+    </div>
+    <div class="site-footer__bottom">
+      <div class="container site-footer__bottom-inner">
+        <p class="site-footer__copy">&copy; <span data-year></span> Eisen Corporation. All rights reserved.</p>
+        <nav class="site-footer__legal" aria-label="Legal">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Use</a>
+          <a href="#">Sitemap</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js" defer></script>
+  <script src="js/listing-filters.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Eisen Corporation — premium imported vehicles, auction-grade stock, and expert export services." />
+  <title>Eisen Corporation | Premium Auto Dealership</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Montserrat:ital,wght@0,600;0,700;0,800;1,600;1,700;1,800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/global.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="header-brand">
+      <div class="container header-brand__inner">
+        <a href="/" class="logo" aria-label="Eisen Corporation home">
+          <img
+            class="logo__img"
+            src="image/eisen-logo.png"
+            alt="Eisen Corporation"
+            width="220"
+            height="64"
+            fetchpriority="high"
+          />
+        </a>
+      </div>
+    </div>
+
+    <div class="header-bar">
+      <div class="container header-bar__inner">
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+          <span class="nav-toggle__bar" aria-hidden="true"></span>
+          <span class="visually-hidden">Menu</span>
+        </button>
+
+        <nav id="site-nav" class="site-nav" aria-label="Primary">
+          <ul class="site-nav__list">
+            <li class="site-nav__item"><a class="site-nav__link is-active" href="#" aria-current="page">Home</a></li>
+            <li class="site-nav__item"><a class="site-nav__link" href="#about">About Us</a></li>
+            <li class="site-nav__item"><a class="site-nav__link" href="#blog">Blog</a></li>
+            <li class="site-nav__item"><a class="site-nav__link" href="#news">News</a></li>
+            <li class="site-nav__item"><a class="site-nav__link" href="#sellers">For Sellers</a></li>
+            <li class="site-nav__item"><a class="site-nav__link" href="#contacts">Contacts</a></li>
+          </ul>
+        </nav>
+
+        <form class="header-search" role="search" aria-label="Site search">
+          <label class="visually-hidden" for="header-search-input">Search on site</label>
+          <input
+            id="header-search-input"
+            class="header-search__input"
+            type="search"
+            name="q"
+            placeholder="Search On Site"
+            autocomplete="off"
+          />
+          <button class="btn btn--primary header-search__btn" type="submit">search</button>
+        </form>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <section class="hero" aria-label="Featured vehicles and search">
+      <div class="container hero__grid">
+        <div class="hero-slider card" data-slider>
+          <div class="hero-slider__track">
+            <article class="hero-slide is-active" data-slide="0">
+              <img
+                class="hero-slide__img"
+                src="https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=1200&q=80"
+                alt="Silver Toyota Aqua hatchback"
+                width="1200"
+                height="675"
+                fetchpriority="high"
+              />
+              <div class="hero-slide__overlay">
+                <div class="hero-slide__info">
+                  <h2 class="hero-slide__title">Toyota <span class="text-gold">Aqua</span></h2>
+                  <dl class="hero-slide__specs">
+                    <div><dt>Mileage</dt><dd>25,000 km</dd></div>
+                    <div><dt>Engine</dt><dd>1.5L Hybrid</dd></div>
+                  </dl>
+                </div>
+                <div class="hero-slide__aside">
+                  <p class="hero-slide__price"><span class="visually-hidden">Price</span>$32,200</p>
+                </div>
+              </div>
+            </article>
+
+            <article class="hero-slide" data-slide="1" hidden>
+              <img
+                class="hero-slide__img"
+                src="https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=1200&q=80"
+                alt="Black Mercedes-Benz sedan"
+                width="1200"
+                height="675"
+                loading="lazy"
+              />
+              <div class="hero-slide__overlay">
+                <div class="hero-slide__info">
+                  <h2 class="hero-slide__title">Mercedes-Benz <span class="text-gold">E-Class</span></h2>
+                  <dl class="hero-slide__specs">
+                    <div><dt>Mileage</dt><dd>18,400 km</dd></div>
+                    <div><dt>Engine</dt><dd>2.0L Turbo</dd></div>
+                  </dl>
+                </div>
+                <div class="hero-slide__aside">
+                  <p class="hero-slide__price">$48,900</p>
+                </div>
+              </div>
+            </article>
+
+            <article class="hero-slide" data-slide="2" hidden>
+              <img
+                class="hero-slide__img"
+                src="https://images.unsplash.com/photo-1555215695-3004980ad54e?w=1200&q=80"
+                alt="White BMW luxury sedan"
+                width="1200"
+                height="675"
+                loading="lazy"
+              />
+              <div class="hero-slide__overlay">
+                <div class="hero-slide__info">
+                  <h2 class="hero-slide__title">BMW <span class="text-gold">5 Series</span></h2>
+                  <dl class="hero-slide__specs">
+                    <div><dt>Mileage</dt><dd>12,100 km</dd></div>
+                    <div><dt>Engine</dt><dd>3.0L Inline-6</dd></div>
+                  </dl>
+                </div>
+                <div class="hero-slide__aside">
+                  <p class="hero-slide__price">$54,750</p>
+                </div>
+              </div>
+            </article>
+
+            <article class="hero-slide" data-slide="3" hidden>
+              <img
+                class="hero-slide__img"
+                src="https://images.unsplash.com/photo-1603386329225-868f9b1ee6b9?w=1200&q=80"
+                alt="Red Audi sport sedan"
+                width="1200"
+                height="675"
+                loading="lazy"
+              />
+              <div class="hero-slide__overlay">
+                <div class="hero-slide__info">
+                  <h2 class="hero-slide__title">Audi <span class="text-gold">A8</span></h2>
+                  <dl class="hero-slide__specs">
+                    <div><dt>Mileage</dt><dd>9,800 km</dd></div>
+                    <div><dt>Engine</dt><dd>3.0L TFSI</dd></div>
+                  </dl>
+                </div>
+                <div class="hero-slide__aside">
+                  <p class="hero-slide__price">$67,400</p>
+                </div>
+              </div>
+            </article>
+
+            <article class="hero-slide" data-slide="4" hidden>
+              <img
+                class="hero-slide__img"
+                src="https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?w=1200&q=80"
+                alt="Dark SUV on road"
+                width="1200"
+                height="675"
+                loading="lazy"
+              />
+              <div class="hero-slide__overlay">
+                <div class="hero-slide__info">
+                  <h2 class="hero-slide__title">Lexus <span class="text-gold">RX 350</span></h2>
+                  <dl class="hero-slide__specs">
+                    <div><dt>Mileage</dt><dd>31,200 km</dd></div>
+                    <div><dt>Engine</dt><dd>3.5L V6</dd></div>
+                  </dl>
+                </div>
+                <div class="hero-slide__aside">
+                  <p class="hero-slide__price">$41,300</p>
+                </div>
+              </div>
+            </article>
+          </div>
+
+          <div class="hero-slider__aside-ui">
+            <div class="hero-slider__dots" role="tablist" aria-label="Featured slides">
+              <button class="hero-slider__dot is-active" type="button" role="tab" aria-selected="true" aria-label="Slide 1" data-goto="0"></button>
+              <button class="hero-slider__dot" type="button" role="tab" aria-selected="false" aria-label="Slide 2" data-goto="1"></button>
+              <button class="hero-slider__dot" type="button" role="tab" aria-selected="false" aria-label="Slide 3" data-goto="2"></button>
+              <button class="hero-slider__dot" type="button" role="tab" aria-selected="false" aria-label="Slide 4" data-goto="3"></button>
+              <button class="hero-slider__dot" type="button" role="tab" aria-selected="false" aria-label="Slide 5" data-goto="4"></button>
+            </div>
+          </div>
+
+          <button class="hero-slider__arrow hero-slider__arrow--prev" type="button" aria-label="Previous slide" data-prev></button>
+          <button class="hero-slider__arrow hero-slider__arrow--next" type="button" aria-label="Next slide" data-next></button>
+        </div>
+
+        <aside class="search-filter card" aria-labelledby="search-filter-title">
+          <h2 id="search-filter-title" class="search-filter__title">Search Auto</h2>
+          <form class="search-filter__form">
+            <div class="form-field">
+              <label class="form-label" for="manufacturer">Manufacturer</label>
+              <select class="form-control" id="manufacturer" name="manufacturer">
+                <option value="">All manufacturers</option>
+                <option>Toyota</option>
+                <option>Honda</option>
+                <option>Nissan</option>
+                <option>BMW</option>
+                <option>Mercedes-Benz</option>
+                <option>Audi</option>
+                <option>Lexus</option>
+              </select>
+            </div>
+
+            <div class="form-field">
+              <label class="form-label" for="model">Model</label>
+              <select class="form-control" id="model" name="model">
+                <option value="">All models</option>
+                <option>Sedan</option>
+                <option>SUV</option>
+                <option>Hatchback</option>
+                <option>Hybrid</option>
+              </select>
+            </div>
+
+            <div class="form-row">
+              <div class="form-field">
+                <label class="form-label" for="year-from">Year from</label>
+                <select class="form-control" id="year-from" name="year_from">
+                  <option value="">Any</option>
+                  <option>2024</option>
+                  <option>2023</option>
+                  <option>2022</option>
+                  <option>2021</option>
+                  <option>2020</option>
+                </select>
+              </div>
+              <div class="form-field">
+                <label class="form-label" for="year-to">Year to</label>
+                <select class="form-control" id="year-to" name="year_to">
+                  <option value="">Any</option>
+                  <option>2024</option>
+                  <option>2023</option>
+                  <option>2022</option>
+                  <option>2021</option>
+                  <option>2020</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-field">
+                <label class="form-label" for="price-from">Price from</label>
+                <select class="form-control" id="price-from" name="price_from">
+                  <option value="">Any</option>
+                  <option>$10,000</option>
+                  <option>$20,000</option>
+                  <option>$30,000</option>
+                  <option>$50,000</option>
+                </select>
+              </div>
+              <div class="form-field">
+                <label class="form-label" for="price-to">Price to</label>
+                <select class="form-control" id="price-to" name="price_to">
+                  <option value="">Any</option>
+                  <option>$30,000</option>
+                  <option>$50,000</option>
+                  <option>$75,000</option>
+                  <option>$100,000+</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-field">
+                <label class="form-label" for="mileage-from">Mileage from</label>
+                <select class="form-control" id="mileage-from" name="mileage_from">
+                  <option value="">Any</option>
+                  <option>0 km</option>
+                  <option>10,000 km</option>
+                  <option>50,000 km</option>
+                </select>
+              </div>
+              <div class="form-field">
+                <label class="form-label" for="mileage-to">Mileage to</label>
+                <select class="form-control" id="mileage-to" name="mileage_to">
+                  <option value="">Any</option>
+                  <option>30,000 km</option>
+                  <option>80,000 km</option>
+                  <option>150,000 km</option>
+                </select>
+              </div>
+            </div>
+
+            <label class="form-checkbox">
+              <input type="checkbox" name="new_only" />
+              <span>Only new cars</span>
+            </label>
+
+            <button class="btn btn--primary btn--block search-filter__submit" type="submit">Search</button>
+          </form>
+        </aside>
+      </div>
+    </section>
+
+    <section id="listings" class="listings section" aria-labelledby="listings-title">
+      <div class="container">
+        <header class="section-header">
+          <h2 id="listings-title" class="section-title">Recent Listings</h2>
+          <a class="section-link" href="#">View all inventory</a>
+        </header>
+
+        <ul class="listing-grid">
+          <li>
+            <a href="#" class="listing-card">
+              <div class="listing-card__media">
+                <img src="https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=600&q=80" alt="White compact SUV" width="600" height="400" loading="lazy" />
+              </div>
+              <div class="listing-card__footer">
+                <span class="listing-card__name">Honda Vezel</span>
+                <span class="listing-card__price">$24,500</span>
+              </div>
+            </a>
+          </li>
+          <li>
+            <a href="#" class="listing-card">
+              <div class="listing-card__media">
+                <img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=600&q=80" alt="Blue Ford Mustang coupe" width="600" height="400" loading="lazy" />
+              </div>
+              <div class="listing-card__footer">
+                <span class="listing-card__name">Ford Mustang</span>
+                <span class="listing-card__price">$38,900</span>
+              </div>
+            </a>
+          </li>
+          <li>
+            <a href="#" class="listing-card">
+              <div class="listing-card__media">
+                <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=600&q=80" alt="Black Porsche coupe" width="600" height="400" loading="lazy" />
+              </div>
+              <div class="listing-card__footer">
+                <span class="listing-card__name">Porsche 911</span>
+                <span class="listing-card__price">$89,200</span>
+              </div>
+            </a>
+          </li>
+          <li>
+            <a href="#" class="listing-card">
+              <div class="listing-card__media">
+                <img src="https://images.unsplash.com/photo-1553440569-bcc63803a83d?w=600&q=80" alt="Red Ferrari sports car" width="600" height="400" loading="lazy" />
+              </div>
+              <div class="listing-card__footer">
+                <span class="listing-card__name">Ferrari 488</span>
+                <span class="listing-card__price">$215,000</span>
+              </div>
+            </a>
+          </li>
+        </ul>
+
+        <div class="cta-banners__grid" aria-label="Quick actions">
+          <article class="cta-banner cta-banner--buy">
+            <div class="cta-banner__icon cta-banner__icon--search" aria-hidden="true">
+              <svg class="cta-banner__svg" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="20" cy="20" r="11" stroke="currentColor" stroke-width="3.5" />
+                <line x1="28.5" y1="28.5" x2="40" y2="40" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" />
+              </svg>
+            </div>
+            <div class="cta-banner__content">
+              <h3 class="cta-banner__title">Looking for a car?</h3>
+              <p class="cta-banner__text">1000 new offers everyday 35,000 car offers on site</p>
+            </div>
+            <a class="btn btn--white" href="#">Search</a>
+          </article>
+
+          <article class="cta-banner cta-banner--sell">
+            <div class="cta-banner__icon cta-banner__icon--dollar" aria-hidden="true">
+              <span class="cta-banner__dollar">$</span>
+            </div>
+            <div class="cta-banner__content">
+              <h3 class="cta-banner__title">Want to sell a car?</h3>
+              <p class="cta-banner__text">200000 visitors everyday. Add your offer now</p>
+            </div>
+            <a class="btn btn--white" href="#sellers">Sell</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="blog" class="blog-hub section" aria-labelledby="blog-hub-title">
+      <div class="container">
+        <header class="section-header">
+          <h2 id="blog-hub-title" class="section-title">Recent from the blog</h2>
+          <a class="section-link" href="#blog">View all blog</a>
+        </header>
+
+        <div class="blog-hub__layout">
+          <div class="blog-hub__main">
+            <div class="blog-cards">
+              <article class="blog-card">
+                <a href="#blog" class="blog-card__link">
+                  <div class="blog-card__media">
+                    <img src="https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=600&q=80" alt="Luxury SUV on road" width="600" height="360" loading="lazy" />
+                  </div>
+                  <div class="blog-card__body">
+                    <h3 class="blog-card__title">The importance of luxury SUV sales expand</h3>
+                    <time class="blog-card__date" datetime="2020-09-16">September, 16, 2020</time>
+                    <p class="blog-card__excerpt">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                  </div>
+                </a>
+              </article>
+
+              <article class="blog-card">
+                <a href="#blog" class="blog-card__link">
+                  <div class="blog-card__media">
+                    <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=600&q=80" alt="Sports car front view" width="600" height="360" loading="lazy" />
+                  </div>
+                  <div class="blog-card__body">
+                    <h3 class="blog-card__title">The importance of luxury SUV sales expand</h3>
+                    <time class="blog-card__date" datetime="2020-09-16">September, 16, 2020</time>
+                    <p class="blog-card__excerpt">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>
+                  </div>
+                </a>
+              </article>
+
+              <article class="blog-card">
+                <a href="#blog" class="blog-card__link">
+                  <div class="blog-card__media">
+                    <img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=600&q=80" alt="Blue performance car" width="600" height="360" loading="lazy" />
+                  </div>
+                  <div class="blog-card__body">
+                    <h3 class="blog-card__title">The importance of luxury SUV sales expand</h3>
+                    <time class="blog-card__date" datetime="2020-09-16">September, 16, 2020</time>
+                    <p class="blog-card__excerpt">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis aute irure dolor in reprehenderit in voluptate velit.</p>
+                  </div>
+                </a>
+              </article>
+            </div>
+
+            <div class="directory-tabs" data-directory-tabs>
+              <div class="directory-tabs__nav" role="tablist" aria-label="Directory">
+                <button class="directory-tabs__btn is-active" type="button" role="tab" id="tab-dealers" aria-selected="true" aria-controls="panel-dealers" data-tab="dealers">Dealers</button>
+                <button class="directory-tabs__btn" type="button" role="tab" id="tab-service" aria-selected="false" aria-controls="panel-service" data-tab="service">Service Stations</button>
+                <button class="directory-tabs__btn" type="button" role="tab" id="tab-insurance" aria-selected="false" aria-controls="panel-insurance" data-tab="insurance">Insurance</button>
+              </div>
+
+              <div class="directory-tabs__panels">
+                <div class="directory-panel is-active" id="panel-dealers" role="tabpanel" aria-labelledby="tab-dealers" data-panel="dealers">
+                  <p class="directory-panel__count">Found 454 dealers</p>
+                  <div class="dealer-logos-marquee">
+                    <ul class="dealer-logos dealer-logos--slide">
+                      <li class="dealer-logos__item">
+                        <img class="dealer-logos__img" src="image/mira-daihatsu.png" alt="Mira Daihatsu" width="160" height="64" loading="lazy" decoding="async">
+                      </li>
+                      <li class="dealer-logos__item">
+                        <img class="dealer-logos__img" src="image/toyota.png" alt="Toyota" width="160" height="64" loading="lazy" decoding="async">
+                      </li>
+                      <li class="dealer-logos__item">
+                        <img class="dealer-logos__img" src="image/nissan.png" alt="Nissan" width="160" height="64" loading="lazy" decoding="async">
+                      </li>
+                      <li class="dealer-logos__item">
+                        <img class="dealer-logos__img" src="image/daihatsu.png" alt="Daihatsu" width="160" height="64" loading="lazy" decoding="async">
+                      </li>
+                      <li class="dealer-logos__item dealer-logos__item--clone" aria-hidden="true">
+                        <img class="dealer-logos__img" src="image/mira-daihatsu.png" alt="" width="160" height="64" loading="lazy" decoding="async">
+                      </li>
+                      <li class="dealer-logos__item dealer-logos__item--clone" aria-hidden="true">
+                        <img class="dealer-logos__img" src="image/toyota.png" alt="" width="160" height="64" loading="lazy" decoding="async">
+                      </li>
+                      <li class="dealer-logos__item dealer-logos__item--clone" aria-hidden="true">
+                        <img class="dealer-logos__img" src="image/nissan.png" alt="" width="160" height="64" loading="lazy" decoding="async">
+                      </li>
+                      <li class="dealer-logos__item dealer-logos__item--clone" aria-hidden="true">
+                        <img class="dealer-logos__img" src="image/daihatsu.png" alt="" width="160" height="64" loading="lazy" decoding="async">
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div class="directory-panel" id="panel-service" role="tabpanel" aria-labelledby="tab-service" data-panel="service" hidden>
+                  <p class="directory-panel__count">Found 128 service stations</p>
+                  <div class="dealer-logos-marquee">
+                    <ul class="dealer-logos dealer-logos--slide">
+                      <li class="dealer-logos__item">
+                        <img class="dealer-logos__img" src="image/mira-daihatsu.png" alt="Mira Daihatsu" width="160" height="64" loading="lazy" decoding="async">
+                      </li>
+                      <li class="dealer-logos__item">
+                        <img class="dealer-logos__img" src="image/toyota.png" alt="Toyota" width="160" height="64" loading="lazy" decoding="async">
+                      </li>
+                      <li class="dealer-logos__item">
+                        <img class="dealer-logos__img" src="image/nissan.png" alt="Nissan" width="160" height="64" loading="lazy" decoding="async">
+                      </li>
+                      <li class="dealer-logos__item">
+                        <img class="dealer-logos__img" src="image/daihatsu.png" alt="Daihatsu" width="160" height="64" loading="lazy" decoding="async">
+                      </li>
+                      <li class="dealer-logos__item dealer-logos__item--clone" aria-hidden="true">
+                        <img class="dealer-logos__img" src="image/mira-daihatsu.png" alt="" width="160" height="64" loading="lazy" decoding="async">
+                      </li>
+                      <li class="dealer-logos__item dealer-logos__item--clone" aria-hidden="true">
+                        <img class="dealer-logos__img" src="image/toyota.png" alt="" width="160" height="64" loading="lazy" decoding="async">
+                      </li>
+                      <li class="dealer-logos__item dealer-logos__item--clone" aria-hidden="true">
+                        <img class="dealer-logos__img" src="image/nissan.png" alt="" width="160" height="64" loading="lazy" decoding="async">
+                      </li>
+                      <li class="dealer-logos__item dealer-logos__item--clone" aria-hidden="true">
+                        <img class="dealer-logos__img" src="image/daihatsu.png" alt="" width="160" height="64" loading="lazy" decoding="async">
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div class="directory-panel" id="panel-insurance" role="tabpanel" aria-labelledby="tab-insurance" data-panel="insurance" hidden>
+                  <p class="directory-panel__count">Found 86 insurance partners</p>
+                  <div class="dealer-logos-marquee">
+                    <ul class="dealer-logos dealer-logos--slide">
+                      <li class="dealer-logos__item">
+                        <img class="dealer-logos__img" src="image/mira-daihatsu.png" alt="Mira Daihatsu" width="160" height="64" loading="lazy" decoding="async">
+                      </li>
+                      <li class="dealer-logos__item">
+                        <img class="dealer-logos__img" src="image/toyota.png" alt="Toyota" width="160" height="64" loading="lazy" decoding="async">
+                      </li>
+                      <li class="dealer-logos__item">
+                        <img class="dealer-logos__img" src="image/nissan.png" alt="Nissan" width="160" height="64" loading="lazy" decoding="async">
+                      </li>
+                      <li class="dealer-logos__item">
+                        <img class="dealer-logos__img" src="image/daihatsu.png" alt="Daihatsu" width="160" height="64" loading="lazy" decoding="async">
+                      </li>
+                      <li class="dealer-logos__item dealer-logos__item--clone" aria-hidden="true">
+                        <img class="dealer-logos__img" src="image/mira-daihatsu.png" alt="" width="160" height="64" loading="lazy" decoding="async">
+                      </li>
+                      <li class="dealer-logos__item dealer-logos__item--clone" aria-hidden="true">
+                        <img class="dealer-logos__img" src="image/toyota.png" alt="" width="160" height="64" loading="lazy" decoding="async">
+                      </li>
+                      <li class="dealer-logos__item dealer-logos__item--clone" aria-hidden="true">
+                        <img class="dealer-logos__img" src="image/nissan.png" alt="" width="160" height="64" loading="lazy" decoding="async">
+                      </li>
+                      <li class="dealer-logos__item dealer-logos__item--clone" aria-hidden="true">
+                        <img class="dealer-logos__img" src="image/daihatsu.png" alt="" width="160" height="64" loading="lazy" decoding="async">
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <aside class="blog-sidebar" aria-labelledby="blog-sidebar-title">
+            <div class="blog-sidebar__head">
+              <h2 id="blog-sidebar-title" class="blog-sidebar__title">Auto news</h2>
+            </div>
+
+            <div class="blog-sidebar__posts">
+            <article class="news-item">
+              <a href="#news" class="news-item__link">
+                <div class="news-item__media">
+                  <img src="https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=400&q=80" alt="Porsche sports car" width="400" height="240" loading="lazy" />
+                </div>
+                <h3 class="news-item__title">Unofficial Porsche 918 Spyder pricing pops up</h3>
+                <time class="news-item__date" datetime="2020-09-16">September, 16, 2020</time>
+                <p class="news-item__excerpt">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut perspiciatis unde omnis iste natus error.</p>
+              </a>
+            </article>
+
+            <article class="news-item">
+              <a href="#news" class="news-item__link">
+                <div class="news-item__media">
+                  <img src="https://images.unsplash.com/photo-1555215695-3004980ad54e?w=400&q=80" alt="White sedan" width="400" height="240" loading="lazy" />
+                </div>
+                <h3 class="news-item__title">Unofficial Porsche 918 Spyder pricing pops up</h3>
+                <time class="news-item__date" datetime="2020-09-16">September, 16, 2020</time>
+                <p class="news-item__excerpt">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nemo enim ipsam voluptatem quia voluptas sit.</p>
+              </a>
+            </article>
+            </div>
+
+            <a class="btn btn--primary btn--block blog-sidebar__btn" href="#news">All news</a>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section id="videos" class="video-review section" aria-labelledby="video-review-title">
+      <div class="container">
+        <header class="section-header">
+          <h2 id="video-review-title" class="section-title">Video Review</h2>
+          <a class="section-link" href="#videos">View all Reviews</a>
+        </header>
+
+        <div class="video-review__layout">
+          <div class="video-review__main">
+            <div class="video-cards">
+              <article class="video-card">
+                <a href="#videos" class="video-card__link">
+                  <div class="video-card__media">
+                    <img src="https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=600&q=80" alt="Black Mercedes G-Class SUV" width="600" height="360" loading="lazy" />
+                  </div>
+                  <div class="video-card__body">
+                    <h3 class="video-card__title">The importance of luxury SUV sales explained</h3>
+                    <p class="video-card__meta">10 min 32 sec (12.4 Mb)</p>
+                  </div>
+                </a>
+              </article>
+
+              <article class="video-card">
+                <a href="#videos" class="video-card__link">
+                  <div class="video-card__media">
+                    <img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=600&q=80" alt="Ford Mustang on road" width="600" height="360" loading="lazy" />
+                  </div>
+                  <div class="video-card__body">
+                    <h3 class="video-card__title">The importance of luxury SUV sales explained</h3>
+                    <p class="video-card__meta">8 min 15 sec (9.8 Mb)</p>
+                  </div>
+                </a>
+              </article>
+
+              <article class="video-card">
+                <a href="#videos" class="video-card__link">
+                  <div class="video-card__media">
+                    <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=600&q=80" alt="Luxury SUV front view" width="600" height="360" loading="lazy" />
+                  </div>
+                  <div class="video-card__body">
+                    <h3 class="video-card__title">The importance of luxury SUV sales explained</h3>
+                    <p class="video-card__meta">12 min 05 sec (14.2 Mb)</p>
+                  </div>
+                </a>
+              </article>
+            </div>
+          </div>
+
+          <aside class="video-review__aside" aria-label="Promotions">
+            <form class="newsletter-box" action="#" method="post">
+              <h3 class="newsletter-box__title">Get Daily News</h3>
+              <div class="newsletter-box__fields">
+                <label class="visually-hidden" for="newsletter-email">Email address</label>
+                <input
+                  id="newsletter-email"
+                  class="newsletter-box__input"
+                  type="email"
+                  name="email"
+                  placeholder="Enter Your Email"
+                  autocomplete="email"
+                  required
+                />
+                <button class="newsletter-box__btn" type="submit">Subscribe</button>
+              </div>
+            </form>
+
+            <a href="#contacts" class="urgent-cta">
+              <img
+                class="urgent-cta__img"
+                src="https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=600&q=80"
+                alt=""
+                width="600"
+                height="400"
+                loading="lazy"
+              />
+              <span class="urgent-cta__label">Urgent car purchase</span>
+            </a>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer id="contacts" class="site-footer">
+    <div class="container site-footer__grid">
+      <div class="site-footer__col site-footer__brand">
+        <a href="/" class="site-footer__logo" aria-label="Eisen Corporation home">
+          <img
+            class="site-footer__logo-img"
+            src="image/eisen-logo.png"
+            alt="Eisen Corporation"
+            width="200"
+            height="58"
+            loading="lazy"
+          />
+        </a>
+        <p class="site-footer__tagline">
+          Premium imported vehicles from Japan auctions. Inspection, logistics, and worldwide export for dealers and private buyers.
+        </p>
+      </div>
+
+      <div class="site-footer__col">
+        <h3 class="site-footer__heading">Quick Links</h3>
+        <ul class="site-footer__links site-footer__links--arrow-hover">
+          <li><a href="#">Home</a></li>
+          <li><a href="#main">About Us</a></li>
+          <li><a href="#blog">Blog</a></li>
+          <li><a href="#blog">News</a></li>
+          <li><a href="#listings">Inventory</a></li>
+          <li><a href="#contacts">Contacts</a></li>
+        </ul>
+      </div>
+
+      <div class="site-footer__col">
+        <h3 class="site-footer__heading">Our Services</h3>
+        <ul class="site-footer__links site-footer__links--arrow-hover">
+          <li><a href="#listings">Vehicle Listings</a></li>
+          <li><a href="#main">Japan Auction Sourcing</a></li>
+          <li><a href="#blog">Dealer Directory</a></li>
+          <li><a href="#blog">Service &amp; Insurance</a></li>
+          <li><a href="#videos">Video Reviews</a></li>
+          <li><a href="#videos">Urgent Purchase</a></li>
+        </ul>
+      </div>
+
+      <div class="site-footer__col">
+        <h3 class="site-footer__heading">Contact Us</h3>
+        <p class="site-footer__text">
+          <strong>Lorem Ipsum Dolor</strong><br />
+          42 Sit Amet Street<br />
+          Consectetur, Adipiscing 00000, Elit
+        </p>
+        <p class="site-footer__text">
+          <a href="mailto:lorem.ipsum@example.com">lorem.ipsum@example.com</a><br />
+          <a href="tel:+10000000000">+00 000-000-0000</a>
+        </p>
+        <p class="site-footer__text">
+          <strong>Business hours</strong><br />
+          Lorem – Ipsum: 00:00 – 00:00<br />
+          Dolor: Sit amet consectetur
+        </p>
+      </div>
+    </div>
+    <div class="site-footer__bottom">
+      <div class="container site-footer__bottom-inner">
+        <p class="site-footer__copy">&copy; <span data-year></span> Eisen Corporation. All rights reserved.</p>
+        <nav class="site-footer__legal" aria-label="Legal">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Use</a>
+          <a href="#">Sitemap</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js" defer></script>
+</body>
+</html>
