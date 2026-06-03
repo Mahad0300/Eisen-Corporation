@@ -2,10 +2,10 @@
 <footer id="contacts" class="site-footer">
     <div class="container site-footer__grid">
       <div class="site-footer__col site-footer__brand">
-        <a href="/" class="site-footer__logo" aria-label="Eisen Corporation home">
+        <a href="<?= BASE_URL ?>/" class="site-footer__logo" aria-label="Eisen Corporation home">
           <img
             class="site-footer__logo-img"
-            src="image/eisen-logo.png"
+            src="<?= BASE_URL ?>/public/image/eisen-logo.png"
             alt="Eisen Corporation"
             width="200"
             height="58"
@@ -71,9 +71,9 @@
     </div>
   </footer>
 
-  <script src="js/locale-i18n.js" defer></script>
-  <script src="js/currency.js" defer></script>
-  <script src="js/main.js" defer></script>
-  <script src="js/listing.js" defer></script>
+  <script src="<?= BASE_URL ?>/public/js/locale-i18n.js" defer></script>
+  <script src="<?= BASE_URL ?>/public/js/currency.js" defer></script>
+  <script src="<?= BASE_URL ?>/public/js/main.js" defer></script>
+  <script src="<?= BASE_URL ?>/public/js/listing.js" defer></script>
 </body>
 </html>

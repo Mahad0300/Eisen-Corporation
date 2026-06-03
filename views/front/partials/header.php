@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Montserrat:ital,wght@0,600;0,700;0,800;1,600;1,700;1,800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/global.css" />
+  <link rel="stylesheet" href="<?= BASE_URL ?>/public/css/global.css" />
 </head>
 <body>
   <a class="skip-link" href="#main" data-i18n="skip">Skip to content</a>
@@ -16,10 +16,10 @@
   <header class="site-header">
     <div class="header-brand">
       <div class="container header-brand__inner">
-        <a href="/" class="logo" aria-label="Eisen Corporation home">
+        <a href="<?= BASE_URL ?>/" class="logo" aria-label="Eisen Corporation home">
           <img
             class="logo__img"
-            src="image/eisen-logo.png"
+            src="<?= BASE_URL ?>/public/image/eisen-logo.png"
             alt="Eisen Corporation"
             width="220"
             height="64"
