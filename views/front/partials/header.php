@@ -60,6 +60,7 @@ if (!function_exists('eisen_nav_is_active')) {
           />
         </a>
 
+        <div class="header-brand__actions">
         <div class="header-locale" data-header-locale>
           <div class="header-locale__dropdown" data-locale-dropdown="language">
             <label class="visually-hidden" id="header-language-label" data-i18n="locale.language">Language</label>
@@ -139,6 +140,20 @@ if (!function_exists('eisen_nav_is_active')) {
             </select>
           </div>
         </div>
+
+        <a
+          class="header-login header-login--desktop"
+          href="<?= BASE_URL ?>/admin/login"
+          data-i18n-aria="nav.loginAria"
+          aria-label="Log in to your account"
+        >
+          <svg class="header-login__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.75" />
+            <path d="M5 20c0-3.314 3.134-6 7-6s7 2.686 7 6" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" />
+          </svg>
+          <span class="header-login__label" data-i18n="nav.login">Login</span>
+        </a>
+        </div>
       </div>
     </div>
 
@@ -150,6 +165,22 @@ if (!function_exists('eisen_nav_is_active')) {
         </button>
 
         <nav id="site-nav" class="site-nav" aria-label="Primary">
+          <div class="site-nav__drawer-head">
+            <a href="<?= BASE_URL ?>/" class="site-nav__drawer-logo" aria-label="Eisen Corporation home">
+              <img
+                class="site-nav__drawer-logo-img"
+                src="<?= BASE_URL ?>/public/image/eisen-logo.png"
+                alt="Eisen Corporation"
+                width="220"
+                height="64"
+              />
+            </a>
+            <button type="button" class="site-nav__close" data-nav-close aria-label="Close menu">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                <path d="M2 2L16 16M16 2L2 16" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+              </svg>
+            </button>
+          </div>
           <ul class="site-nav__list">
             <li class="site-nav__item"><a class="site-nav__link<?= eisen_nav_is_active('home', $navRequestPath) ? ' is-active' : '' ?>" href="<?= BASE_URL ?>/"<?= eisen_nav_is_active('home', $navRequestPath) ? ' aria-current="page"' : '' ?> data-i18n="nav.home">Home</a></li>
             <li class="site-nav__item"><a class="site-nav__link<?= eisen_nav_is_active('about', $navRequestPath) ? ' is-active' : '' ?>" href="<?= BASE_URL ?>/about"<?= eisen_nav_is_active('about', $navRequestPath) ? ' aria-current="page"' : '' ?> data-i18n="nav.about">About Us</a></li>
@@ -172,6 +203,20 @@ if (!function_exists('eisen_nav_is_active')) {
           />
           <button class="btn btn--primary header-search__btn" type="submit" data-i18n="search.btn">search</button>
         </form>
+
+        <a
+          class="header-login header-login--mobile"
+          href="<?= BASE_URL ?>/admin/login"
+          data-i18n-aria="nav.loginAria"
+          aria-label="Log in to your account"
+        >
+          <svg class="header-login__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.75" />
+            <path d="M5 20c0-3.314 3.134-6 7-6s7 2.686 7 6" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" />
+          </svg>
+          <span class="visually-hidden" data-i18n="nav.login">Login</span>
+        </a>
       </div>
     </div>
+    <div class="site-nav-backdrop" data-nav-backdrop hidden aria-hidden="true"></div>
   </header>

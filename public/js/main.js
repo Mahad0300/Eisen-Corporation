@@ -7,19 +7,42 @@
   /* Mobile navigation */
   const navToggle = document.querySelector(".nav-toggle");
   const siteNav = document.querySelector(".site-nav");
+  const navBackdrop = document.querySelector("[data-nav-backdrop]");
+
+  function setNavOpen(open) {
+    if (!navToggle || !siteNav) return;
+    navToggle.setAttribute("aria-expanded", String(open));
+    siteNav.classList.toggle("is-open", open);
+    document.body.classList.toggle("nav-open", open);
+    if (navBackdrop) {
+      navBackdrop.classList.toggle("is-visible", open);
+      navBackdrop.hidden = !open;
+      navBackdrop.setAttribute("aria-hidden", String(!open));
+    }
+  }
 
   if (navToggle && siteNav) {
+    const navClose = siteNav.querySelector("[data-nav-close]");
+
     navToggle.addEventListener("click", () => {
       const open = navToggle.getAttribute("aria-expanded") === "true";
-      navToggle.setAttribute("aria-expanded", String(!open));
-      siteNav.classList.toggle("is-open", !open);
+      setNavOpen(!open);
     });
 
+    navClose?.addEventListener("click", () => setNavOpen(false));
+
+    siteNav.querySelector(".site-nav__drawer-logo")?.addEventListener("click", () => setNavOpen(false));
+
     siteNav.querySelectorAll(".site-nav__link").forEach((link) => {
-      link.addEventListener("click", () => {
-        navToggle.setAttribute("aria-expanded", "false");
-        siteNav.classList.remove("is-open");
-      });
+      link.addEventListener("click", () => setNavOpen(false));
+    });
+
+    navBackdrop?.addEventListener("click", () => setNavOpen(false));
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && siteNav.classList.contains("is-open")) {
+        setNavOpen(false);
+      }
     });
   }
 

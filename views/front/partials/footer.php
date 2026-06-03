@@ -63,9 +63,8 @@
       <div class="container site-footer__bottom-inner">
         <p class="site-footer__copy">&copy; <span data-year></span> <span data-i18n="footer.copy">Eisen Corporation. All rights reserved.</span></p>
         <nav class="site-footer__legal" aria-label="Legal">
-          <a href="#" data-i18n="footer.privacy">Privacy Policy</a>
-          <a href="#" data-i18n="footer.terms">Terms of Use</a>
-          <a href="#" data-i18n="footer.sitemap">Sitemap</a>
+          <a href="<?= BASE_URL ?>/privacy-policy" data-i18n="footer.privacy">Privacy Policy</a>
+          <a href="<?= BASE_URL ?>/terms-and-condition" data-i18n="footer.terms">Terms &amp; Conditions</a>
         </nav>
       </div>
     </div>

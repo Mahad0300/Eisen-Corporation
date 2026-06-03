@@ -42,6 +42,8 @@ $router->get('/blog/{slug}', 'Front\BlogController@show');
 $router->get('/about', 'Front\AboutController@index');
 $router->get('/contact', 'Front\ContactController@index');
 $router->get('/contacts', 'Front\ContactController@index');
+$router->get('/privacy-policy', 'Front\LegalController@privacy');
+$router->get('/terms-and-condition', 'Front\LegalController@terms');
 
 // 5. Admin UI Routes
 $router->get('/admin', 'Admin\DashboardController@index');
