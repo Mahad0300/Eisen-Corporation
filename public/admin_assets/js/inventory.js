@@ -85,15 +85,20 @@ document.addEventListener('DOMContentLoaded', function() {
     // 3. Search and Filtering Logic
     // ==========================================
     const searchInput = document.getElementById('searchFilter');
-    const typeSelect = document.getElementById('typeFilter');
     const statusSelect = document.getElementById('statusFilter');
     const clearBtn = document.getElementById('clearFiltersBtn');
     const tableRows = document.querySelectorAll('#inventoryTable tbody tr');
+    const tabBtnsInventory = document.querySelectorAll('.inventory-tabs .tab-btn');
 
     function filterTable() {
         const query = searchInput.value.toLowerCase().trim();
-        const selectedType = typeSelect.value;
         const selectedStatus = statusSelect.value;
+        
+        let activeTabType = 'all';
+        const activeTab = document.querySelector('.inventory-tabs .tab-btn.active');
+        if (activeTab) {
+            activeTabType = activeTab.getAttribute('data-filter-type');
+        }
 
         tableRows.forEach(row => {
             const rowType = row.getAttribute('data-type');
@@ -101,7 +106,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const textContent = row.textContent.toLowerCase();
 
             const matchesSearch = query === '' || textContent.includes(query);
-            const matchesType = selectedType === '' || rowType === selectedType;
+            const matchesType = activeTabType === 'all' || rowType === activeTabType;
             const matchesStatus = selectedStatus === '' || rowStatus === selectedStatus;
 
             if (matchesSearch && matchesType && matchesStatus) {
@@ -112,16 +117,28 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // Add Tab event listeners
+    tabBtnsInventory.forEach(btn => {
+        btn.addEventListener('click', function() {
+            tabBtnsInventory.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            filterTable();
+        });
+    });
+
     if (searchInput) searchInput.addEventListener('keyup', filterTable);
-    if (typeSelect) typeSelect.addEventListener('change', filterTable);
     if (statusSelect) statusSelect.addEventListener('change', filterTable);
 
     if (clearBtn) {
         clearBtn.addEventListener('click', function() {
             searchInput.value = '';
-            typeSelect.value = '';
             statusSelect.value = '';
-            tableRows.forEach(row => row.style.display = '');
+            
+            // Reset active tab to 'all'
+            tabBtnsInventory.forEach(b => b.classList.remove('active'));
+            if (tabBtnsInventory[0]) tabBtnsInventory[0].classList.add('active');
+            
+            filterTable();
         });
     }
 

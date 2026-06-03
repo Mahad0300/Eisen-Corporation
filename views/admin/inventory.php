@@ -2,12 +2,26 @@
 $pageTitle = "Inventory Management | Eisen Admin";
 $pageScript = "inventory.js";
 include dirname(__DIR__) . '/admin/partials/header.php'; 
+
+// Calculate portfolio values and inventory counts dynamically
+$totalCount = count($cars);
+$inStockCount = 0;
+$auctionCount = 0;
+$totalValue = 0;
+foreach ($cars as $car) {
+    $totalValue += $car['price'];
+    if ($car['type'] === 'In-Stock') {
+        $inStockCount++;
+    } else if ($car['type'] === 'Auction') {
+        $auctionCount++;
+    }
+}
 ?>
 
 <div class="inventory-page-content">
     <div class="page-header-container mb-30">
         <div class="header-title-group">
-            <h1 class="page-title">Inventory Management</h1>
+            <h1 class="page-title">Inventory Catalog</h1>
             <p style="color: var(--color-text-muted); margin: 4px 0 0 0;">Manage direct In-Stock imports and live Auction lots</p>
         </div>
         <div class="header-actions">
@@ -18,20 +32,87 @@ include dirname(__DIR__) . '/admin/partials/header.php';
         </div>
     </div>
 
+    <!-- Inventory Stats KPI Row -->
+    <div class="dashboard-stats-grid mb-30">
+        <div class="stat-card">
+            <div class="stat-card-header">
+                <div class="stat-icon-box bg-soft-primary">
+                    <i data-lucide="car"></i>
+                </div>
+                <div class="stat-info">
+                    <span class="stat-label">Total Listings</span>
+                    <span class="stat-change text-success">Active Catalog</span>
+                </div>
+            </div>
+            <div class="stat-card-body">
+                <h2 class="stat-value"><?= $totalCount ?></h2>
+                <p style="margin: 6px 0 0 0; font-size: 11px; color: var(--color-text-muted);">
+                    Vehicles currently in the system
+                </p>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-card-header">
+                <div class="stat-icon-box bg-soft-success">
+                    <i data-lucide="warehouse"></i>
+                </div>
+                <div class="stat-info">
+                    <span class="stat-label">In-Stock Imports</span>
+                    <span class="stat-change text-success">+<?= count(array_filter($cars, fn($c) => $c['type'] === 'In-Stock' && $c['status'] === 'Available')) ?> Available</span>
+                </div>
+            </div>
+            <div class="stat-card-body">
+                <h2 class="stat-value"><?= $inStockCount ?></h2>
+                <p style="margin: 6px 0 0 0; font-size: 11px; color: var(--color-text-muted);">
+                    Direct imports in local yard
+                </p>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-card-header">
+                <div class="stat-icon-box bg-soft-info">
+                    <i data-lucide="gavel"></i>
+                </div>
+                <div class="stat-info">
+                    <span class="stat-label">Auction Lots</span>
+                    <span class="stat-change text-success">Live Bidding</span>
+                </div>
+            </div>
+            <div class="stat-card-body">
+                <h2 class="stat-value"><?= $auctionCount ?></h2>
+                <p style="margin: 6px 0 0 0; font-size: 11px; color: var(--color-text-muted);">
+                    Lots linked via external API
+                </p>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-card-header">
+                <div class="stat-icon-box bg-soft-warning">
+                    <i data-lucide="dollar-sign"></i>
+                </div>
+                <div class="stat-info">
+                    <span class="stat-label">Inventory Valuation</span>
+                    <span class="stat-change text-gold" style="color: var(--color-gold-500);">FOB Portfolio</span>
+                </div>
+            </div>
+            <div class="stat-card-body">
+                <h2 class="stat-value text-gold" style="color: var(--color-gold-500);">$<?= number_format($totalValue) ?></h2>
+                <p style="margin: 6px 0 0 0; font-size: 11px; color: var(--color-text-muted);">
+                    Cumulative listing valuation
+                </p>
+            </div>
+        </div>
+    </div>
+
     <!-- Filters Toolbar -->
     <div class="card mb-30" style="padding: 16px;">
-        <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 16px; align-items: center;">
+        <div style="display: grid; grid-template-columns: 2fr 1.2fr 0.8fr; gap: 16px; align-items: center;">
             <div class="form-group" style="margin-bottom: 0; position: relative;">
                 <input type="text" class="form-control" id="searchFilter" placeholder="Search by Make, Model, or Chassis VIN...">
                 <i data-lucide="search" style="position: absolute; right: 14px; top: 12px; color: var(--color-silver-400); width: 18px; height: 18px;"></i>
-            </div>
-            
-            <div class="form-group" style="margin-bottom: 0;">
-                <select class="form-control" id="typeFilter">
-                    <option value="">All Inventory Types</option>
-                    <option value="In-Stock">In-Stock</option>
-                    <option value="Auction">Auction</option>
-                </select>
             </div>
             
             <div class="form-group" style="margin-bottom: 0;">
@@ -50,8 +131,27 @@ include dirname(__DIR__) . '/admin/partials/header.php';
         </div>
     </div>
 
+    <!-- Switcher Tabs for In-Stock and Auction separation -->
+    <div class="inventory-tabs mb-20">
+        <button class="tab-btn active" data-filter-type="all">
+            <i data-lucide="layers" style="width: 15px; height: 15px;"></i>
+            <span>All Vehicles</span>
+            <span class="count-badge"><?= $totalCount ?></span>
+        </button>
+        <button class="tab-btn" data-filter-type="In-Stock">
+            <i data-lucide="warehouse" style="width: 15px; height: 15px;"></i>
+            <span>In-Stock Imports</span>
+            <span class="count-badge"><?= $inStockCount ?></span>
+        </button>
+        <button class="tab-btn" data-filter-type="Auction">
+            <i data-lucide="gavel" style="width: 15px; height: 15px;"></i>
+            <span>Live Auction Lots</span>
+            <span class="count-badge"><?= $auctionCount ?></span>
+        </button>
+    </div>
+
     <!-- Inventory Table Grid -->
-    <div class="card">
+    <div class="card" style="padding: 0;">
         <div class="table-responsive">
             <table class="data-table-minimal" id="inventoryTable">
                 <thead>
@@ -78,8 +178,15 @@ include dirname(__DIR__) . '/admin/partials/header.php';
                             <?php endif; ?>
                         </td>
                         <td>
-                            <strong><?= htmlspecialchars($car['make'] . ' ' . $car['model']) ?></strong>
-                            <div style="font-size: 11px; color: var(--color-text-muted);"><?= $car['year'] ?> Model</div>
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <div class="vehicle-thumbnail">
+                                    <i data-lucide="car"></i>
+                                </div>
+                                <div>
+                                    <strong><?= htmlspecialchars($car['make'] . ' ' . $car['model']) ?></strong>
+                                    <div style="font-size: 11px; color: var(--color-text-muted);"><?= $car['year'] ?> Model</div>
+                                </div>
+                            </div>
                         </td>
                         <td><code><?= htmlspecialchars($car['chassis']) ?></code></td>
                         <td>
@@ -103,7 +210,7 @@ include dirname(__DIR__) . '/admin/partials/header.php';
                             </label>
                         </td>
                         <td style="text-align: right;">
-                            <div style="display: flex; justify-content: flex-end; gap: 8px;">
+                            <div style="display: flex; justify-content: flex-end; gap: 8px; padding-right: 16px;">
                                 <button class="btn-icon-sm edit-car-btn" title="Edit Listing">
                                     <i data-lucide="edit-3"></i>
                                 </button>
