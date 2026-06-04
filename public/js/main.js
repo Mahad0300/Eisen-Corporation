@@ -65,7 +65,19 @@
       }
 
       let matches = false;
-      if (linkPath === "/") {
+      const navKey = link.dataset.navKey || "";
+
+      if (navKey === "home") {
+        matches = currentPath === linkPath;
+      } else if (navKey === "listing") {
+        const listingRoot = linkPath.replace(/\/listings?$/, "");
+        const productPath = `${listingRoot}/product`.replace(/\/+/g, "/");
+        matches =
+          currentPath === linkPath ||
+          currentPath.startsWith(`${linkPath}/`) ||
+          currentPath === productPath ||
+          currentPath.startsWith(`${productPath}/`);
+      } else if (linkPath === "/") {
         matches = currentPath === "/";
       } else if (currentPath === linkPath || currentPath.startsWith(`${linkPath}/`)) {
         matches = true;
@@ -77,7 +89,7 @@
       }
     });
 
-    if (bestMatch && !bestMatch.classList.contains("is-active")) {
+    if (bestMatch) {
       navLinks.forEach((link) => {
         const active = link === bestMatch;
         link.classList.toggle("is-active", active);
@@ -208,7 +220,7 @@
   if (!langSelect || !currencySelect || !dropdowns.length) return;
 
   const STORAGE_LANG = "eisen-locale-lang";
-  const priceSelector = ".hero-slide__price, .listing-card__price, .product-price[data-price-usd]";
+  const priceSelector = ".listing-card__price, .product-price[data-price-usd]";
 
   function applyLanguage(lang) {
     if (window.EisenI18n) window.EisenI18n.apply(lang);

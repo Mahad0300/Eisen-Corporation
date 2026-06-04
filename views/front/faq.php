@@ -6,9 +6,11 @@
       <div class="container faq-layout">
         <div class="faq-main">
           <nav class="faq-breadcrumb" aria-label="Breadcrumb">
-            <a href="<?= BASE_URL ?>/contact" data-i18n="faq.breadcrumb.support">Support</a>
-            <span class="faq-breadcrumb__sep" aria-hidden="true">&gt;</span>
-            <span class="faq-breadcrumb__current" data-faq-breadcrumb-current>General Questions</span>
+            <ol class="faq-breadcrumb__list">
+              <li><a href="<?= BASE_URL ?>/" data-i18n="nav.home">Home</a></li>
+              <li><a href="<?= BASE_URL ?>/faq" data-i18n="nav.faq">FAQ</a></li>
+              <li aria-current="page" data-faq-breadcrumb-current>General Questions</li>
+            </ol>
           </nav>
 
           <header class="faq-main__head">

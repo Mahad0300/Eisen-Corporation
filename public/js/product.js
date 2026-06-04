@@ -139,4 +139,36 @@
   });
 
   updateCount();
+
+  const priceCells = [
+    ...document.querySelectorAll(".product-vehicle-price[data-price-jpy]"),
+    ...document.querySelectorAll("[data-estimate-price-jpy]"),
+  ];
+  const calcCurrency = document.querySelector("[data-product-calc-currency]");
+
+  function applyVehiclePrices() {
+    if (!window.EisenCurrency || !priceCells.length) return;
+    const currency =
+      calcCurrency?.value ||
+      (window.EisenCurrency.getCurrency() === "jpy" ? "jpy" : "usd");
+    priceCells.forEach((cell) => {
+      const jpy = Number(cell.dataset.priceJpy ?? cell.dataset.estimatePriceJpy);
+      if (!Number.isFinite(jpy)) return;
+      cell.textContent = window.EisenCurrency.formatFromJpy(jpy, currency);
+    });
+  }
+
+  if (calcCurrency) {
+    calcCurrency.addEventListener("change", applyVehiclePrices);
+  }
+
+  if (window.EisenCurrency) {
+    window.EisenCurrency.ready.then(applyVehiclePrices);
+    document.addEventListener("eisen:currency-change", () => {
+      if (calcCurrency) {
+        calcCurrency.value = window.EisenCurrency.getCurrency();
+      }
+      applyVehiclePrices();
+    });
+  }
 })();

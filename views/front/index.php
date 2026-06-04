@@ -10,115 +10,55 @@
               <img
                 class="hero-slide__img"
                 src="https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=1200&q=80"
-                alt="Silver Toyota Aqua hatchback"
+                alt="Eisen Corporation promotional banner 1"
                 width="1200"
                 height="675"
                 fetchpriority="high"
               />
-              <div class="hero-slide__overlay">
-                <div class="hero-slide__info">
-                  <h2 class="hero-slide__title">Toyota <span class="text-gold">Aqua</span></h2>
-                  <dl class="hero-slide__specs">
-                    <div><dt data-i18n="spec.mileage">Mileage</dt><dd>25,000 km</dd></div>
-                    <div><dt data-i18n="spec.engine">Engine</dt><dd>1.5L Hybrid</dd></div>
-                  </dl>
-                </div>
-                <div class="hero-slide__aside">
-                  <p class="hero-slide__price"><span class="visually-hidden" data-i18n="spec.price">Price</span>$32,200</p>
-                </div>
-              </div>
             </article>
 
             <article class="hero-slide" data-slide="1" hidden>
               <img
                 class="hero-slide__img"
                 src="https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=1200&q=80"
-                alt="Black Mercedes-Benz sedan"
+                alt="Eisen Corporation promotional banner 2"
                 width="1200"
                 height="675"
                 loading="lazy"
               />
-              <div class="hero-slide__overlay">
-                <div class="hero-slide__info">
-                  <h2 class="hero-slide__title">Mercedes-Benz <span class="text-gold">E-Class</span></h2>
-                  <dl class="hero-slide__specs">
-                    <div><dt data-i18n="spec.mileage">Mileage</dt><dd>18,400 km</dd></div>
-                    <div><dt data-i18n="spec.engine">Engine</dt><dd>2.0L Turbo</dd></div>
-                  </dl>
-                </div>
-                <div class="hero-slide__aside">
-                  <p class="hero-slide__price">$48,900</p>
-                </div>
-              </div>
             </article>
 
             <article class="hero-slide" data-slide="2" hidden>
               <img
                 class="hero-slide__img"
                 src="https://images.unsplash.com/photo-1555215695-3004980ad54e?w=1200&q=80"
-                alt="White BMW luxury sedan"
+                alt="Eisen Corporation promotional banner 3"
                 width="1200"
                 height="675"
                 loading="lazy"
               />
-              <div class="hero-slide__overlay">
-                <div class="hero-slide__info">
-                  <h2 class="hero-slide__title">BMW <span class="text-gold">5 Series</span></h2>
-                  <dl class="hero-slide__specs">
-                    <div><dt data-i18n="spec.mileage">Mileage</dt><dd>12,100 km</dd></div>
-                    <div><dt data-i18n="spec.engine">Engine</dt><dd>3.0L Inline-6</dd></div>
-                  </dl>
-                </div>
-                <div class="hero-slide__aside">
-                  <p class="hero-slide__price">$54,750</p>
-                </div>
-              </div>
             </article>
 
             <article class="hero-slide" data-slide="3" hidden>
               <img
                 class="hero-slide__img"
                 src="https://images.unsplash.com/photo-1603386329225-868f9b1ee6b9?w=1200&q=80"
-                alt="Red Audi sport sedan"
+                alt="Eisen Corporation promotional banner 4"
                 width="1200"
                 height="675"
                 loading="lazy"
               />
-              <div class="hero-slide__overlay">
-                <div class="hero-slide__info">
-                  <h2 class="hero-slide__title">Audi <span class="text-gold">A8</span></h2>
-                  <dl class="hero-slide__specs">
-                    <div><dt data-i18n="spec.mileage">Mileage</dt><dd>9,800 km</dd></div>
-                    <div><dt data-i18n="spec.engine">Engine</dt><dd>3.0L TFSI</dd></div>
-                  </dl>
-                </div>
-                <div class="hero-slide__aside">
-                  <p class="hero-slide__price">$67,400</p>
-                </div>
-              </div>
             </article>
 
             <article class="hero-slide" data-slide="4" hidden>
               <img
                 class="hero-slide__img"
                 src="https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?w=1200&q=80"
-                alt="Dark SUV on road"
+                alt="Eisen Corporation promotional banner 5"
                 width="1200"
                 height="675"
                 loading="lazy"
               />
-              <div class="hero-slide__overlay">
-                <div class="hero-slide__info">
-                  <h2 class="hero-slide__title">Lexus <span class="text-gold">RX 350</span></h2>
-                  <dl class="hero-slide__specs">
-                    <div><dt data-i18n="spec.mileage">Mileage</dt><dd>31,200 km</dd></div>
-                    <div><dt data-i18n="spec.engine">Engine</dt><dd>3.5L V6</dd></div>
-                  </dl>
-                </div>
-                <div class="hero-slide__aside">
-                  <p class="hero-slide__price">$41,300</p>
-                </div>
-              </div>
             </article>
           </div>
 

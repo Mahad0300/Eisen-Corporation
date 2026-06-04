@@ -188,11 +188,12 @@ if (!function_exists('eisen_nav_is_active')) {
             </button>
           </div>
           <ul class="site-nav__list">
-            <li class="site-nav__item"><a class="site-nav__link<?= eisen_nav_is_active('home', $navRequestPath) ? ' is-active' : '' ?>" href="<?= BASE_URL ?>/"<?= eisen_nav_is_active('home', $navRequestPath) ? ' aria-current="page"' : '' ?> data-i18n="nav.home">Home</a></li>
-            <li class="site-nav__item"><a class="site-nav__link<?= eisen_nav_is_active('about', $navRequestPath) ? ' is-active' : '' ?>" href="<?= BASE_URL ?>/about"<?= eisen_nav_is_active('about', $navRequestPath) ? ' aria-current="page"' : '' ?> data-i18n="nav.about">About Us</a></li>
-            <li class="site-nav__item"><a class="site-nav__link<?= eisen_nav_is_active('blog', $navRequestPath) ? ' is-active' : '' ?>" href="<?= BASE_URL ?>/blog"<?= eisen_nav_is_active('blog', $navRequestPath) ? ' aria-current="page"' : '' ?> data-i18n="nav.blog">Blog</a></li>
-            <li class="site-nav__item"><a class="site-nav__link<?= eisen_nav_is_active('listing', $navRequestPath) ? ' is-active' : '' ?>" href="<?= BASE_URL ?>/listing"<?= eisen_nav_is_active('listing', $navRequestPath) ? ' aria-current="page"' : '' ?> data-i18n="nav.sellers">Available Stock</a></li>
-            <li class="site-nav__item"><a class="site-nav__link<?= eisen_nav_is_active('contact', $navRequestPath) ? ' is-active' : '' ?>" href="<?= BASE_URL ?>/contact"<?= eisen_nav_is_active('contact', $navRequestPath) ? ' aria-current="page"' : '' ?> data-i18n="nav.contacts">Contacts</a></li>
+            <li class="site-nav__item"><a class="site-nav__link<?= eisen_nav_is_active('home', $navRequestPath) ? ' is-active' : '' ?>" href="<?= BASE_URL ?>/" data-nav-key="home"<?= eisen_nav_is_active('home', $navRequestPath) ? ' aria-current="page"' : '' ?> data-i18n="nav.home">Home</a></li>
+            <li class="site-nav__item"><a class="site-nav__link<?= eisen_nav_is_active('listing', $navRequestPath) ? ' is-active' : '' ?>" href="<?= BASE_URL ?>/listing" data-nav-key="listing"<?= eisen_nav_is_active('listing', $navRequestPath) ? ' aria-current="page"' : '' ?> data-i18n="nav.sellers">Available Stock</a></li>
+            <li class="site-nav__item"><a class="site-nav__link<?= eisen_nav_is_active('chassis', $navRequestPath) ? ' is-active' : '' ?>" href="<?= BASE_URL ?>/chassis-check" data-nav-key="chassis"<?= eisen_nav_is_active('chassis', $navRequestPath) ? ' aria-current="page"' : '' ?> data-i18n="chassis.title">Chassis Check</a></li>
+            <li class="site-nav__item"><a class="site-nav__link<?= eisen_nav_is_active('price-calc', $navRequestPath) ? ' is-active' : '' ?>" href="<?= BASE_URL ?>/price-calculation" data-nav-key="price-calc"<?= eisen_nav_is_active('price-calc', $navRequestPath) ? ' aria-current="page"' : '' ?> data-i18n="priceCalc.title">Price Calculation</a></li>
+            <li class="site-nav__item"><a class="site-nav__link<?= eisen_nav_is_active('about', $navRequestPath) ? ' is-active' : '' ?>" href="<?= BASE_URL ?>/about" data-nav-key="about"<?= eisen_nav_is_active('about', $navRequestPath) ? ' aria-current="page"' : '' ?> data-i18n="nav.about">About Us</a></li>
+            <li class="site-nav__item"><a class="site-nav__link<?= eisen_nav_is_active('contact', $navRequestPath) ? ' is-active' : '' ?>" href="<?= BASE_URL ?>/contact" data-nav-key="contact"<?= eisen_nav_is_active('contact', $navRequestPath) ? ' aria-current="page"' : '' ?> data-i18n="nav.contacts">Contacts</a></li>
           </ul>
         </nav>
 

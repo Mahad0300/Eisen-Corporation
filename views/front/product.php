@@ -1,35 +1,27 @@
 <?php
-$galleryPhotos = [
-  ["label" => "Front exterior", "src" => "photo-1606664515524-ed2f786a0bd6"],
-  ["label" => "Side profile", "src" => "photo-1549317661-bd32c8ce0db2"],
-  ["label" => "Rear view", "src" => "photo-1552519507-da3b142c6e3d"],
-  ["label" => "Interior dashboard", "src" => "photo-1618843479313-40f8afb4b4d8"],
-  ["label" => "Wheel detail", "src" => "photo-1503376780353-7e6692767b70"],
-  ["label" => "Front angle", "src" => "photo-1519641471654-76ce0107ad1b"],
-  ["label" => "Highway driving", "src" => "photo-1553440569-bcc63803a83d"],
-  ["label" => "Sport trim", "src" => "photo-1553440569-bcc63803a83d"],
-  ["label" => "Showroom front", "src" => "photo-1492144534655-ae79c964c9d7"],
-  ["label" => "Luxury sedan", "src" => "photo-1555215695-3004980ad54e"],
-  ["label" => "Performance view", "src" => "photo-1603386329225-868f9b1ee6b9"],
-  ["label" => "SUV profile", "src" => "photo-1519641471654-76ce0107ad1b"],
-  ["label" => "City street", "src" => "photo-1606664515524-ed2f786a0bd6"],
-  ["label" => "Cabin seats", "src" => "photo-1549317661-bd32c8ce0db2"],
-  ["label" => "Trunk space", "src" => "photo-1552519507-da3b142c6e3d"],
-];
-$galleryTotal = count($galleryPhotos);
-$galleryFirst = $galleryPhotos[0];
+$v = $vehicle;
+$galleryTotal = count($gallery);
+$galleryFirst = $gallery[0];
 $galleryFirstLarge = "https://images.unsplash.com/{$galleryFirst['src']}?w=1200&q=80";
 $galleryFirstThumb = "https://images.unsplash.com/{$galleryFirst['src']}?w=200&q=80";
-$galleryFirstAlt = "2012 Jeep Patriot Latitude — {$galleryFirst['label']}";
+$galleryFirstAlt = "{$v['title']} — {$galleryFirst['label']}";
 include __DIR__ . '/partials/header.php';
 ?>
 
-  <main id="main">
+  <main id="main" class="product-page">
 
-    <section class="product-page section" aria-labelledby="product-title">
+    <section class="section" aria-labelledby="product-title">
       <div class="container">
-        <div class="product-layout">
 
+        <nav class="product-breadcrumb" aria-label="Breadcrumb">
+          <ol class="product-breadcrumb__list">
+            <li><a href="<?= BASE_URL ?>/" data-i18n="nav.home">Home</a></li>
+            <li><a href="<?= BASE_URL ?>/listing" data-i18n="nav.sellers">Available Stock</a></li>
+            <li aria-current="page"><?= htmlspecialchars($v['title']) ?></li>
+          </ol>
+        </nav>
+
+        <div class="product-hero">
           <div class="product-gallery-wrap" data-product-gallery>
             <figure class="product-gallery card">
               <button type="button" class="product-gallery__main" data-gallery-open aria-label="Open full-size photo">
@@ -59,10 +51,10 @@ include __DIR__ . '/partials/header.php';
                 <span aria-hidden="true">‹</span>
               </button>
               <ul class="product-gallery__thumbs" data-gallery-thumbs role="tablist" aria-label="Vehicle photos">
-                <?php foreach ($galleryPhotos as $index => $photo):
+                <?php foreach ($gallery as $index => $photo):
                   $large = "https://images.unsplash.com/{$photo['src']}?w=1200&q=80";
                   $thumb = "https://images.unsplash.com/{$photo['src']}?w=200&q=80";
-                  $alt = "2012 Jeep Patriot Latitude — {$photo['label']}";
+                  $alt = "{$v['title']} — {$photo['label']}";
                   $isActive = $index === 0;
                 ?>
                 <li>
@@ -85,226 +77,299 @@ include __DIR__ . '/partials/header.php';
                 <span aria-hidden="true">›</span>
               </button>
             </div>
+
+            <div class="product-gallery-desc">
+              <h2 class="product-gallery-desc__title" data-i18n="product.overviewTitle">Overview</h2>
+              <div class="product-gallery-desc__body">
+                <p data-i18n="product.description.p1">This 2018 Honda Fit 13G F is a practical Japan-market hatchback ideal for city driving and export. The vehicle is offered from our Kobe inventory with auction-grade documentation available on request.</p>
+                <p data-i18n="product.description.p2">The Fit is known for excellent fuel economy, a compact footprint, and a versatile cabin. This example shows 76,000 km on the odometer with a 1,300 cc petrol engine and smooth automatic transmission — well suited for daily use or resale in overseas markets.</p>
+                <p data-i18n="product.description.p3">Exterior colour is blue with a five-door hatchback body. The vehicle is right-hand drive (RHD) as standard for Japan, with seating for five passengers. Grade and inspection reports from the auction house can be shared before purchase.</p>
+                <p data-i18n="product.description.p4">Eisen Corporation handles sourcing from USS, TAA, JU, and other major Japanese auctions. We arrange inland transport, export documentation, marine insurance, and shipment by RORO or container to ports worldwide including Pakistan, Kenya, Tanzania, and Bangladesh.</p>
+                <p>
+                  <span data-i18n="product.description.p5">Use the Total Price Calculator and estimate form on this page for a C&amp;F breakdown, or contact us via WhatsApp for a personalised quote.</span>
+                  <span data-i18n="product.description.p5Stock"> Stock reference</span>:
+                  <strong><?= htmlspecialchars($v['stockId']) ?></strong> — <?= htmlspecialchars($v['location']) ?>.
+                </p>
+              </div>
+            </div>
           </div>
 
-          <aside class="product-sidebar" aria-label="Vehicle details">
-            <div class="product-summary card">
-              <h1 id="product-title" class="product-summary__title">2012 Patriot Latitude</h1>
-              <p class="product-summary__make">jeep</p>
+          <aside class="product-buybox card" aria-label="Vehicle summary">
+            <div class="product-buybox__meta">
+              <span><span data-i18n="product.stockId">Stock Id</span>: <strong><?= htmlspecialchars($v['stockId']) ?></strong></span>
+              <span class="product-buybox__location">
+                <span data-i18n="product.inventoryLocation">Inventory location</span>:
+                <strong><?= htmlspecialchars($v['location']) ?></strong>
+              </span>
+            </div>
 
-              <div class="product-auction-meta">
-                <span class="product-auction-meta__badge">Japan Auction Stock</span>
-                <span class="product-auction-meta__lot">Lot #A-2847</span>
-              </div>
+            <h1 id="product-title" class="product-buybox__title" data-page-title="product.pageTitle"><?= htmlspecialchars($v['title']) ?></h1>
+            <p class="product-buybox__codes">
+              <span><?= htmlspecialchars($v['modelCode']) ?></span>
+              <span><?= htmlspecialchars($v['year']) ?></span>
+              <span data-i18n="product.manufactureYear">Manufacture Year</span>
+              <span><?= htmlspecialchars($v['bodyType']) ?></span>
+            </p>
 
-              <div class="product-pricing product-pricing--auction">
-                <p class="product-pricing__label">Winning bid</p>
-                <p class="product-pricing__price product-price" data-price-usd="9998">$9,998</p>
-              </div>
+            <div class="product-buybox__social">
+              <span class="product-buybox__stars" aria-label="5 out of 5 stars">★★★★★</span>
+              <span><strong><?= (int) $v['reviews'] ?></strong> <span data-i18n="product.reviews">Reviews</span></span>
+              <span class="product-buybox__stat"><?= (int) $v['views'] ?> <span data-i18n="product.views">views</span></span>
+              <span class="product-buybox__stat">♥ <?= (int) $v['favorites'] ?></span>
+            </div>
 
-              <ul class="product-auction-facts">
-                <li class="product-auction-facts__item">
-                  <span class="product-auction-facts__label">Auction house</span>
-                  <strong class="product-auction-facts__value">USS Tokyo</strong>
-                </li>
-                <li class="product-auction-facts__item">
-                  <span class="product-auction-facts__label">Auction date</span>
-                  <strong class="product-auction-facts__value">Jun 8, 2026</strong>
-                </li>
-                <li class="product-auction-facts__item">
-                  <span class="product-auction-facts__label">Mileage</span>
-                  <strong class="product-auction-facts__value">67,400 km</strong>
-                </li>
-                <li class="product-auction-facts__item">
-                  <span class="product-auction-facts__label">Grade</span>
-                  <strong class="product-auction-facts__value">4.5 B</strong>
-                </li>
-              </ul>
+            <div class="product-buybox__pricing">
+              <?php if ($v['priceMode'] === 'ask'): ?>
+              <p class="product-buybox__ask" data-i18n="product.ask">Ask</p>
+              <?php endif; ?>
+              <p class="product-buybox__price-row">
+                <span class="product-buybox__price-label" data-i18n="product.vehiclePrice">Vehicle Price</span>
+                <strong class="product-buybox__price product-vehicle-price" data-price-jpy="<?= (int) $v['priceJpy'] ?>">¥<?= number_format((int) $v['priceJpy']) ?></strong>
+              </p>
+            </div>
 
-              <a class="btn btn--primary btn--block product-summary__cta" href="<?= BASE_URL ?>/contact">
-                Request export quote
-                <svg class="product-summary__cta-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
+            <ul class="product-quick-specs">
+              <li>
+                <span class="product-quick-specs__label" data-i18n="product.spec.mileage">Mileage</span>
+                <strong><?= number_format((int) $v['mileageKm']) ?>km</strong>
+              </li>
+              <li>
+                <span class="product-quick-specs__label" data-i18n="product.spec.engine">Engine</span>
+                <strong><?= number_format((int) $v['engineCc']) ?>cc</strong>
+              </li>
+              <li>
+                <span class="product-quick-specs__label" data-i18n="product.spec.transmission">Transmission</span>
+                <strong><?= htmlspecialchars($v['transmission']) ?></strong>
+              </li>
+              <li>
+                <span class="product-quick-specs__label" data-i18n="product.spec.drive">Drive</span>
+                <strong><?= htmlspecialchars($v['drive']) ?></strong>
+              </li>
+              <li>
+                <span class="product-quick-specs__label" data-i18n="product.spec.steering">Steering</span>
+                <strong><?= htmlspecialchars($v['steering']) ?></strong>
+              </li>
+              <li>
+                <span class="product-quick-specs__label" data-i18n="product.spec.fuel">Fuel</span>
+                <strong><?= htmlspecialchars($v['fuel']) ?></strong>
+              </li>
+              <li>
+                <span class="product-quick-specs__label" data-i18n="product.spec.doors">Door</span>
+                <strong><?= (int) $v['doors'] ?></strong>
+              </li>
+              <li>
+                <span class="product-quick-specs__label" data-i18n="product.spec.seats">Seats</span>
+                <strong><?= (int) $v['seats'] ?></strong>
+              </li>
+            </ul>
+
+            <a class="btn btn--outline btn--block product-buybox__alert" href="<?= BASE_URL ?>/admin/login" data-i18n="product.discountAlert">Get Discount Alerts After Login</a>
+
+            <div class="product-calculator card">
+              <h2 class="product-calculator__title" data-i18n="product.calculatorTitle">Total Price Calculator</h2>
+              <label class="product-calculator__field">
+                <span class="product-calculator__label" data-i18n="product.calculatorCurrency">Currency</span>
+                <select class="form-control" data-product-calc-currency aria-label="Currency">
+                  <option value="jpy">JPY</option>
+                  <option value="usd">USD</option>
+                </select>
+              </label>
+              <p class="product-calculator__row">
+                <span data-i18n="product.vehiclePrice">Vehicle Price</span>
+                <strong class="product-vehicle-price product-calculator__amount" data-price-jpy="<?= (int) $v['priceJpy'] ?>">¥<?= number_format((int) $v['priceJpy']) ?></strong>
+              </p>
+              <a class="btn btn--primary btn--block product-calculator__whatsapp" href="https://wa.me/" target="_blank" rel="noopener noreferrer">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.435 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                <span data-i18n="product.whatsapp">WhatsApp</span>
               </a>
             </div>
-
-            <div class="product-features card">
-              <h2 class="product-panel__title">Features</h2>
-              <ul class="product-features__list">
-                <li>ABS Brakes</li>
-                <li>AM/FM Stereo</li>
-                <li>Air Conditioning</li>
-                <li>Alloy Wheels</li>
-                <li>Auto Dimming Mirror</li>
-                <li>Automatic Headlights</li>
-                <li>Backup Camera</li>
-                <li>CD Audio</li>
-                <li>Child Safety Door Locks</li>
-                <li>Cruise Control</li>
-                <li>Driver Airbag</li>
-                <li>Front Side Airbag</li>
-                <li>Keyless Entry</li>
-                <li>Leather Steering Wheel</li>
-                <li>Passenger Airbag</li>
-                <li>Power Locks</li>
-                <li>Power Mirrors</li>
-                <li>Power Steering</li>
-                <li>Power Windows</li>
-                <li>Rear Window Defroster</li>
-                <li>Security System</li>
-                <li>Steering Wheel Controls</li>
-                <li>Tilt Steering Wheel</li>
-                <li>Traction Control</li>
-              </ul>
-            </div>
-
-            <div class="product-specs card">
-              <h2 class="product-panel__title">Specs</h2>
-              <dl class="product-specs__list">
-                <div class="product-specs__row">
-                  <dt>Transmission</dt>
-                  <dd>Automatic</dd>
-                </div>
-                <div class="product-specs__row">
-                  <dt>Drive</dt>
-                  <dd>2WD</dd>
-                </div>
-                <div class="product-specs__row">
-                  <dt>Engine</dt>
-                  <dd>2.4L</dd>
-                </div>
-                <div class="product-specs__row">
-                  <dt>MPG</dt>
-                  <dd>21/27</dd>
-                </div>
-              </dl>
-              <details class="product-specs__more">
-                <div class="product-specs__more-body">
-                  <dl class="product-specs__list">
-                    <div class="product-specs__row">
-                      <dt>Exterior Color</dt>
-                      <dd>Silver</dd>
-                    </div>
-                    <div class="product-specs__row">
-                      <dt>Interior Color</dt>
-                      <dd>Black</dd>
-                    </div>
-                    <div class="product-specs__row">
-                      <dt>Doors</dt>
-                      <dd>4</dd>
-                    </div>
-                    <div class="product-specs__row">
-                      <dt>Seating</dt>
-                      <dd>5 Passengers</dd>
-                    </div>
-                    <div class="product-specs__row">
-                      <dt>Fuel Type</dt>
-                      <dd>Gasoline</dd>
-                    </div>
-                    <div class="product-specs__row">
-                      <dt>VIN</dt>
-                      <dd>1C4NJRFB0CD123456</dd>
-                    </div>
-                  </dl>
-                </div>
-                <summary class="product-specs__toggle">Show All Specs</summary>
-              </details>
-            </div>
           </aside>
+        </div>
 
-          <div class="product-recs-wrap">
-            <section class="product-recs" aria-labelledby="recs-this-title">
-              <header class="product-recs__head">
-                <h2 id="recs-this-title" class="product-recs__title">Recommended for you</h2>
-                <p class="product-recs__subtitle">Based on this vehicle</p>
-              </header>
-              <ul class="product-recs-grid">
-                <li>
-                  <a href="<?= BASE_URL ?>/product" class="product-rec-card">
-                    <div class="product-rec-card__media">
-                      <img src="https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?w=600&q=80" alt="Toyota Highlander XLE" width="600" height="400" loading="lazy" />
-                    </div>
-                    <div class="product-rec-card__body">
-                      <h3 class="product-rec-card__name">Toyota Highlander XLE</h3>
-                      <p class="product-rec-card__meta"><span class="product-price" data-price-usd="26998">$26,998</span> · 67K mi · Grade 4.0</p>
-                      <p class="product-rec-card__location">USS Tokyo, Japan</p>
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a href="<?= BASE_URL ?>/product" class="product-rec-card">
-                    <div class="product-rec-card__media">
-                      <img src="https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=600&q=80" alt="Honda CR-V EX-L" width="600" height="400" loading="lazy" />
-                    </div>
-                    <div class="product-rec-card__body">
-                      <h3 class="product-rec-card__name">Honda CR-V EX-L</h3>
-                      <p class="product-rec-card__meta"><span class="product-price" data-price-usd="24998">$24,998</span> · 54K mi · Grade 4.5</p>
-                      <p class="product-rec-card__location">USS Osaka, Japan</p>
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a href="<?= BASE_URL ?>/product" class="product-rec-card">
-                    <div class="product-rec-card__media">
-                      <img src="https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=600&q=80" alt="Audi Q5 Premium" width="600" height="400" loading="lazy" />
-                    </div>
-                    <div class="product-rec-card__body">
-                      <h3 class="product-rec-card__name">Audi Q5 Premium</h3>
-                      <p class="product-rec-card__meta"><span class="product-price" data-price-usd="31998">$31,998</span> · 41K mi · Grade 4.0</p>
-                      <p class="product-rec-card__location">TAA Yokohama, Japan</p>
-                    </div>
-                  </a>
-                </li>
-              </ul>
-            </section>
+        <div class="product-body">
+          <div class="product-body__main">
+            <div class="product-detail-cols">
+              <section class="product-section card" aria-labelledby="product-vehicle-details">
+                <h2 id="product-vehicle-details" class="product-section__title" data-i18n="product.vehicleDetails">Vehicle Details</h2>
+                <dl class="product-detail-list">
+                  <?php foreach ($vehicleDetails as $row): ?>
+                  <div class="product-detail-list__row">
+                    <dt><?= htmlspecialchars($row['label']) ?></dt>
+                    <dd><?= htmlspecialchars($row['value']) ?></dd>
+                  </div>
+                  <?php endforeach; ?>
+                </dl>
+              </section>
 
-            <section class="product-recs" aria-labelledby="recs-search-title">
-              <header class="product-recs__head">
-                <h2 id="recs-search-title" class="product-recs__title">Based on your recent search</h2>
-              </header>
-              <ul class="product-recs-grid">
-                <li>
-                  <a href="<?= BASE_URL ?>/product" class="product-rec-card">
-                    <div class="product-rec-card__media">
-                      <img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=600&q=80" alt="Ford Mustang GT" width="600" height="400" loading="lazy" />
-                    </div>
-                    <div class="product-rec-card__body">
-                      <h3 class="product-rec-card__name">Ford Mustang GT</h3>
-                      <p class="product-rec-card__meta"><span class="product-price" data-price-usd="38998">$38,998</span> · 29K mi · Grade 4.5</p>
-                      <p class="product-rec-card__location">USS Nagoya, Japan</p>
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a href="<?= BASE_URL ?>/product" class="product-rec-card">
-                    <div class="product-rec-card__media">
-                      <img src="https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=600&q=80" alt="BMW X5 xDrive" width="600" height="400" loading="lazy" />
-                    </div>
-                    <div class="product-rec-card__body">
-                      <h3 class="product-rec-card__name">BMW X5 xDrive</h3>
-                      <p class="product-rec-card__meta"><span class="product-price" data-price-usd="44998">$44,998</span> · 36K mi · Grade 4.0</p>
-                      <p class="product-rec-card__location">JAA Fukuoka, Japan</p>
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a href="<?= BASE_URL ?>/product" class="product-rec-card">
-                    <div class="product-rec-card__media">
-                      <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=600&q=80" alt="Nissan Rogue SV" width="600" height="400" loading="lazy" />
-                    </div>
-                    <div class="product-rec-card__body">
-                      <h3 class="product-rec-card__name">Nissan Rogue SV</h3>
-                      <p class="product-rec-card__meta"><span class="product-price" data-price-usd="21998">$21,998</span> · 58K mi · Grade 3.5</p>
-                      <p class="product-rec-card__location">USS Sapporo, Japan</p>
-                    </div>
-                  </a>
-                </li>
-              </ul>
+              <section class="product-section card" aria-labelledby="product-specifications">
+                <h2 id="product-specifications" class="product-section__title" data-i18n="product.specifications">Specifications</h2>
+                <dl class="product-detail-list">
+                  <?php foreach ($specifications as $row): ?>
+                  <div class="product-detail-list__row">
+                    <dt><?= htmlspecialchars($row['label']) ?></dt>
+                    <dd><?= htmlspecialchars($row['value']) ?></dd>
+                  </div>
+                  <?php endforeach; ?>
+                </dl>
+              </section>
+            </div>
+
+            <section class="product-section product-section--plain" aria-labelledby="product-car-options">
+              <h2 id="product-car-options" class="product-section__title" data-i18n="product.carOptions">Car Options</h2>
+              <?php foreach ($optionGroups as $group): ?>
+              <div class="product-options-group">
+                <h3 class="product-options-group__title" <?php if (!empty($group['i18n'])): ?>data-i18n="<?= htmlspecialchars($group['i18n']) ?>"<?php endif; ?>><?= htmlspecialchars($group['title']) ?></h3>
+                <ul class="product-options-tags">
+                  <?php foreach ($group['items'] as $item): ?>
+                  <li>
+                    <span class="product-options-tag<?= !empty($item['active']) ? ' is-active' : '' ?>">
+                      <span class="product-options-tag__label"><?= htmlspecialchars($item['label']) ?></span>
+                      <?php if (!empty($item['active'])): ?>
+                      <span class="product-options-tag__check" aria-hidden="true">✓</span>
+                      <?php endif; ?>
+                    </span>
+                  </li>
+                  <?php endforeach; ?>
+                </ul>
+              </div>
+              <?php endforeach; ?>
             </section>
           </div>
 
+          <aside class="product-estimate card" aria-label="Export estimate" data-product-estimate>
+            <form class="product-estimate__form" action="<?= BASE_URL ?>/contact" method="get">
+              <div class="form-field">
+                <label class="form-label" for="estimate-country">
+                  <span data-i18n="product.estimate.country">Destination Country</span>
+                  <span class="product-estimate__req" aria-hidden="true">*</span>
+                </label>
+                <select class="form-control" id="estimate-country" name="country" required>
+                  <?php foreach ($estimate['countries'] as $country): ?>
+                  <option value="<?= htmlspecialchars($country) ?>"<?= $country === 'PAKISTAN' ? ' selected' : '' ?>><?= htmlspecialchars($country) ?></option>
+                  <?php endforeach; ?>
+                </select>
+              </div>
+              <div class="form-field">
+                <label class="form-label" for="estimate-port">
+                  <span data-i18n="product.estimate.port">Destination Port</span>
+                  <span class="product-estimate__req" aria-hidden="true">*</span>
+                </label>
+                <select class="form-control" id="estimate-port" name="port" required>
+                  <?php foreach ($estimate['ports'] as $port): ?>
+                  <option value="<?= htmlspecialchars($port) ?>"<?= $port === 'ISLAMABAD' ? ' selected' : '' ?>><?= htmlspecialchars($port) ?></option>
+                  <?php endforeach; ?>
+                </select>
+              </div>
+              <div class="form-field">
+                <label class="form-label" for="estimate-shipment">
+                  <span data-i18n="product.estimate.shipment">Shipment</span>
+                  <span class="product-estimate__req" aria-hidden="true">*</span>
+                </label>
+                <select class="form-control" id="estimate-shipment" name="shipment" required>
+                  <?php foreach ($estimate['shipments'] as $shipment): ?>
+                  <option value="<?= htmlspecialchars($shipment) ?>"<?= $shipment === 'roro' ? ' selected' : '' ?>><?= strtoupper(htmlspecialchars($shipment)) ?></option>
+                  <?php endforeach; ?>
+                </select>
+              </div>
+
+              <fieldset class="product-estimate__radios">
+                <legend class="product-estimate__legend" data-i18n="product.estimate.freight">Freight</legend>
+                <label class="product-estimate__radio"><input type="radio" name="freight" value="prepaid" checked /> <span data-i18n="product.estimate.prepaid">Prepaid</span></label>
+                <label class="product-estimate__radio"><input type="radio" name="freight" value="collect" /> <span data-i18n="product.estimate.collect">Collect</span></label>
+              </fieldset>
+              <fieldset class="product-estimate__radios">
+                <legend class="product-estimate__legend" data-i18n="product.estimate.inspection">Inspection</legend>
+                <label class="product-estimate__radio"><input type="radio" name="inspection" value="yes" checked /> <span data-i18n="product.estimate.yes">YES</span></label>
+                <label class="product-estimate__radio"><input type="radio" name="inspection" value="no" /> <span data-i18n="product.estimate.no">NO</span></label>
+              </fieldset>
+              <fieldset class="product-estimate__radios">
+                <legend class="product-estimate__legend" data-i18n="product.estimate.insurance">Insurance</legend>
+                <label class="product-estimate__radio"><input type="radio" name="insurance" value="yes" checked /> <span data-i18n="product.estimate.yes">YES</span></label>
+                <label class="product-estimate__radio"><input type="radio" name="insurance" value="no" /> <span data-i18n="product.estimate.no">NO</span></label>
+              </fieldset>
+
+              <div class="product-estimate__total">
+                <div class="product-estimate__total-row">
+                  <span class="product-estimate__total-label" data-i18n="product.estimate.total">Total Amount</span>
+                  <span class="product-estimate__ask" data-i18n="product.ask">ASK</span>
+                </div>
+              </div>
+
+              <details class="product-estimate__details" data-estimate-pricing>
+                <summary class="product-estimate__details-toggle">
+                  <span data-i18n="product.pricing.details">Pricing Details</span>
+                  <span class="product-estimate__details-chevron" aria-hidden="true"></span>
+                </summary>
+                <dl class="product-estimate__breakdown">
+                  <?php foreach ($pricingBreakdown as $row): ?>
+                  <div class="product-estimate__breakdown-row">
+                    <dt<?php if (!empty($row['i18n'])): ?> data-i18n="<?= htmlspecialchars($row['i18n']) ?>"<?php endif; ?>><?= htmlspecialchars($row['label']) ?></dt>
+                    <dd>
+                      <?php if (!empty($row['mode']) && $row['mode'] === 'ask'): ?>
+                      <span class="product-estimate__value-ask" data-i18n="product.ask">ASK</span>
+                      <?php else: ?>
+                      <span class="product-estimate__value-jpy" data-estimate-price-jpy="<?= (int) ($row['jpy'] ?? 0) ?>">¥<?= number_format((int) ($row['jpy'] ?? 0)) ?></span>
+                      <?php endif; ?>
+                    </dd>
+                  </div>
+                  <?php endforeach; ?>
+                </dl>
+              </details>
+
+              <p class="product-estimate__hint" data-i18n="product.pricing.askHint">Ask the price</p>
+
+              <button type="submit" class="btn btn--primary btn--block product-estimate__submit" data-i18n="product.estimate.cta">Get an estimate</button>
+            </form>
+          </aside>
         </div>
+
+        <div class="product-recs-wrap">
+          <section class="product-recs" aria-labelledby="recs-this-title">
+            <header class="product-recs__head">
+              <h2 id="recs-this-title" class="product-recs__title" data-i18n="product.recs.similar">Recommended for you</h2>
+              <p class="product-recs__subtitle" data-i18n="product.recs.similarSub">Based on this vehicle</p>
+            </header>
+            <ul class="product-recs-grid">
+              <li>
+                <a href="<?= BASE_URL ?>/product" class="product-rec-card">
+                  <div class="product-rec-card__media">
+                    <img src="https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?w=600&q=80" alt="Toyota Highlander XLE" width="600" height="400" loading="lazy" />
+                  </div>
+                  <div class="product-rec-card__body">
+                    <h3 class="product-rec-card__name">Toyota Highlander XLE</h3>
+                    <p class="product-rec-card__meta"><span class="product-price" data-price-usd="26998">$26,998</span> · 67K km</p>
+                    <p class="product-rec-card__location">USS Tokyo, Japan</p>
+                  </div>
+                </a>
+              </li>
+              <li>
+                <a href="<?= BASE_URL ?>/product" class="product-rec-card">
+                  <div class="product-rec-card__media">
+                    <img src="https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=600&q=80" alt="Honda CR-V EX-L" width="600" height="400" loading="lazy" />
+                  </div>
+                  <div class="product-rec-card__body">
+                    <h3 class="product-rec-card__name">Honda CR-V EX-L</h3>
+                    <p class="product-rec-card__meta"><span class="product-price" data-price-usd="24998">$24,998</span> · 54K km</p>
+                    <p class="product-rec-card__location">USS Osaka, Japan</p>
+                  </div>
+                </a>
+              </li>
+              <li>
+                <a href="<?= BASE_URL ?>/product" class="product-rec-card">
+                  <div class="product-rec-card__media">
+                    <img src="https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=600&q=80" alt="Audi Q5 Premium" width="600" height="400" loading="lazy" />
+                  </div>
+                  <div class="product-rec-card__body">
+                    <h3 class="product-rec-card__name">Audi Q5 Premium</h3>
+                    <p class="product-rec-card__meta"><span class="product-price" data-price-usd="31998">$31,998</span> · 41K km</p>
+                    <p class="product-rec-card__location">TAA Yokohama, Japan</p>
+                  </div>
+                </a>
+              </li>
+            </ul>
+          </section>
+        </div>
+
       </div>
     </section>
 
@@ -312,12 +377,7 @@ include __DIR__ . '/partials/header.php';
 
   <div class="product-lightbox" data-gallery-lightbox hidden>
     <div class="product-lightbox__backdrop" data-gallery-close></div>
-    <div
-      class="product-lightbox__dialog"
-      role="dialog"
-      aria-modal="true"
-      aria-label="Vehicle photo gallery"
-    >
+    <div class="product-lightbox__dialog" role="dialog" aria-modal="true" aria-label="Vehicle photo gallery">
       <button class="product-lightbox__close" type="button" data-gallery-close aria-label="Close gallery">×</button>
       <button class="product-lightbox__nav product-lightbox__nav--prev" type="button" data-gallery-prev aria-label="Previous photo">‹</button>
       <img class="product-lightbox__img" data-gallery-lightbox-img src="" alt="" />
