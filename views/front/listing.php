@@ -1,65 +1,121 @@
-<?php include __DIR__ . '/partials/header.php'; ?>
+<?php
+include __DIR__ . '/partials/header.php';
+
+$inventoryMakes = [
+    ['value' => 'others', 'label' => 'Others', 'i18n' => 'inventory.make.others'],
+    ['value' => 'audi', 'label' => 'Audi'],
+    ['value' => 'bmw', 'label' => 'BMW'],
+    ['value' => 'daihatsu', 'label' => 'Daihatsu'],
+    ['value' => 'ford', 'label' => 'Ford'],
+    ['value' => 'hino', 'label' => 'Hino'],
+    ['value' => 'honda', 'label' => 'Honda'],
+    ['value' => 'isuzu', 'label' => 'Isuzu'],
+    ['value' => 'lexus', 'label' => 'Lexus'],
+    ['value' => 'mazda', 'label' => 'Mazda'],
+    ['value' => 'mercedes', 'label' => 'Mercedes'],
+    ['value' => 'mitsubishi', 'label' => 'Mitsubishi'],
+    ['value' => 'nissan', 'label' => 'Nissan'],
+    ['value' => 'porsche', 'label' => 'Porsche'],
+    ['value' => 'subaru', 'label' => 'Subaru'],
+    ['value' => 'suzuki', 'label' => 'Suzuki'],
+    ['value' => 'toyota', 'label' => 'Toyota'],
+    ['value' => 'volkswagen', 'label' => 'Volkswagen'],
+    ['value' => 'volvo', 'label' => 'Volvo'],
+];
+
+$inventoryModels = [
+    ['value' => 'others', 'label' => 'Others', 'i18n' => 'inventory.model.others'],
+    ['value' => 'prius', 'label' => 'Prius'],
+    ['value' => 'aqua', 'label' => 'Aqua'],
+    ['value' => 'corolla', 'label' => 'Corolla'],
+    ['value' => 'camry', 'label' => 'Camry'],
+    ['value' => 'highlander', 'label' => 'Highlander'],
+    ['value' => 'rav4', 'label' => 'RAV4'],
+    ['value' => 'land-cruiser', 'label' => 'Land Cruiser'],
+    ['value' => 'alphard', 'label' => 'Alphard'],
+    ['value' => 'hiace', 'label' => 'Hiace'],
+    ['value' => 'fit', 'label' => 'Fit'],
+    ['value' => 'civic', 'label' => 'Civic'],
+    ['value' => 'cr-v', 'label' => 'CR-V'],
+    ['value' => 'accord', 'label' => 'Accord'],
+    ['value' => 'vezel', 'label' => 'Vezel'],
+    ['value' => 'note', 'label' => 'Note'],
+    ['value' => 'leaf', 'label' => 'Leaf'],
+    ['value' => 'x-trail', 'label' => 'X-Trail'],
+    ['value' => 'skyline', 'label' => 'Skyline'],
+    ['value' => 'cx-5', 'label' => 'CX-5'],
+    ['value' => 'demio', 'label' => 'Demio'],
+    ['value' => 'forester', 'label' => 'Forester'],
+    ['value' => 'impreza', 'label' => 'Impreza'],
+    ['value' => 'swift', 'label' => 'Swift'],
+    ['value' => 'jimny', 'label' => 'Jimny'],
+    ['value' => 'x5', 'label' => 'X5'],
+    ['value' => '3-series', 'label' => '3 Series'],
+    ['value' => 'c-class', 'label' => 'C-Class'],
+    ['value' => 'e-class', 'label' => 'E-Class'],
+    ['value' => 'q5', 'label' => 'Q5'],
+    ['value' => 'a4', 'label' => 'A4'],
+];
+
+$inventoryYearMax = (int) date('Y');
+$inventoryYearMin = $inventoryYearMax - 30;
+$inventoryYears = range($inventoryYearMax, $inventoryYearMin);
+
+$inventoryFuelTypes = [
+    ['value' => 'others', 'label' => 'Others', 'i18n' => 'inventory.fuel.others'],
+    ['value' => 'electric', 'label' => 'Electric', 'i18n' => 'inventory.fuel.electric'],
+    ['value' => 'hybrid', 'label' => 'Hybrid', 'i18n' => 'inventory.fuel.hybrid'],
+    ['value' => 'lpg-petrol', 'label' => 'LPG + Petrol', 'i18n' => 'inventory.fuel.lpgPetrol'],
+    ['value' => 'petrol', 'label' => 'Petrol', 'i18n' => 'inventory.fuel.petrol'],
+];
+
+$inventoryColors = [
+    ['value' => 'others', 'label' => 'Others', 'i18n' => 'inventory.color.others'],
+    ['value' => 'beige', 'label' => 'Beige'],
+    ['value' => 'black', 'label' => 'Black'],
+    ['value' => 'blue', 'label' => 'Blue'],
+    ['value' => 'blue-metallic', 'label' => 'Blue Metallic'],
+    ['value' => 'bronze', 'label' => 'Bronze'],
+    ['value' => 'brown', 'label' => 'Brown'],
+    ['value' => 'ceramic', 'label' => 'Ceramic'],
+    ['value' => 'con', 'label' => 'Con'],
+    ['value' => 'cream', 'label' => 'Cream'],
+    ['value' => 'dark-blue', 'label' => 'Dark Blue'],
+    ['value' => 'gold', 'label' => 'Gold'],
+    ['value' => 'green', 'label' => 'Green'],
+    ['value' => 'grey', 'label' => 'Grey'],
+    ['value' => 'grey-metallic', 'label' => 'Grey Metallic'],
+    ['value' => 'gun-metal', 'label' => 'Gun Metal'],
+    ['value' => 'khaki', 'label' => 'Khaki'],
+    ['value' => 'light-blue', 'label' => 'Light Blue'],
+    ['value' => 'maroon', 'label' => 'Maroon'],
+    ['value' => 'navy-blue', 'label' => 'Navy Blue'],
+    ['value' => 'orange', 'label' => 'Orange'],
+    ['value' => 'pearl', 'label' => 'Pearl'],
+    ['value' => 'pearl-white', 'label' => 'Pearl White'],
+    ['value' => 'pink', 'label' => 'Pink'],
+    ['value' => 'purple', 'label' => 'Purple'],
+    ['value' => 'red', 'label' => 'Red'],
+    ['value' => 'red-two-tone', 'label' => 'Red Two Tone'],
+    ['value' => 'silver', 'label' => 'Silver'],
+    ['value' => 'silver-two-tone', 'label' => 'Silver Two Tone'],
+    ['value' => 'tea', 'label' => 'Tea'],
+    ['value' => 'titanium', 'label' => 'Titanium'],
+    ['value' => 'two-tone', 'label' => 'Two-tone'],
+    ['value' => 'white', 'label' => 'White'],
+    ['value' => 'white-two-tone', 'label' => 'White Two Tone'],
+    ['value' => 'wine', 'label' => 'Wine'],
+    ['value' => 'yellow', 'label' => 'Yellow'],
+];
+
+$inventoryEngineCc = [660, 800, 1000, 1200, 1300, 1500, 1600, 1800, 2000, 2200, 2500, 3000, 3500, 4000, 4500, 5000, 6000];
+?>
 
   <main id="main">
 
     <section class="inventory-page section" aria-labelledby="inventory-page-title">
       <div class="container">
-        <h1 id="inventory-page-title" class="visually-hidden">Vehicle listings</h1>
-
-        <form class="inventory-toolbar card" action="#" method="get" aria-label="Quick inventory search">
-          <div class="inventory-toolbar__fields">
-            <label class="inventory-toolbar__field">
-              <span class="visually-hidden">Condition</span>
-              <select class="inventory-toolbar__select" name="condition">
-                <option>New and Used Cars</option>
-                <option>New Cars</option>
-                <option>Used Cars</option>
-              </select>
-            </label>
-            <label class="inventory-toolbar__field">
-              <span class="visually-hidden">Make</span>
-              <select class="inventory-toolbar__select" name="make">
-                <option>All Makes</option>
-                <option>Toyota</option>
-                <option>Honda</option>
-                <option>Audi</option>
-                <option>Nissan</option>
-              </select>
-            </label>
-            <label class="inventory-toolbar__field">
-              <span class="visually-hidden">Model</span>
-              <select class="inventory-toolbar__select" name="model">
-                <option>All Models</option>
-                <option>Highlander</option>
-                <option>CR-V</option>
-                <option>Q5</option>
-              </select>
-            </label>
-            <label class="inventory-toolbar__field">
-              <span class="visually-hidden">Max price</span>
-              <select class="inventory-toolbar__select" name="max_price">
-                <option>No Max Price</option>
-                <option>$20,000</option>
-                <option>$30,000</option>
-                <option>$50,000</option>
-              </select>
-            </label>
-            <label class="inventory-toolbar__field">
-              <span class="visually-hidden">Distance</span>
-              <select class="inventory-toolbar__select" name="distance">
-                <option>From 20 Miles</option>
-                <option>From 50 Miles</option>
-                <option>From 100 Miles</option>
-              </select>
-            </label>
-          </div>
-          <button class="inventory-toolbar__submit" type="submit" aria-label="Search inventory">
-            <svg width="20" height="20" viewBox="0 0 48 48" fill="none" aria-hidden="true">
-              <circle cx="20" cy="20" r="11" stroke="currentColor" stroke-width="3.5" />
-              <line x1="28.5" y1="28.5" x2="40" y2="40" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" />
-            </svg>
-          </button>
-        </form>
+        <h1 id="inventory-page-title" class="visually-hidden" data-i18n="inventory.pageTitle" data-page-title="inventory.pageTitle">Vehicle listings</h1>
 
         <div class="inventory-layout">
           <button
@@ -69,17 +125,17 @@
             aria-expanded="false"
             aria-controls="inventory-filters-panel"
           >
-            Filters<span class="inventory-filters-toggle__count" data-filter-toggle-count hidden></span>
+            <span data-i18n="inventory.filters">Filters</span><span class="inventory-filters-toggle__count" data-filter-toggle-count hidden></span>
           </button>
 
           <div class="inventory-filters-backdrop" data-filter-backdrop hidden></div>
 
-          <aside class="inventory-filters card" id="inventory-filters-panel" aria-label="Filters" data-inventory-filters>
+          <aside class="inventory-filters card" id="inventory-filters-panel" data-i18n-aria-label="inventory.filtersAria" aria-label="Filters" data-inventory-filters>
             <div class="inventory-filters__head">
-              <h2 class="inventory-filters__title">Filters <span class="inventory-filters__count" data-filter-count hidden></span></h2>
+              <h2 class="inventory-filters__title"><span data-i18n="inventory.filters">Filters</span> <span class="inventory-filters__count" data-filter-count hidden></span></h2>
               <div class="inventory-filters__head-actions">
-                <button class="inventory-filters__clear" type="button" data-filter-clear hidden>clear filter</button>
-                <button class="inventory-filters__close" type="button" data-filter-close aria-label="Close filters">×</button>
+                <button class="inventory-filters__clear" type="button" data-filter-clear hidden data-i18n="inventory.clearFilter">clear filter</button>
+                <button class="inventory-filters__close" type="button" data-filter-close data-i18n-aria-label="inventory.closeFilters" aria-label="Close filters">×</button>
               </div>
             </div>
 
@@ -87,107 +143,175 @@
 
             <div class="inventory-filters__groups">
               <details class="inventory-filter-group">
-                <summary class="inventory-filter-group__summary">Make</summary>
+                <summary class="inventory-filter-group__summary" data-i18n="inventory.group.make">Make</summary>
                 <div class="inventory-filter-group__body">
-                  <label class="inventory-check"><input type="checkbox" name="make" value="toyota" /> Toyota</label>
-                  <label class="inventory-check"><input type="checkbox" name="make" value="honda" /> Honda</label>
-                  <label class="inventory-check"><input type="checkbox" name="make" value="audi" /> Audi</label>
-                  <label class="inventory-check"><input type="checkbox" name="make" value="nissan" /> Nissan</label>
+                  <?php foreach ($inventoryMakes as $make): ?>
+                  <label class="inventory-check">
+                    <input type="checkbox" name="make" value="<?= htmlspecialchars($make['value']) ?>" />
+                    <?php if (!empty($make['i18n'])): ?>
+                    <span data-i18n="<?= htmlspecialchars($make['i18n']) ?>"><?= htmlspecialchars($make['label']) ?></span>
+                    <?php else: ?>
+                    <span><?= htmlspecialchars($make['label']) ?></span>
+                    <?php endif; ?>
+                  </label>
+                  <?php endforeach; ?>
+                </div>
+              </details>
+              <details class="inventory-filter-group inventory-filter-group--scroll">
+                <summary class="inventory-filter-group__summary" data-i18n="inventory.group.model">Model</summary>
+                <div class="inventory-filter-group__body">
+                  <?php foreach ($inventoryModels as $model): ?>
+                  <label class="inventory-check">
+                    <input type="checkbox" name="model" value="<?= htmlspecialchars($model['value']) ?>" />
+                    <?php if (!empty($model['i18n'])): ?>
+                    <span data-i18n="<?= htmlspecialchars($model['i18n']) ?>"><?= htmlspecialchars($model['label']) ?></span>
+                    <?php else: ?>
+                    <span><?= htmlspecialchars($model['label']) ?></span>
+                    <?php endif; ?>
+                  </label>
+                  <?php endforeach; ?>
                 </div>
               </details>
               <details class="inventory-filter-group">
-                <summary class="inventory-filter-group__summary">Model</summary>
+                <summary class="inventory-filter-group__summary" data-i18n="inventory.group.price">Price Range</summary>
                 <div class="inventory-filter-group__body">
-                  <label class="inventory-check"><input type="checkbox" name="model" value="highlander" /> Highlander</label>
-                  <label class="inventory-check"><input type="checkbox" name="model" value="crv" /> CR-V</label>
-                  <label class="inventory-check"><input type="checkbox" name="model" value="q5" /> Q5</label>
+                  <div class="inventory-price-range" data-price-range data-price-min="5000" data-price-max="80000" data-price-step="1000">
+                    <p class="inventory-price-range__values">
+                      <span data-price-min-display>$5,000</span>
+                      <span class="inventory-price-range__sep" aria-hidden="true">–</span>
+                      <span data-price-max-display>$80,000</span>
+                    </p>
+                    <div class="inventory-price-range__slider">
+                      <div class="inventory-price-range__track" aria-hidden="true">
+                        <div class="inventory-price-range__fill" data-price-fill></div>
+                      </div>
+                      <input type="range" class="inventory-price-range__input inventory-price-range__input--min" name="price_min" min="5000" max="80000" step="1000" value="5000" data-price-min-input aria-label="Minimum price" data-i18n-aria-label="inventory.priceMinAria" />
+                      <input type="range" class="inventory-price-range__input inventory-price-range__input--max" name="price_max" min="5000" max="80000" step="1000" value="80000" data-price-max-input aria-label="Maximum price" data-i18n-aria-label="inventory.priceMaxAria" />
+                    </div>
+                  </div>
                 </div>
               </details>
               <details class="inventory-filter-group">
-                <summary class="inventory-filter-group__summary">Type</summary>
-                <div class="inventory-filter-group__body">
-                  <label class="inventory-check"><input type="checkbox" name="type" value="suv" /> SUV</label>
-                  <label class="inventory-check"><input type="checkbox" name="type" value="sedan" /> Sedan</label>
-                  <label class="inventory-check"><input type="checkbox" name="type" value="coupe" /> Coupe</label>
+                <summary class="inventory-filter-group__summary" data-i18n="inventory.condition">Condition</summary>
+                <div class="inventory-filter-group__body" data-condition-filters>
+                  <label class="inventory-check">
+                    <input type="checkbox" name="condition" value="all" data-condition-input checked />
+                    <span data-i18n="inventory.conditionOptionAll">All</span>
+                  </label>
+                  <label class="inventory-check">
+                    <input type="checkbox" name="condition" value="new" data-condition-input />
+                    <span data-i18n="inventory.conditionOptionNew">New</span>
+                  </label>
+                  <label class="inventory-check">
+                    <input type="checkbox" name="condition" value="used" data-condition-input />
+                    <span data-i18n="inventory.conditionOptionUsed">Used</span>
+                  </label>
                 </div>
               </details>
               <details class="inventory-filter-group">
-                <summary class="inventory-filter-group__summary">Year</summary>
+                <summary class="inventory-filter-group__summary" data-i18n="inventory.group.year">Year</summary>
                 <div class="inventory-filter-group__body">
-                  <label class="inventory-check"><input type="checkbox" name="year" value="2024" /> 2024</label>
-                  <label class="inventory-check"><input type="checkbox" name="year" value="2023" /> 2023</label>
-                  <label class="inventory-check"><input type="checkbox" name="year" value="2022" /> 2022</label>
+                  <div class="inventory-year-range" data-year-range>
+                    <div class="inventory-year-range__field">
+                      <label class="inventory-year-range__label" for="inventory-year-min" data-i18n="inventory.yearMin">Min</label>
+                      <select class="inventory-year-range__select form-control" id="inventory-year-min" name="year_min" data-year-min-select>
+                        <option value="" data-i18n="inventory.yearSelect">Select</option>
+                        <?php foreach ($inventoryYears as $year): ?>
+                        <option value="<?= (int) $year ?>"><?= (int) $year ?></option>
+                        <?php endforeach; ?>
+                      </select>
+                    </div>
+                    <div class="inventory-year-range__field">
+                      <label class="inventory-year-range__label" for="inventory-year-max" data-i18n="inventory.yearMax">Max</label>
+                      <select class="inventory-year-range__select form-control" id="inventory-year-max" name="year_max" data-year-max-select>
+                        <option value="" data-i18n="inventory.yearSelect">Select</option>
+                        <?php foreach ($inventoryYears as $year): ?>
+                        <option value="<?= (int) $year ?>"><?= (int) $year ?></option>
+                        <?php endforeach; ?>
+                      </select>
+                    </div>
+                  </div>
                 </div>
               </details>
               <details class="inventory-filter-group">
-                <summary class="inventory-filter-group__summary">Price / Monthly Payment</summary>
+                <summary class="inventory-filter-group__summary" data-i18n="inventory.group.fuel">Fuel Type</summary>
                 <div class="inventory-filter-group__body">
-                  <label class="inventory-check"><input type="checkbox" name="price" value="under-25" /> Under $25,000</label>
-                  <label class="inventory-check"><input type="checkbox" name="price" value="25-35" /> $25,000 – $35,000</label>
-                  <label class="inventory-check"><input type="checkbox" name="price" value="over-35" /> Over $35,000</label>
+                  <?php foreach ($inventoryFuelTypes as $fuel): ?>
+                  <label class="inventory-check">
+                    <input type="checkbox" name="fuel" value="<?= htmlspecialchars($fuel['value']) ?>" />
+                    <?php if (!empty($fuel['i18n'])): ?>
+                    <span data-i18n="<?= htmlspecialchars($fuel['i18n']) ?>"><?= htmlspecialchars($fuel['label']) ?></span>
+                    <?php else: ?>
+                    <span><?= htmlspecialchars($fuel['label']) ?></span>
+                    <?php endif; ?>
+                  </label>
+                  <?php endforeach; ?>
                 </div>
               </details>
               <details class="inventory-filter-group">
-                <summary class="inventory-filter-group__summary">Mileage</summary>
+                <summary class="inventory-filter-group__summary" data-i18n="inventory.group.transmission">Transmission</summary>
                 <div class="inventory-filter-group__body">
-                  <label class="inventory-check"><input type="checkbox" name="mileage" value="under-50" /> Under 50K mi</label>
-                  <label class="inventory-check"><input type="checkbox" name="mileage" value="50-100" /> 50K – 100K mi</label>
-                  <label class="inventory-check"><input type="checkbox" name="mileage" value="over-100" /> Over 100K mi</label>
+                  <label class="inventory-check"><input type="checkbox" name="transmission" value="auto" /> <span data-i18n="inventory.trans.auto">Automatic</span></label>
+                  <label class="inventory-check"><input type="checkbox" name="transmission" value="manual" /> <span data-i18n="inventory.trans.manual">Manual</span></label>
+                </div>
+              </details>
+              <details class="inventory-filter-group inventory-filter-group--scroll">
+                <summary class="inventory-filter-group__summary" data-i18n="inventory.group.color">Color</summary>
+                <div class="inventory-filter-group__body">
+                  <?php foreach ($inventoryColors as $color): ?>
+                  <label class="inventory-check">
+                    <input type="checkbox" name="color" value="<?= htmlspecialchars($color['value']) ?>" />
+                    <?php if (!empty($color['i18n'])): ?>
+                    <span data-i18n="<?= htmlspecialchars($color['i18n']) ?>"><?= htmlspecialchars($color['label']) ?></span>
+                    <?php else: ?>
+                    <span><?= htmlspecialchars($color['label']) ?></span>
+                    <?php endif; ?>
+                  </label>
+                  <?php endforeach; ?>
                 </div>
               </details>
               <details class="inventory-filter-group">
-                <summary class="inventory-filter-group__summary">Features</summary>
+                <summary class="inventory-filter-group__summary" data-i18n="inventory.group.engineCc">Engine CC</summary>
                 <div class="inventory-filter-group__body">
-                  <label class="inventory-check"><input type="checkbox" name="features" value="awd" /> AWD</label>
-                  <label class="inventory-check"><input type="checkbox" name="features" value="leather" /> Leather Seats</label>
-                  <label class="inventory-check"><input type="checkbox" name="features" value="sunroof" /> Sunroof</label>
+                  <div class="inventory-year-range" data-engine-cc-range>
+                    <div class="inventory-year-range__field">
+                      <label class="inventory-year-range__label" for="inventory-engine-cc-min" data-i18n="inventory.yearMin">Min</label>
+                      <select class="inventory-year-range__select form-control" id="inventory-engine-cc-min" name="engine_cc_min" data-engine-cc-min-select>
+                        <option value="" data-i18n="inventory.yearSelect">Select</option>
+                        <?php foreach ($inventoryEngineCc as $cc): ?>
+                        <option value="<?= (int) $cc ?>"><?= number_format((int) $cc) ?> cc</option>
+                        <?php endforeach; ?>
+                      </select>
+                    </div>
+                    <div class="inventory-year-range__field">
+                      <label class="inventory-year-range__label" for="inventory-engine-cc-max" data-i18n="inventory.yearMax">Max</label>
+                      <select class="inventory-year-range__select form-control" id="inventory-engine-cc-max" name="engine_cc_max" data-engine-cc-max-select>
+                        <option value="" data-i18n="inventory.yearSelect">Select</option>
+                        <?php foreach ($inventoryEngineCc as $cc): ?>
+                        <option value="<?= (int) $cc ?>"><?= number_format((int) $cc) ?> cc</option>
+                        <?php endforeach; ?>
+                      </select>
+                    </div>
+                  </div>
                 </div>
               </details>
               <details class="inventory-filter-group">
-                <summary class="inventory-filter-group__summary">Size</summary>
+                <summary class="inventory-filter-group__summary" data-i18n="inventory.group.mileage">Mileage (KM)</summary>
                 <div class="inventory-filter-group__body">
-                  <label class="inventory-check"><input type="checkbox" name="size" value="compact" /> Compact</label>
-                  <label class="inventory-check"><input type="checkbox" name="size" value="mid" /> Mid-size</label>
-                  <label class="inventory-check"><input type="checkbox" name="size" value="full" /> Full-size</label>
-                </div>
-              </details>
-              <details class="inventory-filter-group">
-                <summary class="inventory-filter-group__summary">Exterior Color</summary>
-                <div class="inventory-filter-group__body">
-                  <label class="inventory-check"><input type="checkbox" name="ext_color" value="white" /> White</label>
-                  <label class="inventory-check"><input type="checkbox" name="ext_color" value="black" /> Black</label>
-                  <label class="inventory-check"><input type="checkbox" name="ext_color" value="silver" /> Silver</label>
-                </div>
-              </details>
-              <details class="inventory-filter-group">
-                <summary class="inventory-filter-group__summary">Interior Color</summary>
-                <div class="inventory-filter-group__body">
-                  <label class="inventory-check"><input type="checkbox" name="int_color" value="black" /> Black</label>
-                  <label class="inventory-check"><input type="checkbox" name="int_color" value="beige" /> Beige</label>
-                  <label class="inventory-check"><input type="checkbox" name="int_color" value="gray" /> Gray</label>
-                </div>
-              </details>
-              <details class="inventory-filter-group">
-                <summary class="inventory-filter-group__summary">Transmission</summary>
-                <div class="inventory-filter-group__body">
-                  <label class="inventory-check"><input type="checkbox" name="transmission" value="auto" /> Automatic</label>
-                  <label class="inventory-check"><input type="checkbox" name="transmission" value="manual" /> Manual</label>
-                </div>
-              </details>
-              <details class="inventory-filter-group">
-                <summary class="inventory-filter-group__summary">Cylinders</summary>
-                <div class="inventory-filter-group__body">
-                  <label class="inventory-check"><input type="checkbox" name="cylinders" value="4" /> 4 Cylinder</label>
-                  <label class="inventory-check"><input type="checkbox" name="cylinders" value="6" /> 6 Cylinder</label>
-                  <label class="inventory-check"><input type="checkbox" name="cylinders" value="8" /> 8 Cylinder</label>
-                </div>
-              </details>
-              <details class="inventory-filter-group">
-                <summary class="inventory-filter-group__summary">MPG Highway</summary>
-                <div class="inventory-filter-group__body">
-                  <label class="inventory-check"><input type="checkbox" name="mpg" value="25" /> 25+ MPG</label>
-                  <label class="inventory-check"><input type="checkbox" name="mpg" value="30" /> 30+ MPG</label>
-                  <label class="inventory-check"><input type="checkbox" name="mpg" value="35" /> 35+ MPG</label>
+                  <div class="inventory-price-range" data-mileage-range data-mileage-min="0" data-mileage-max="300" data-mileage-step="5">
+                    <p class="inventory-price-range__values">
+                      <span data-mileage-min-display>0K km</span>
+                      <span class="inventory-price-range__sep" aria-hidden="true">–</span>
+                      <span data-mileage-max-display>300K km</span>
+                    </p>
+                    <div class="inventory-price-range__slider">
+                      <div class="inventory-price-range__track" aria-hidden="true">
+                        <div class="inventory-price-range__fill" data-mileage-fill></div>
+                      </div>
+                      <input type="range" class="inventory-price-range__input inventory-price-range__input--min" name="mileage_min" min="0" max="300" step="5" value="0" data-mileage-min-input aria-label="Minimum mileage in kilometers" data-i18n-aria-label="inventory.mileageMinAria" />
+                      <input type="range" class="inventory-price-range__input inventory-price-range__input--max" name="mileage_max" min="0" max="300" step="5" value="300" data-mileage-max-input aria-label="Maximum mileage in kilometers" data-i18n-aria-label="inventory.mileageMaxAria" />
+                    </div>
+                  </div>
                 </div>
               </details>
             </div>
@@ -195,24 +319,24 @@
 
           <div class="inventory-results">
             <header class="inventory-results__head">
-              <h2 class="inventory-results__title"><span class="inventory-results__total">926</span> Listings</h2>
+              <h2 class="inventory-results__title"><span class="inventory-results__total">926</span> <span data-i18n="inventory.results.listings">Listings</span></h2>
               <div class="inventory-results__actions">
-                <a class="inventory-results__compare" href="#">Compare</a>
+                <a class="inventory-results__compare" href="#" data-i18n="inventory.compare">Compare</a>
                 <span class="inventory-results__sort">
-                  Sort By:
-                  <button class="inventory-results__sort-btn" type="button" aria-haspopup="listbox">Best match</button>
+                  <span data-i18n="inventory.sortBy">Sort By:</span>
+                  <button class="inventory-results__sort-btn" type="button" aria-haspopup="listbox" data-i18n="inventory.sortBest">Best match</button>
                 </span>
               </div>
             </header>
 
             <ul class="inventory-grid" data-inventory-grid></ul>
 
-            <nav class="inventory-pagination" aria-label="Listings pagination" data-inventory-pagination hidden>
-              <button class="inventory-pagination__btn inventory-pagination__btn--arrow" type="button" data-page-prev aria-label="Previous page" disabled>
+            <nav class="inventory-pagination" data-i18n-aria-label="inventory.paginationAria" aria-label="Listings pagination" data-inventory-pagination hidden>
+              <button class="inventory-pagination__btn inventory-pagination__btn--arrow" type="button" data-page-prev data-i18n-aria-label="inventory.pagePrev" aria-label="Previous page" disabled>
                 <span aria-hidden="true">‹</span>
               </button>
               <div class="inventory-pagination__pages" data-pagination-pages></div>
-              <button class="inventory-pagination__btn inventory-pagination__btn--arrow" type="button" data-page-next aria-label="Next page">
+              <button class="inventory-pagination__btn inventory-pagination__btn--arrow" type="button" data-page-next data-i18n-aria-label="inventory.pageNext" aria-label="Next page">
                 <span aria-hidden="true">›</span>
               </button>
             </nav>

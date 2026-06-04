@@ -69,6 +69,17 @@
     return code === "jpy" ? formatJpy(usdAmount) : formatUsd(usdAmount);
   }
 
+  function formatJpyAmount(jpyAmount) {
+    return "¥" + Math.round(Number(jpyAmount)).toLocaleString("en-US");
+  }
+
+  /** Native JPY amounts (e.g. auction delivery tables) → USD or JPY display */
+  function formatFromJpy(jpyAmount, currency) {
+    const code = currency || currentCurrency;
+    if (code === "jpy") return formatJpyAmount(jpyAmount);
+    return formatUsd(Number(jpyAmount) / usdToJpy);
+  }
+
   function registerNode(node, usdAmount) {
     if (!node || node.dataset.priceRegistered) return;
 
@@ -133,6 +144,7 @@
   window.EisenCurrency = {
     ready,
     formatPrice,
+    formatFromJpy,
     applyCurrency,
     getCurrency,
     getRate,

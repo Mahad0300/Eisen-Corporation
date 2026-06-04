@@ -44,11 +44,19 @@ $router->get('/contact', 'Front\ContactController@index');
 $router->get('/contacts', 'Front\ContactController@index');
 $router->get('/privacy-policy', 'Front\LegalController@privacy');
 $router->get('/terms-and-condition', 'Front\LegalController@terms');
+$router->get('/chassis-check', 'Front\ChassisController@index');
+$router->get('/price-calculation', 'Front\PriceCalculationController@index');
+$router->get('/faq/{slug}', 'Front\FaqController@index');
+$router->get('/faq', 'Front\FaqController@index');
 
 // 5. Admin UI Routes
 $router->get('/admin', 'Admin\DashboardController@index');
 $router->get('/admin/login', 'Admin\AuthController@showLoginForm');
 $router->post('/admin/login', 'Admin\AuthController@login');
+$router->post('/admin/signup', 'Admin\AuthController@signup');
+$router->get('/admin/auth/google', 'Admin\AuthController@googleLogin');
+$router->get('/admin/forgot-password', 'Admin\AuthController@showForgotPasswordForm');
+$router->post('/admin/forgot-password', 'Admin\AuthController@sendForgotPassword');
 $router->get('/admin/logout', 'Admin\AuthController@logout');
 $router->get('/admin/inventory', 'Admin\InventoryController@index');
 $router->get('/admin/bids', 'Admin\BidController@index');

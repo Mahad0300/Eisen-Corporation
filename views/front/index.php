@@ -377,7 +377,7 @@
               </article>
             </div>
 
-            <div class="directory-tabs" data-directory-tabs>
+            <div id="directory" class="directory-tabs" data-directory-tabs>
               <div class="directory-tabs__nav" role="tablist" data-i18n-aria-label="directory.aria" aria-label="Directory">
                 <button class="directory-tabs__btn is-active" type="button" role="tab" id="tab-dealers" aria-selected="true" aria-controls="panel-dealers" data-tab="dealers" data-i18n="directory.dealers">Dealers</button>
                 <button class="directory-tabs__btn" type="button" role="tab" id="tab-service" aria-selected="false" aria-controls="panel-service" data-tab="service" data-i18n="directory.service">Service Stations</button>
@@ -522,8 +522,8 @@
     <section id="videos" class="video-review section" aria-labelledby="video-review-title">
       <div class="container">
         <header class="section-header">
-          <h2 id="video-review-title" class="section-title" data-i18n="video.title">Video Review</h2>
-          <a class="section-link" href="#videos" data-i18n="video.viewAll">View all Reviews</a>
+          <h2 id="video-review-title" class="section-title" data-i18n="video.title">Review</h2>
+          <a class="section-link" href="#videos" data-i18n="video.viewAll">View all reviews</a>
         </header>
 
         <div class="video-review__layout">
@@ -536,7 +536,7 @@
                   </div>
                   <div class="video-card__body">
                     <h3 class="video-card__title" data-i18n="video.card.title">The importance of luxury SUV sales explained</h3>
-                    <p class="video-card__meta" data-i18n="video.meta1">10 min 32 sec (12.4 Mb)</p>
+                    <time class="video-card__meta" datetime="2020-09-16" data-i18n="video.date1">September 16, 2020</time>
                   </div>
                 </a>
               </article>
@@ -548,7 +548,7 @@
                   </div>
                   <div class="video-card__body">
                     <h3 class="video-card__title" data-i18n="video.card.title">The importance of luxury SUV sales explained</h3>
-                    <p class="video-card__meta" data-i18n="video.meta2">8 min 15 sec (9.8 Mb)</p>
+                    <time class="video-card__meta" datetime="2020-08-28" data-i18n="video.date2">August 28, 2020</time>
                   </div>
                 </a>
               </article>
@@ -560,7 +560,7 @@
                   </div>
                   <div class="video-card__body">
                     <h3 class="video-card__title" data-i18n="video.card.title">The importance of luxury SUV sales explained</h3>
-                    <p class="video-card__meta" data-i18n="video.meta3">12 min 05 sec (14.2 Mb)</p>
+                    <time class="video-card__meta" datetime="2020-07-12" data-i18n="video.date3">July 12, 2020</time>
                   </div>
                 </a>
               </article>
