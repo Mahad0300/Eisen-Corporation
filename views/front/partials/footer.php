@@ -22,9 +22,10 @@
         <ul class="site-footer__links site-footer__links--arrow-hover">
           <li><a href="<?= BASE_URL ?>/" data-i18n="nav.home">Home</a></li>
           <li><a href="<?= BASE_URL ?>/about" data-i18n="nav.about">About Us</a></li>
+          <li><a href="<?= BASE_URL ?>/why-choose-eisen" data-i18n="whyChoose.title">Why Choose Eisen</a></li>
           <li><a href="<?= BASE_URL ?>/blog" data-i18n="nav.blog">Blog</a></li>
           <li><a href="<?= BASE_URL ?>/listing" data-i18n="nav.sellers">Available Stock</a></li>
-          <li><a href="<?= BASE_URL ?>/chassis-check" data-i18n="chassis.title">Chassis Check</a></li>
+          <!-- <li><a href="<?= BASE_URL ?>/chassis-check" data-i18n="chassis.title">Chassis Check</a></li> -->
           <li><a href="<?= BASE_URL ?>/faq" data-i18n="nav.faq">FAQ</a></li>
           <li><a href="<?= BASE_URL ?>/contact" data-i18n="nav.contacts">Contacts</a></li>
         </ul>
@@ -33,12 +34,7 @@
       <div class="site-footer__col">
         <h3 class="site-footer__heading" data-i18n="footer.services">Our Services</h3>
         <ul class="site-footer__links site-footer__links--arrow-hover">
-          <li><a href="<?= BASE_URL ?>/listing" data-i18n="footer.listings">Vehicle Listings</a></li>
-          <li><a href="<?= BASE_URL ?>/about" data-i18n="footer.auction">Japan Auction Sourcing</a></li>
           <li><a href="<?= BASE_URL ?>/price-calculation" data-i18n="priceCalc.title">Price Calculation</a></li>
-          <li><a href="<?= BASE_URL ?>/#directory" data-i18n="footer.dealerDir">Dealer Directory</a></li>
-          <li><a href="<?= BASE_URL ?>/#directory" data-i18n="footer.serviceIns">Service &amp; Insurance</a></li>
-          <li><a href="<?= BASE_URL ?>/#videos" data-i18n="footer.videoReviews">Video Reviews</a></li>
           <li><a href="<?= BASE_URL ?>/contact" data-i18n="footer.urgent">Urgent Purchase</a></li>
         </ul>
       </div>

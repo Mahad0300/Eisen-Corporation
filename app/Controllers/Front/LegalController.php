@@ -14,4 +14,9 @@ class LegalController extends Controller
     {
         $this->view('front/terms-and-condition');
     }
+
+    public function whyChooseEisen()
+    {
+        $this->view('front/why-choose-eisen');
+    }
 }

@@ -47,6 +47,7 @@ $router->get('/contact', 'Front\ContactController@index');
 $router->get('/contacts', 'Front\ContactController@index');
 $router->get('/privacy-policy', 'Front\LegalController@privacy');
 $router->get('/terms-and-condition', 'Front\LegalController@terms');
+$router->get('/why-choose-eisen', 'Front\LegalController@whyChooseEisen');
 $router->get('/chassis-check', 'Front\ChassisController@index');
 $router->get('/price-calculation', 'Front\PriceCalculationController@index');
 $router->get('/faq/{slug}', 'Front\FaqController@index');
