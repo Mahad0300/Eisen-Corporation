@@ -23,6 +23,7 @@
           <li><a href="<?= BASE_URL ?>/" data-i18n="nav.home">Home</a></li>
           <li><a href="<?= BASE_URL ?>/about" data-i18n="nav.about">About Us</a></li>
           <li><a href="<?= BASE_URL ?>/why-choose-eisen" data-i18n="whyChoose.title">Why Choose Eisen</a></li>
+          <li><a href="<?= BASE_URL ?>/account-guide" data-i18n="accountGuide.title">How to create your account</a></li>
           <li><a href="<?= BASE_URL ?>/blog" data-i18n="nav.blog">Blog</a></li>
           <li><a href="<?= BASE_URL ?>/listing" data-i18n="nav.sellers">Available Stock</a></li>
           <!-- <li><a href="<?= BASE_URL ?>/chassis-check" data-i18n="chassis.title">Chassis Check</a></li> -->

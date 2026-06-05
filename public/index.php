@@ -89,7 +89,13 @@ $router->get('/admin/customers/detail', 'Admin\CustomerController@detail'); // S
 $router->get('/admin/shipping', 'Admin\ShippingController@index');
 $router->get('/admin/reports', 'Admin\ReportController@index');
 
-// 6. Dispatch Request
-// Extract 'url' parameter passed by .htaccess rewrite
-$url = isset($_GET['url']) ? rtrim($_GET['url'], '/') : '/';
+// 6. Static pages (no controller)
+$url = isset($_GET['url']) ? rtrim($_GET['url'], '/') : '';
+$url = ($url === '') ? '/' : '/' . ltrim($url, '/');
+if ($url === '/account-guide') {
+    require VIEW_DIR . '/front/account-guide.php';
+    exit;
+}
+
+// 7. Dispatch Request
 $router->dispatch($url);

@@ -19,6 +19,8 @@ if (!function_exists('eisen_nav_is_active')) {
                 return str_starts_with($path, '/about');
             case 'why-choose':
                 return str_starts_with($path, '/why-choose-eisen');
+            case 'account-guide':
+                return str_starts_with($path, '/account-guide');
             case 'blog':
                 return str_starts_with($path, '/blog');
             case 'listing':
