@@ -2,3 +2,6 @@
 Thumbs.db
 desktop.ini
 *.log
+/vendor/
+/public/uploads/
+/config/config_local.php

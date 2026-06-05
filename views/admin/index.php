@@ -180,7 +180,7 @@ include dirname(__DIR__) . '/admin/partials/header.php';
             <div class="card">
                 <h3 class="card-title-sm mb-20">Quick Operations</h3>
                 <div class="quick-actions-list">
-                    <a class="btn-action" href="<?= BASE_URL ?>/admin/inventory?action=new">
+                    <a class="btn-action" href="<?= BASE_URL ?>/admin/inventory/new">
                         <i data-lucide="plus-circle" style="color: var(--color-success);"></i>
                         <span>Add In-Stock Car</span>
                     </a>

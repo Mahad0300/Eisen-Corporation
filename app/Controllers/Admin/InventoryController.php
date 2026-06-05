@@ -1,92 +1,679 @@
 <?php
 namespace App\Controllers\Admin;
 
+use App\Core\Database;
+use App\Core\Session;
+use PDO;
+
 class InventoryController extends AdminController {
     
     public function index() {
-        // Mock inventory records containing both In-Stock and Auction items
-        $cars = [
-            [
-                'id' => 'ST-2094',
-                'type' => 'In-Stock',
-                'make' => 'Honda',
-                'model' => 'Vezel EX-L',
-                'year' => 2023,
-                'chassis' => 'RU3-1204928',
-                'price' => 29800,
-                'grade' => '5.0',
-                'mileage' => '14,200 km',
-                'transmission' => 'Auto',
-                'status' => 'Reserved',
-                'featured' => true,
-                'arrival_date' => '2026-06-15'
-            ],
-            [
-                'id' => 'ST-2095',
-                'type' => 'In-Stock',
-                'make' => 'Toyota',
-                'model' => 'Aqua Hybrid',
-                'year' => 2022,
-                'chassis' => 'NHP10-2394851',
-                'price' => 22400,
-                'grade' => '4.5',
-                'mileage' => '21,500 km',
-                'transmission' => 'Auto',
-                'status' => 'Available',
-                'featured' => true,
-                'arrival_date' => 'Available Now'
-            ],
-            [
-                'id' => 'AUC-9824',
-                'type' => 'Auction',
-                'make' => 'BMW',
-                'model' => '5 Series',
-                'year' => 2021,
-                'chassis' => 'WBA5A31000K29',
-                'price' => 32200, // starting bid
-                'grade' => '4.0',
-                'mileage' => '32,800 km',
-                'transmission' => 'Auto',
-                'status' => 'Available',
-                'featured' => false,
-                'arrival_date' => 'Auction Date: Jun 08'
-            ],
-            [
-                'id' => 'ST-2096',
-                'type' => 'In-Stock',
-                'make' => 'Mercedes-Benz',
-                'model' => 'E-Class E200',
-                'year' => 2022,
-                'chassis' => 'WDD21300412A',
-                'price' => 48900,
-                'grade' => '4.5',
-                'mileage' => '18,400 km',
-                'transmission' => 'Auto',
-                'status' => 'Sold',
-                'featured' => false,
-                'arrival_date' => 'Delivered'
-            ],
-            [
-                'id' => 'AUC-9825',
-                'type' => 'Auction',
-                'make' => 'Audi',
-                'model' => 'Q5 Premium',
-                'year' => 2022,
-                'chassis' => 'WA1BUAFY4N210',
-                'price' => 34500,
-                'grade' => 'R (Repaired)',
-                'mileage' => '45,100 km',
-                'transmission' => 'Auto',
-                'status' => 'Available',
-                'featured' => false,
-                'arrival_date' => 'Auction Date: Jun 10'
-            ]
-        ];
+        try {
+            $db = Database::getConnection();
+            $stmt = $db->query("SELECT * FROM vehicles ORDER BY id DESC");
+            $dbCars = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (\Exception $e) {
+            $dbCars = [];
+        }
+
+        $cars = [];
+        foreach ($dbCars as $car) {
+            $cars[] = [
+                'db_id' => $car['id'],
+                'id' => $car['stock_id'],
+                'type' => $car['type'],
+                'make' => $car['make'],
+                'model' => $car['model'],
+                'year' => $car['year'],
+                'chassis' => $car['chassis_number'],
+                'price' => (float)$car['fob_price'],
+                'grade' => $car['grade'],
+                'mileage' => number_format($car['mileage_km']) . ' km',
+                'transmission' => $car['transmission'] === 'AT' ? 'Auto' : 'Manual',
+                'status' => $car['status'],
+                'featured' => (bool)$car['featured'],
+                'arrival_date' => $car['arrival_date'] ? $car['arrival_date'] : ($car['type'] === 'In-Stock' ? 'Available Now' : 'Pending')
+            ];
+        }
 
         $this->view('admin/inventory', [
             'pageTitle' => 'Inventory Management | Eisen Admin',
             'pageScript' => 'inventory.js',
             'cars' => $cars
         ]);
+    }
+
+    public function create() {
+        try {
+            $db = Database::getConnection();
+            $stmt = $db->query("SELECT * FROM options ORDER BY category, label");
+            $allOptions = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            $optionGroups = [];
+            foreach ($allOptions as $opt) {
+                $category = $opt['category'];
+                if (!isset($optionGroups[$category])) {
+                    $optionGroups[$category] = [
+                        'title' => $category,
+                        'items' => []
+                    ];
+                }
+                $optionGroups[$category]['items'][] = [
+                    'label' => $opt['label']
+                ];
+            }
+            
+            // Sort by predefined category order to match UX look
+            $order = [
+                'Comfort & Convenience' => 1,
+                'Dress Up' => 2,
+                'Exterior' => 3,
+                'Safety' => 4,
+                'Other' => 5
+            ];
+            uksort($optionGroups, function($a, $b) use ($order) {
+                return ($order[$a] ?? 99) <=> ($order[$b] ?? 99);
+            });
+        } catch (\Exception $e) {
+            $optionGroups = [];
+        }
+
+        $this->view('admin/inventory-new', [
+            'pageTitle' => 'Add New Vehicle | Eisen Admin',
+            'pageScript' => 'inventory-new.js',
+            'optionGroups' => $optionGroups
+        ]);
+    }
+
+    public function store() {
+        $this->validateCsrf();
+
+        // 1. Retrieve and sanitize input fields
+        $make = trim($_POST['make'] ?? '');
+        $model = trim($_POST['model'] ?? '');
+        $year = (int)($_POST['year'] ?? 0);
+        $chassis = trim($_POST['chassis'] ?? '');
+        $grade = trim($_POST['grade'] ?? '');
+        $mileage = (int)($_POST['mileage'] ?? 0);
+        $engine = (int)($_POST['engine'] ?? 0);
+        $transmission = trim($_POST['transmission'] ?? 'AT');
+        $drive = trim($_POST['drive'] ?? '');
+        $steering = trim($_POST['steering'] ?? 'RHD');
+        $fuel = trim($_POST['fuel'] ?? 'PETROL');
+        $body_type = trim($_POST['body_type'] ?? 'Hatchback');
+        $doors = (int)($_POST['doors'] ?? 5);
+        $seats = (int)($_POST['seats'] ?? 5);
+        $stock_type = trim($_POST['stock_type'] ?? 'In-Stock');
+        $location = trim($_POST['location'] ?? 'KOBE, JAPAN');
+        $color = trim($_POST['color'] ?? 'White');
+        $dimension = trim($_POST['dimension'] ?? '0.00m × 0.00m × 0.00m');
+        $m3 = trim($_POST['m3'] ?? '10.167');
+        $views = (int)($_POST['views'] ?? 0);
+        $description = trim($_POST['description'] ?? '');
+        if ($description === '') {
+            $description = null;
+        }
+
+        $pricing_currency = trim($_POST['pricing_currency_selector'] ?? 'USD');
+        $exchange_rate = (float)($_POST['exchange_rate'] ?? 150.0);
+        if ($exchange_rate <= 0.0) {
+            $exchange_rate = 150.0;
+        }
+        $price_vehicle = (float)($_POST['price_vehicle'] ?? 0);
+        $price_jpy = (float)($_POST['price_jpy'] ?? 0);
+        $price_freight = (float)($_POST['price_freight'] ?? 0);
+        $price_vanning = (float)($_POST['price_vanning'] ?? 0);
+        $price_inspection = (float)($_POST['price_inspection'] ?? 0);
+        $price_insurance = (float)($_POST['price_insurance'] ?? 0);
+
+        if ($pricing_currency === 'JPY') {
+            $price_vehicle = round($price_vehicle / $exchange_rate, 4);
+            $price_freight = round($price_freight / $exchange_rate, 4);
+            $price_vanning = round($price_vanning / $exchange_rate, 4);
+            $price_inspection = round($price_inspection / $exchange_rate, 4);
+            $price_insurance = round($price_insurance / $exchange_rate, 4);
+        }
+
+        // Calculate total C&F Price
+        $cf_price = $price_vehicle + $price_freight + $price_vanning + $price_inspection + $price_insurance;
+
+        // Basic validation
+        if ($make === '' || $model === '' || $year === 0 || $chassis === '' || $grade === '' || $price_vehicle === 0.0 || $price_jpy === 0.0) {
+            Session::setFlash('error', 'Please fill in all required specifications, vehicle price and JPY price.');
+            $this->redirect('/admin/inventory/new');
+            return;
+        }
+
+        try {
+            $db = Database::getConnection();
+            $db->beginTransaction();
+
+            // 2. Generate unique stock_id
+            $stock_id = '';
+            $prefix = ($stock_type === 'Auction') ? 'AUC-' : 'ST-';
+            $is_unique = false;
+            while (!$is_unique) {
+                $rand = rand(1000, 9999);
+                $stock_id = $prefix . $rand;
+                $chk = $db->prepare("SELECT id FROM vehicles WHERE stock_id = ?");
+                $chk->execute([$stock_id]);
+                if (!$chk->fetch()) {
+                    $is_unique = true;
+                }
+            }
+
+            // 3. Handle Inspection PDF upload
+            $damage_report_url = null;
+            if (isset($_FILES['inspection_pdf']) && $_FILES['inspection_pdf']['error'] === UPLOAD_ERR_OK) {
+                $fileTmpPath = $_FILES['inspection_pdf']['tmp_name'];
+                $fileName = $_FILES['inspection_pdf']['name'];
+                $fileExtension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+
+                if ($fileExtension === 'pdf') {
+                    $uploadFileDir = ROOT_DIR . '/public/uploads/vehicles/';
+                    if (!is_dir($uploadFileDir)) {
+                        mkdir($uploadFileDir, 0755, true);
+                    }
+                    $newFileName = 'report_' . $stock_id . '_' . time() . '.pdf';
+                    $dest_path = $uploadFileDir . $newFileName;
+
+                    if (move_uploaded_file($fileTmpPath, $dest_path)) {
+                        $damage_report_url = '/public/uploads/vehicles/' . $newFileName;
+                    }
+                }
+            }
+
+            // 4. Insert vehicle record
+            $stmt = $db->prepare("
+                INSERT INTO vehicles (
+                    stock_id, type, make, model, year, chassis_number, grade, mileage_km, engine_cc, transmission, 
+                    steering, fuel, doors, seats, location, color, body_type, drive_type, 
+                    fob_price, freight_price, vanning_price, inspection_price, insurance_price, cf_price, 
+                    damage_report_url, status, featured, arrival_date, dimension, m3, description, views, price_jpy
+                ) VALUES (
+                    ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 
+                    ?, ?, ?, ?, ?, ?, ?, ?, 
+                    ?, ?, ?, ?, ?, ?, 
+                    ?, 'Available', 0, NULL, ?, ?, ?, ?, ?
+                )
+            ");
+            $stmt->execute([
+                $stock_id,
+                $stock_type,
+                $make,
+                $model,
+                $year,
+                $chassis,
+                $grade,
+                $mileage,
+                $engine,
+                $transmission,
+                $steering,
+                $fuel,
+                $doors,
+                $seats,
+                $location,
+                $color,
+                $body_type,
+                $drive,
+                $price_vehicle,
+                $price_freight,
+                $price_vanning,
+                $price_inspection,
+                $price_insurance,
+                $cf_price,
+                $damage_report_url,
+                $dimension,
+                $m3,
+                $description,
+                $views,
+                $price_jpy
+            ]);
+
+            $vehicle_id = $db->lastInsertId();
+
+            // 5. Handle equipment options mapping
+            $options = $_POST['options'] ?? [];
+            if (!empty($options)) {
+                // Fetch options from DB to map names to IDs
+                $optQuery = $db->query("SELECT id, label FROM options");
+                $optionsDb = [];
+                while ($row = $optQuery->fetch(PDO::FETCH_ASSOC)) {
+                    $optionsDb[$row['label']] = $row['id'];
+                }
+
+                $optionMapStmt = $db->prepare("INSERT INTO vehicle_options (vehicle_id, option_id) VALUES (?, ?)");
+                foreach ($options as $optLabel) {
+                    if (isset($optionsDb[$optLabel])) {
+                        $optionMapStmt->execute([$vehicle_id, $optionsDb[$optLabel]]);
+                    }
+                }
+            }
+
+            // 6. Handle Photos upload
+            if (isset($_FILES['images'])) {
+                $uploadFileDir = ROOT_DIR . '/public/uploads/vehicles/';
+                if (!is_dir($uploadFileDir)) {
+                    mkdir($uploadFileDir, 0755, true);
+                }
+
+                $imageStmt = $db->prepare("INSERT INTO vehicle_images (vehicle_id, image_url, sort_order) VALUES (?, ?, ?)");
+
+                $fileCount = count($_FILES['images']['name']);
+                $sort_order = 0;
+                for ($i = 0; $i < $fileCount; $i++) {
+                    if ($_FILES['images']['error'][$i] === UPLOAD_ERR_OK) {
+                        $fileTmpPath = $_FILES['images']['tmp_name'][$i];
+                        $fileName = $_FILES['images']['name'][$i];
+                        $fileExtension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+
+                        $allowedExtensions = ['jpg', 'jpeg', 'png', 'webp'];
+                        if (in_array($fileExtension, $allowedExtensions)) {
+                            $newFileName = 'img_' . $stock_id . '_' . $i . '_' . time() . '.' . $fileExtension;
+                            $dest_path = $uploadFileDir . $newFileName;
+
+                            if (move_uploaded_file($fileTmpPath, $dest_path)) {
+                                $image_url = '/public/uploads/vehicles/' . $newFileName;
+                                $imageStmt->execute([$vehicle_id, $image_url, $sort_order]);
+                                $sort_order++;
+                            }
+                        }
+                    }
+                }
+            }
+
+            $db->commit();
+            Session::setFlash('success', "Vehicle listing \"{$make} {$model}\" was successfully created as {$stock_id}!");
+            $this->redirect('/admin/inventory');
+
+        } catch (\Exception $e) {
+            if ($db->inTransaction()) {
+                $db->rollBack();
+            }
+            Session::setFlash('error', 'Database Error occurred: ' . $e->getMessage());
+            $this->redirect('/admin/inventory/new');
+        }
+    }
+
+    public function delete($id) {
+        $this->validateCsrf();
+        
+        try {
+            $db = Database::getConnection();
+            
+            // 1. Fetch images to delete them from disk
+            $imgStmt = $db->prepare("SELECT image_url FROM vehicle_images WHERE vehicle_id = ?");
+            $imgStmt->execute([$id]);
+            $images = $imgStmt->fetchAll(PDO::FETCH_COLUMN);
+            
+            // Fetch inspection pdf path to delete from disk
+            $pdfStmt = $db->prepare("SELECT damage_report_url FROM vehicles WHERE id = ?");
+            $pdfStmt->execute([$id]);
+            $pdfPath = $pdfStmt->fetchColumn();
+
+            $db->beginTransaction();
+
+            // 2. Delete database rows (foreign key constraints on cascade delete options and images)
+            $stmt = $db->prepare("DELETE FROM vehicles WHERE id = ?");
+            $stmt->execute([$id]);
+            
+            $db->commit();
+
+            // 3. Delete files from disk after database delete succeeds
+            foreach ($images as $url) {
+                if (strpos($url, '/public/uploads/') === 0) {
+                    $filePath = ROOT_DIR . $url;
+                    if (file_exists($filePath)) {
+                        unlink($filePath);
+                    }
+                }
+            }
+            if ($pdfPath && strpos($pdfPath, '/public/uploads/') === 0) {
+                $filePath = ROOT_DIR . $pdfPath;
+                if (file_exists($filePath)) {
+                    unlink($filePath);
+                }
+            }
+            
+            $this->jsonResponse(['status' => 'success', 'message' => 'Vehicle deleted successfully.']);
+        } catch (\Exception $e) {
+            if ($db->inTransaction()) {
+                $db->rollBack();
+            }
+            $this->jsonResponse(['status' => 'error', 'message' => 'Failed to delete vehicle: ' . $e->getMessage()], 500);
+        }
+    }
+
+    public function toggleFeatured($id) {
+        $this->validateCsrf();
+
+        try {
+            $db = Database::getConnection();
+            
+            // Get current featured status
+            $stmt = $db->prepare("SELECT featured FROM vehicles WHERE id = ?");
+            $stmt->execute([$id]);
+            $featured = $stmt->fetchColumn();
+            
+            if ($featured === false) {
+                $this->jsonResponse(['status' => 'error', 'message' => 'Vehicle not found.'], 404);
+                return;
+            }
+
+            $newFeatured = $featured ? 0 : 1;
+            
+            $update = $db->prepare("UPDATE vehicles SET featured = ? WHERE id = ?");
+            $update->execute([$newFeatured, $id]);
+            
+            $this->jsonResponse([
+                'status' => 'success', 
+                'message' => 'Featured status updated successfully.',
+                'featured' => (bool)$newFeatured
+            ]);
+        } catch (\Exception $e) {
+            $this->jsonResponse(['status' => 'error', 'message' => 'Database Error: ' . $e->getMessage()], 500);
+        }
+    }
+
+    public function edit($id) {
+        try {
+            $db = Database::getConnection();
+            
+            // 1. Fetch vehicle details
+            $stmt = $db->prepare("SELECT * FROM vehicles WHERE id = ? LIMIT 1");
+            $stmt->execute([$id]);
+            $car = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if (!$car) {
+                Session::setFlash('error', 'Vehicle not found.');
+                $this->redirect('/admin/inventory');
+                return;
+            }
+
+            // 2. Fetch options mapped to this vehicle
+            $optMapStmt = $db->prepare("SELECT option_id FROM vehicle_options WHERE vehicle_id = ?");
+            $optMapStmt->execute([$id]);
+            $checkedOptionIds = $optMapStmt->fetchAll(PDO::FETCH_COLUMN);
+
+            // 3. Fetch all options and group them
+            $optStmt = $db->query("SELECT * FROM options ORDER BY category, label");
+            $allOptions = $optStmt->fetchAll(PDO::FETCH_ASSOC);
+
+            $optionGroups = [];
+            foreach ($allOptions as $opt) {
+                $category = $opt['category'];
+                if (!isset($optionGroups[$category])) {
+                    $optionGroups[$category] = [
+                        'title' => $category,
+                        'items' => []
+                    ];
+                }
+                $optionGroups[$category]['items'][] = [
+                    'label' => $opt['label'],
+                    'active' => in_array($opt['id'], $checkedOptionIds)
+                ];
+            }
+            
+            // Sort option groups
+            $order = [
+                'Comfort & Convenience' => 1,
+                'Dress Up' => 2,
+                'Exterior' => 3,
+                'Safety' => 4,
+                'Other' => 5
+            ];
+            uksort($optionGroups, function($a, $b) use ($order) {
+                return ($order[$a] ?? 99) <=> ($order[$b] ?? 99);
+            });
+
+            // 4. Fetch existing images
+            $imgStmt = $db->prepare("SELECT image_url FROM vehicle_images WHERE vehicle_id = ? ORDER BY sort_order ASC");
+            $imgStmt->execute([$id]);
+            $existingImages = $imgStmt->fetchAll(PDO::FETCH_COLUMN);
+
+        } catch (\Exception $e) {
+            Session::setFlash('error', 'Database Error occurred: ' . $e->getMessage());
+            $this->redirect('/admin/inventory');
+            return;
+        }
+
+        $this->view('admin/inventory-edit', [
+            'pageTitle' => 'Edit Vehicle Listing | Eisen Admin',
+            'pageScript' => 'inventory-new.js',
+            'car' => $car,
+            'optionGroups' => $optionGroups,
+            'existingImages' => $existingImages
+        ]);
+    }
+
+    public function update($id) {
+        $this->validateCsrf();
+
+        try {
+            $db = Database::getConnection();
+            
+            // 1. Check if vehicle exists
+            $chk = $db->prepare("SELECT id, stock_id, damage_report_url FROM vehicles WHERE id = ? LIMIT 1");
+            $chk->execute([$id]);
+            $existingCar = $chk->fetch(PDO::FETCH_ASSOC);
+
+            if (!$existingCar) {
+                Session::setFlash('error', 'Vehicle not found.');
+                $this->redirect('/admin/inventory');
+                return;
+            }
+
+            // 2. Retrieve and sanitize input fields
+            $make = trim($_POST['make'] ?? '');
+            $model = trim($_POST['model'] ?? '');
+            $year = (int)($_POST['year'] ?? 0);
+            $chassis = trim($_POST['chassis'] ?? '');
+            $grade = trim($_POST['grade'] ?? '');
+            $mileage = (int)($_POST['mileage'] ?? 0);
+            $engine = (int)($_POST['engine'] ?? 0);
+            $transmission = trim($_POST['transmission'] ?? 'AT');
+            $drive = trim($_POST['drive'] ?? '');
+            $steering = trim($_POST['steering'] ?? 'RHD');
+            $fuel = trim($_POST['fuel'] ?? 'PETROL');
+            $body_type = trim($_POST['body_type'] ?? 'Hatchback');
+            $doors = (int)($_POST['doors'] ?? 5);
+            $seats = (int)($_POST['seats'] ?? 5);
+            $stock_type = trim($_POST['stock_type'] ?? 'In-Stock');
+            $location = trim($_POST['location'] ?? 'KOBE, JAPAN');
+            $color = trim($_POST['color'] ?? 'White');
+            $dimension = trim($_POST['dimension'] ?? '0.00m × 0.00m × 0.00m');
+            $m3 = trim($_POST['m3'] ?? '10.167');
+            $views = (int)($_POST['views'] ?? 0);
+            $description = trim($_POST['description'] ?? '');
+            if ($description === '') {
+                $description = null;
+            }
+
+            $pricing_currency = trim($_POST['pricing_currency_selector'] ?? 'USD');
+            $exchange_rate = (float)($_POST['exchange_rate'] ?? 150.0);
+            if ($exchange_rate <= 0.0) {
+                $exchange_rate = 150.0;
+            }
+            $price_vehicle = (float)($_POST['price_vehicle'] ?? 0);
+            $price_jpy = (float)($_POST['price_jpy'] ?? 0);
+            $price_freight = (float)($_POST['price_freight'] ?? 0);
+            $price_vanning = (float)($_POST['price_vanning'] ?? 0);
+            $price_inspection = (float)($_POST['price_inspection'] ?? 0);
+            $price_insurance = (float)($_POST['price_insurance'] ?? 0);
+
+            if ($pricing_currency === 'JPY') {
+                $price_vehicle = round($price_vehicle / $exchange_rate, 4);
+                $price_freight = round($price_freight / $exchange_rate, 4);
+                $price_vanning = round($price_vanning / $exchange_rate, 4);
+                $price_inspection = round($price_inspection / $exchange_rate, 4);
+                $price_insurance = round($price_insurance / $exchange_rate, 4);
+            }
+
+            // Calculate total C&F Price
+            $cf_price = $price_vehicle + $price_freight + $price_vanning + $price_inspection + $price_insurance;
+
+            if ($make === '' || $model === '' || $year === 0 || $chassis === '' || $grade === '' || $price_vehicle === 0.0 || $price_jpy === 0.0) {
+                Session::setFlash('error', 'Please fill in all required specifications, vehicle price and JPY price.');
+                $this->redirect('/admin/inventory/edit/' . $id);
+                return;
+            }
+
+            $db->beginTransaction();
+
+            // 3. Handle Inspection PDF upload
+            $damage_report_url = $existingCar['damage_report_url'];
+            if (isset($_FILES['inspection_pdf']) && $_FILES['inspection_pdf']['error'] === UPLOAD_ERR_OK) {
+                $fileTmpPath = $_FILES['inspection_pdf']['tmp_name'];
+                $fileName = $_FILES['inspection_pdf']['name'];
+                $fileExtension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+
+                if ($fileExtension === 'pdf') {
+                    $uploadFileDir = ROOT_DIR . '/public/uploads/vehicles/';
+                    if (!is_dir($uploadFileDir)) {
+                        mkdir($uploadFileDir, 0755, true);
+                    }
+                    if ($damage_report_url && strpos($damage_report_url, '/public/uploads/') === 0) {
+                        $oldPath = ROOT_DIR . $damage_report_url;
+                        if (file_exists($oldPath)) {
+                            unlink($oldPath);
+                        }
+                    }
+                    $newFileName = 'report_' . $existingCar['stock_id'] . '_' . time() . '.pdf';
+                    $dest_path = $uploadFileDir . $newFileName;
+
+                    if (move_uploaded_file($fileTmpPath, $dest_path)) {
+                        $damage_report_url = '/public/uploads/vehicles/' . $newFileName;
+                    }
+                }
+            }
+
+            // 4. Update vehicle record
+            $stmt = $db->prepare("
+                UPDATE vehicles SET
+                    type = ?, make = ?, model = ?, year = ?, chassis_number = ?, grade = ?, 
+                    mileage_km = ?, engine_cc = ?, transmission = ?, steering = ?, fuel = ?, 
+                    doors = ?, seats = ?, location = ?, color = ?, body_type = ?, drive_type = ?, 
+                    fob_price = ?, freight_price = ?, vanning_price = ?, inspection_price = ?, 
+                    insurance_price = ?, cf_price = ?, damage_report_url = ?, dimension = ?, m3 = ?, description = ?, views = ?, price_jpy = ?
+                WHERE id = ?
+            ");
+            $stmt->execute([
+                $stock_type,
+                $make,
+                $model,
+                $year,
+                $chassis,
+                $grade,
+                $mileage,
+                $engine,
+                $transmission,
+                $steering,
+                $fuel,
+                $doors,
+                $seats,
+                $location,
+                $color,
+                $body_type,
+                $drive,
+                $price_vehicle,
+                $price_freight,
+                $price_vanning,
+                $price_inspection,
+                $price_insurance,
+                $cf_price,
+                $damage_report_url,
+                $dimension,
+                $m3,
+                $description,
+                $views,
+                $price_jpy,
+                $id
+            ]);
+
+            // 5. Update options mapping
+            $db->prepare("DELETE FROM vehicle_options WHERE vehicle_id = ?")->execute([$id]);
+            $options = $_POST['options'] ?? [];
+            if (!empty($options)) {
+                $optQuery = $db->query("SELECT id, label FROM options");
+                $optionsDb = [];
+                while ($row = $optQuery->fetch(PDO::FETCH_ASSOC)) {
+                    $optionsDb[$row['label']] = $row['id'];
+                }
+
+                $optionMapStmt = $db->prepare("INSERT INTO vehicle_options (vehicle_id, option_id) VALUES (?, ?)");
+                foreach ($options as $optLabel) {
+                    if (isset($optionsDb[$optLabel])) {
+                        $optionMapStmt->execute([$id, $optionsDb[$optLabel]]);
+                    }
+                }
+            }
+
+            // 6. Handle Photos
+            $existing_images = $_POST['existing_images'] ?? [];
+            
+            $imgStmt = $db->prepare("SELECT id, image_url FROM vehicle_images WHERE vehicle_id = ?");
+            $imgStmt->execute([$id]);
+            $currentImages = $imgStmt->fetchAll(PDO::FETCH_ASSOC);
+
+            $deleteStmt = $db->prepare("DELETE FROM vehicle_images WHERE id = ?");
+            foreach ($currentImages as $currImg) {
+                if (!in_array($currImg['image_url'], $existing_images)) {
+                    $deleteStmt->execute([$currImg['id']]);
+                    if (strpos($currImg['image_url'], '/public/uploads/') === 0) {
+                        $filePath = ROOT_DIR . $currImg['image_url'];
+                        if (file_exists($filePath)) {
+                            unlink($filePath);
+                        }
+                    }
+                }
+            }
+
+            $uploadedImages = [];
+            if (isset($_FILES['images'])) {
+                $uploadFileDir = ROOT_DIR . '/public/uploads/vehicles/';
+                if (!is_dir($uploadFileDir)) {
+                    mkdir($uploadFileDir, 0755, true);
+                }
+
+                $fileCount = count($_FILES['images']['name']);
+                for ($i = 0; $i < $fileCount; $i++) {
+                    if ($_FILES['images']['error'][$i] === UPLOAD_ERR_OK) {
+                        $fileTmpPath = $_FILES['images']['tmp_name'][$i];
+                        $fileName = $_FILES['images']['name'][$i];
+                        $fileExtension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+
+                        $allowedExtensions = ['jpg', 'jpeg', 'png', 'webp'];
+                        if (in_array($fileExtension, $allowedExtensions)) {
+                            $newFileName = 'img_' . $existingCar['stock_id'] . '_u' . $i . '_' . time() . '.' . $fileExtension;
+                            $dest_path = $uploadFileDir . $newFileName;
+
+                            if (move_uploaded_file($fileTmpPath, $dest_path)) {
+                                $uploadedImages[] = '/public/uploads/vehicles/' . $newFileName;
+                            }
+                        }
+                    }
+                }
+            }
+
+            $finalImages = array_merge($existing_images, $uploadedImages);
+            
+            $db->prepare("DELETE FROM vehicle_images WHERE vehicle_id = ?")->execute([$id]);
+            
+            $insertImgStmt = $db->prepare("INSERT INTO vehicle_images (vehicle_id, image_url, sort_order) VALUES (?, ?, ?)");
+            foreach ($finalImages as $index => $imgUrl) {
+                $insertImgStmt->execute([$id, $imgUrl, $index]);
+            }
+
+            $db->commit();
+            Session::setFlash('success', "Vehicle listing \"{$make} {$model}\" has been successfully updated!");
+            $this->redirect('/admin/inventory');
+
+        } catch (\Exception $e) {
+            if ($db->inTransaction()) {
+                $db->rollBack();
+            }
+            Session::setFlash('error', 'Error updating vehicle: ' . $e->getMessage());
+            $this->redirect('/admin/inventory/edit/' . $id);
+        }
     }
 }

@@ -7,6 +7,8 @@ use App\Core\Session;
 class AdminController extends Controller {
     
     public function __construct() {
-        // Bypassed for UI design and client-side testing phase
+        if (!Session::isAdminLoggedIn()) {
+            $this->redirect('/admin/login');
+        }
     }
 }

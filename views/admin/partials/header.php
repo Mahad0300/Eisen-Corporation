@@ -56,7 +56,7 @@
                                 <i data-lucide="external-link"></i>
                                 <span>Go to Frontend</span>
                             </a>
-                            <a href="<?= BASE_URL ?>/admin/login" class="dropdown-item logout-item">
+                            <a href="<?= BASE_URL ?>/admin/logout" class="dropdown-item logout-item">
                                 <i data-lucide="log-out"></i>
                                 <span>Logout</span>
                             </a>

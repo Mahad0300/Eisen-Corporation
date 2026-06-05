@@ -1,4 +1,4 @@
-/* Listing page — filters UI */
+/* Listing page — filters UI and AJAX search */
 (function () {
   "use strict";
 
@@ -33,7 +33,13 @@
   const mileageMinDisplay = mileageRangeRoot?.querySelector("[data-mileage-min-display]");
   const mileageMaxDisplay = mileageRangeRoot?.querySelector("[data-mileage-max-display]");
 
-  if (!tagsContainer || !countEl || !clearBtn) return;
+  const grid = document.querySelector("[data-inventory-grid]");
+  const pagination = document.querySelector("[data-inventory-pagination]");
+  const pagesContainer = document.querySelector("[data-pagination-pages]");
+  const prevBtn = document.querySelector("[data-page-prev]");
+  const nextBtn = document.querySelector("[data-page-next]");
+
+  if (!tagsContainer || !countEl || !clearBtn || !grid || !pagination || !pagesContainer || !prevBtn || !nextBtn) return;
 
   const MOBILE_MQ = window.matchMedia("(max-width: 1023px)");
   const PRICE_ABS_MIN = priceRangeRoot ? Number(priceRangeRoot.dataset.priceMin) || 5000 : 5000;
@@ -43,10 +49,21 @@
   const MILEAGE_ABS_MAX = mileageRangeRoot ? Number(mileageRangeRoot.dataset.mileageMax) || 300 : 300;
   const MILEAGE_STEP = mileageRangeRoot ? Number(mileageRangeRoot.dataset.mileageStep) || 5 : 5;
 
+  const PER_PAGE = 9;
+
+  // Search state variables
+  let listings = [];
+  let totalListings = 0;
+  let totalPages = 1;
+  let currentPage = 1;
+
+  function getLang() {
+    return document.documentElement.lang === "ja" ? "ja" : "en";
+  }
+
   function t(key) {
     if (window.EisenI18n && typeof window.EisenI18n.t === "function") {
-      const lang = document.documentElement.lang === "ja" ? "ja" : "en";
-      return window.EisenI18n.t(key, lang);
+      return window.EisenI18n.t(key, getLang());
     }
     return key;
   }
@@ -117,10 +134,6 @@
     priceMinInput.value = String(PRICE_ABS_MIN);
     priceMaxInput.value = String(PRICE_ABS_MAX);
     updatePriceRangeUi();
-  }
-
-  function getLang() {
-    return document.documentElement.lang === "ja" ? "ja" : "en";
   }
 
   function formatMileageK(k) {
@@ -383,6 +396,7 @@
       conditionTag.addEventListener("click", () => {
         resetCondition();
         renderTags();
+        fetchFilteredListings(true);
       });
       tagsContainer.appendChild(conditionTag);
     }
@@ -401,6 +415,7 @@
       ccTag.addEventListener("click", () => {
         resetEngineCcRange();
         renderTags();
+        fetchFilteredListings(true);
       });
       tagsContainer.appendChild(ccTag);
     }
@@ -419,6 +434,7 @@
       yearTag.addEventListener("click", () => {
         resetYearRange();
         renderTags();
+        fetchFilteredListings(true);
       });
       tagsContainer.appendChild(yearTag);
     }
@@ -437,6 +453,7 @@
       mileageTag.addEventListener("click", () => {
         resetMileageRange();
         renderTags();
+        fetchFilteredListings(true);
       });
       tagsContainer.appendChild(mileageTag);
     }
@@ -455,6 +472,7 @@
       priceTag.addEventListener("click", () => {
         resetPriceRange();
         renderTags();
+        fetchFilteredListings(true);
       });
       tagsContainer.appendChild(priceTag);
     }
@@ -475,6 +493,7 @@
       tag.addEventListener("click", () => {
         input.checked = false;
         renderTags();
+        fetchFilteredListings(true);
       });
 
       tagsContainer.appendChild(tag);
@@ -485,8 +504,12 @@
     updateCount(totalActive);
   }
 
+  // Bind Events for Filter panel
   checkboxes.forEach((input) => {
-    input.addEventListener("change", renderTags);
+    input.addEventListener("change", () => {
+      renderTags();
+      fetchFilteredListings(true);
+    });
   });
 
   clearBtn.addEventListener("click", () => {
@@ -499,20 +522,26 @@
     resetEngineCcRange();
     resetCondition();
     renderTags();
+    fetchFilteredListings(true);
   });
 
   conditionInputs.forEach((input) => {
-    input.addEventListener("change", () => handleConditionChange(input));
+    input.addEventListener("change", () => {
+      handleConditionChange(input);
+      fetchFilteredListings(true);
+    });
   });
 
   if (yearMinSelect && yearMaxSelect) {
     yearMinSelect.addEventListener("change", () => {
       syncYearRange();
       renderTags();
+      fetchFilteredListings(true);
     });
     yearMaxSelect.addEventListener("change", () => {
       syncYearRange();
       renderTags();
+      fetchFilteredListings(true);
     });
   }
 
@@ -520,10 +549,12 @@
     engineCcMinSelect.addEventListener("change", () => {
       syncEngineCcRange();
       renderTags();
+      fetchFilteredListings(true);
     });
     engineCcMaxSelect.addEventListener("change", () => {
       syncEngineCcRange();
       renderTags();
+      fetchFilteredListings(true);
     });
   }
 
@@ -536,6 +567,9 @@
       updatePriceRangeUi();
       renderTags();
     });
+    // Trigger AJAX requests on change (mouse up/release) to optimize server queries
+    priceMinInput.addEventListener("change", () => fetchFilteredListings(true));
+    priceMaxInput.addEventListener("change", () => fetchFilteredListings(true));
     updatePriceRangeUi();
   }
 
@@ -548,13 +582,10 @@
       updateMileageRangeUi();
       renderTags();
     });
+    mileageMinInput.addEventListener("change", () => fetchFilteredListings(true));
+    mileageMaxInput.addEventListener("change", () => fetchFilteredListings(true));
     updateMileageRangeUi();
   }
-
-  document.addEventListener("eisen:currency-change", () => {
-    updatePriceRangeUi();
-    renderTags();
-  });
 
   toggleBtn?.addEventListener("click", () => {
     if (filtersPanel.classList.contains("is-open")) {
@@ -579,83 +610,13 @@
     }
   });
 
-  document.addEventListener("eisen:language-change", () => {
-    updatePriceRangeUi();
-    updateMileageRangeUi();
-    updateEngineCcSelectLabels();
-    renderTags();
-  });
-
-  updateEngineCcSelectLabels();
-  renderTags();
-})();
-
-/* Listing page — grid + pagination */
-(function () {
-  "use strict";
-
-  const PER_PAGE = 9;
-  const TOTAL_LISTINGS = 926;
-
-  const grid = document.querySelector("[data-inventory-grid]");
-  const pagination = document.querySelector("[data-inventory-pagination]");
-  const pagesContainer = document.querySelector("[data-pagination-pages]");
-  const prevBtn = document.querySelector("[data-page-prev]");
-  const nextBtn = document.querySelector("[data-page-next]");
-
-  if (!grid || !pagination || !pagesContainer || !prevBtn || !nextBtn) return;
-
-  const MAKES = [
-    "Toyota", "Honda", "Nissan", "Mazda", "Subaru", "Suzuki", "Mitsubishi", "Daihatsu",
-    "BMW", "Mercedes", "Audi", "Volkswagen", "Volvo", "Porsche", "Lexus",
-    "Ford", "Isuzu", "Hino",
-  ];
-  const MODELS = ["Highlander XLE", "CR-V EX-L", "Q5 Premium", "Rogue SV", "Mustang GT", "X5 xDrive", "Wrangler", "Acadia", "QX50"];
-  const CITY_KEYS = ["tokyo", "osaka", "yokohama", "nagoya", "fukuoka", "sapporo", "kobe", "kyoto", "hiroshima"];
-  const IMAGES = [
-    "https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?w=600&q=80",
-    "https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=600&q=80",
-    "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=600&q=80",
-    "https://images.unsplash.com/photo-1533473357862-305d7748521b?w=600&q=80",
-    "https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=600&q=80",
-    "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=600&q=80",
-    "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=600&q=80",
-    "https://images.unsplash.com/photo-1553440569-bcc63803a83d?w=600&q=80",
-    "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=600&q=80",
-  ];
-
-  const listings = Array.from({ length: TOTAL_LISTINGS }, (_, index) => {
-    const make = MAKES[index % MAKES.length];
-    const model = MODELS[index % MODELS.length];
-    const price = 19998 + (index % 120) * 250;
-    const mileageK = 18 + (index % 140);
-    const cityKey = CITY_KEYS[index % CITY_KEYS.length];
-
-    return {
-      make,
-      model,
-      priceUsd: price,
-      mileageK,
-      cityKey,
-      image: IMAGES[index % IMAGES.length],
-      alt: `${make} ${model}`,
-    };
-  });
-
-  const totalPages = Math.ceil(TOTAL_LISTINGS / PER_PAGE);
-  let currentPage = 1;
-
-  function getLang() {
-    return document.documentElement.lang === "ja" ? "ja" : "en";
-  }
-
-  function t(key) {
-    if (window.EisenI18n && typeof window.EisenI18n.t === "function") {
-      return window.EisenI18n.t(key, getLang());
+  document.addEventListener("visibilitychange", () => {
+    if (!document.hidden && filtersPanel.classList.contains("is-open") && MOBILE_MQ.matches) {
+      // keep sync
     }
-    return key;
-  }
+  });
 
+  // AJAX Search Grid & Pagination Logic
   function formatMileage(k) {
     if (getLang() === "ja") {
       const man = (k / 10).toFixed(1);
@@ -691,7 +652,7 @@
     return `
       <li>
         <article class="inventory-card">
-          <a href="${(window.BASE_URL || "") + "/product"}" class="inventory-card__link">
+          <a href="${(window.BASE_URL || "") + "/product/" + item.stockId}" class="inventory-card__link">
             <div class="inventory-card__media">
               <img src="${item.image}" alt="${escapeHtml(item.alt)}" width="600" height="400" loading="lazy" />
             </div>
@@ -726,12 +687,6 @@
     return result;
   }
 
-  function renderCards() {
-    const start = (currentPage - 1) * PER_PAGE;
-    const slice = listings.slice(start, start + PER_PAGE);
-    grid.innerHTML = slice.map(renderCard).join("");
-  }
-
   function renderPagination() {
     const items = getPageItems(currentPage, totalPages);
 
@@ -762,13 +717,104 @@
     if (nextPage === currentPage) return;
 
     currentPage = nextPage;
-    renderCards();
-    renderPagination();
+    fetchFilteredListings(false);
 
     const resultsHead = document.querySelector(".inventory-results__head");
     if (resultsHead) {
       resultsHead.scrollIntoView({ behavior: "smooth", block: "nearest" });
     }
+  }
+
+  function fetchFilteredListings(resetPage = false) {
+    if (resetPage) {
+      currentPage = 1;
+    }
+
+    // 1. Gather all checked filters
+    const selectedMakes = checkboxes.filter(c => c.name === 'make' && c.checked).map(c => c.value);
+    const selectedModels = checkboxes.filter(c => c.name === 'model' && c.checked).map(c => c.value);
+    const selectedFuels = checkboxes.filter(c => c.name === 'fuel' && c.checked).map(c => c.value);
+    const selectedTransmissions = checkboxes.filter(c => c.name === 'transmission' && c.checked).map(c => c.value);
+    const selectedColors = checkboxes.filter(c => c.name === 'color' && c.checked).map(c => c.value);
+    const condition = getConditionValue();
+
+    // 2. Build URL parameters
+    const params = new URLSearchParams();
+    params.append('page', String(currentPage));
+    params.append('per_page', String(PER_PAGE));
+
+    if (selectedMakes.length) params.append('make', selectedMakes.join(','));
+    if (selectedModels.length) params.append('model', selectedModels.join(','));
+    if (selectedFuels.length) params.append('fuel', selectedFuels.join(','));
+    if (selectedTransmissions.length) params.append('transmission', selectedTransmissions.join(','));
+    if (selectedColors.length) params.append('color', selectedColors.join(','));
+    if (condition) params.append('condition', condition);
+
+    if (isPriceRangeActive()) {
+      params.append('price_min', priceMinInput.value);
+      params.append('price_max', priceMaxInput.value);
+    }
+    if (isYearRangeActive()) {
+      if (yearMinSelect.value) params.append('year_min', yearMinSelect.value);
+      if (yearMaxSelect.value) params.append('year_max', yearMaxSelect.value);
+    }
+    if (isEngineCcRangeActive()) {
+      if (engineCcMinSelect.value) params.append('engine_cc_min', engineCcMinSelect.value);
+      if (engineCcMaxSelect.value) params.append('engine_cc_max', engineCcMaxSelect.value);
+    }
+    if (isMileageRangeActive()) {
+      params.append('mileage_min', mileageMinInput.value);
+      params.append('mileage_max', mileageMaxInput.value);
+    }
+
+    // 3. Render dynamic loading skeleton
+    grid.innerHTML = `
+      <li class="inventory-loading" style="grid-column: 1 / -1; text-align: center; padding: 4rem 2rem;">
+        <div style="font-size: 1.25rem; color: var(--text-muted);">Loading listings...</div>
+      </li>
+    `;
+
+    // 4. Fire fetch request
+    const url = `${window.BASE_URL || ""}/api/listings?${params.toString()}`;
+    fetch(url)
+      .then((res) => {
+        if (!res.ok) throw new Error("Search request failed");
+        return res.json();
+      })
+      .then((resData) => {
+        listings = resData.data;
+        totalListings = resData.total;
+        totalPages = resData.last_page;
+        currentPage = resData.current_page;
+
+        // Update counts in header
+        const totalCountEl = document.querySelector(".inventory-results__total");
+        if (totalCountEl) totalCountEl.textContent = String(totalListings);
+
+        if (listings.length === 0) {
+          grid.innerHTML = `
+            <li class="inventory-no-results" style="grid-column: 1 / -1; text-align: center; padding: 5rem 2rem;">
+              <p style="font-size: 1.5rem; font-weight: bold; margin-bottom: 0.5rem;">No matching vehicles found</p>
+              <p style="color: var(--text-muted);">Try adjusting your filter parameters to see more listings.</p>
+            </li>
+          `;
+          pagination.hidden = true;
+        } else {
+          grid.innerHTML = listings.map(renderCard).join("");
+          renderPagination();
+          pagination.hidden = totalPages <= 1;
+        }
+      })
+      .catch((err) => {
+        console.error("Error loading vehicles:", err);
+        grid.innerHTML = `
+          <li class="inventory-error" style="grid-column: 1 / -1; text-align: center; padding: 5rem 2rem; color: #ef4444;">
+            <p style="font-size: 1.5rem; font-weight: bold; margin-bottom: 0.5rem;">Failed to load listings</p>
+            <p>Please check your network and try refreshing the page.</p>
+          </li>
+        `;
+        pagination.hidden = true;
+      });
   }
 
   pagesContainer.addEventListener("click", (event) => {
@@ -781,18 +827,27 @@
   nextBtn.addEventListener("click", () => goToPage(currentPage + 1));
 
   function initListingGrid() {
-    renderCards();
-    renderPagination();
-    pagination.hidden = false;
+    fetchFilteredListings(true);
   }
 
   document.addEventListener("eisen:language-change", () => {
-    renderCards();
+    if (listings.length > 0) {
+      grid.innerHTML = listings.map(renderCard).join("");
+    }
   });
+
+  document.addEventListener("eisen:currency-change", () => {
+    if (listings.length > 0) {
+      grid.innerHTML = listings.map(renderCard).join("");
+    }
+  });
+
+  // Initial bootstrap
+  updateEngineCcSelectLabels();
+  renderTags();
 
   if (window.EisenCurrency) {
     window.EisenCurrency.ready.then(initListingGrid);
-    document.addEventListener("eisen:currency-change", renderCards);
   } else {
     initListingGrid();
   }

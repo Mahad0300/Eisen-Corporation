@@ -520,6 +520,100 @@
       "footer.serviceIns": "Service & Insurance",
       "footer.videoReviews": "Reviews",
       "footer.urgent": "Urgent Purchase",
+
+      // Dynamic specs label translations
+      "spec.label.make": "Make",
+      "spec.label.model": "Model",
+      "spec.label.body_color": "Body color",
+      "spec.label.body_type": "Body type",
+      "spec.label.doors": "Doors",
+      "spec.label.seats": "Seats",
+      "spec.label.dimension": "Dimension",
+      "spec.label.m3": "M3",
+      "spec.label.transmission": "Transmission",
+      "spec.label.drive_type": "Drive Type",
+      "spec.label.steering": "Steering",
+      "spec.label.fuel": "Fuel",
+      "spec.label.mileage": "Mileage",
+      "spec.label.engine": "Engine",
+      "spec.label.chassis_no": "Chassis No",
+      "spec.label.model_code": "Model Code",
+      
+      // Dynamic specs value translations
+      "spec.val.white": "WHITE",
+      "spec.val.black": "BLACK",
+      "spec.val.blue": "BLUE",
+      "spec.val.red": "RED",
+      "spec.val.silver": "SILVER",
+      "spec.val.grey": "GREY",
+      "spec.val.automatic_at": "Automatic (AT)",
+      "spec.val.manual_mt": "Manual (MT)",
+      "spec.val.at": "AT",
+      "spec.val.mt": "MT",
+      "spec.val.2wd": "2wd",
+      "spec.val.4wd": "4wd",
+      "spec.val.right_hand_drive": "Right Hand Drive",
+      "spec.val.left_hand_drive": "Left Hand Drive",
+      "spec.val.petrol": "PETROL",
+      "spec.val.diesel": "DIESEL",
+      "spec.val.hybrid": "HYBRID",
+      "spec.val.electric": "ELECTRIC",
+
+      // Dynamic options translations
+      "option.air_conditioner": "Air Conditioner",
+      "option.audio_player": "Audio Player",
+      "option.navigation_system": "Navigation System",
+      "option.power_steering": "Power Steering",
+      "option.power_window_all": "Power Window All",
+      "option.push_start": "Push Start",
+      "option.steering_switch": "Steering Switch",
+      "option.acc": "ACC",
+      "option.both_power_slide_door": "Both Power Slide Door",
+      "option.cooler": "Cooler",
+      "option.cruise_control": "Cruise Control",
+      "option.double_air_conditioner": "Double Air Conditioner",
+      "option.left_side_power_slide_door": "Left Side Power Slide Door",
+      "option.paddle_shift": "Paddle Shift",
+      "option.power_back_door": "Power Back Door",
+      "option.power_seat": "Power Seat",
+      "option.power_window_driver": "Power Window Driver",
+      "option.power_window_front": "Power Window Front",
+      "option.alloy_wheels": "Alloy Wheels",
+      "option.aero_front": "Aero Front",
+      "option.aero_rear": "Aero Rear",
+      "option.aero_side": "Aero Side",
+      "option.grill_guard": "Grill Guard",
+      "option.rear_spoiler": "Rear Spoiler",
+      "option.wood_combination_steering": "Wood Combination Steering",
+      "option.led_light": "LED Light",
+      "option.carrier_base": "Carrier Base",
+      "option.roof_box": "Roof Box",
+      "option.roof_carrier": "Roof Carrier",
+      "option.roof_rails": "Roof Rails",
+      "option.sun_roof": "Sun Roof",
+      "option.double_sun_roof": "Double Sun Roof",
+      "option.glass_roof": "Glass Roof",
+      "option.fog_light": "Fog Light",
+      "option.hid_light": "HID Light",
+      "option.high_roof": "High Roof",
+      "option.new_shape": "New Shape",
+      "option.slide_glass": "Slide Glass",
+      "option.air_bag": "Air Bag",
+      "option.back_camera": "Back Camera",
+      "option.abs": "ABS",
+      "option.around_view_monitor": "Around View Monitor",
+      "option.front_camera": "Front Camera",
+      "option.side_camera": "Side Camera",
+      "option.corner_sensor": "Corner Sensor",
+      "option.esc": "ESC",
+      "option.auto_door": "Auto Door",
+      "option.back_tire": "Back Tire",
+      "option.just_low": "Just Low",
+      "option.half_leather_seat": "Half Leather Seat",
+      "option.leather_seat": "Leather Seat",
+      "option.same_tire": "Same Tire",
+      "option.side_lift_up_seat": "Side Lift Up Seat",
+      "option.sloper": "Sloper",
     },
     ja: {
       "page.title": "アイゼン株式会社 | プレミアム自動車販売",
@@ -1027,12 +1121,118 @@
       "footer.serviceIns": "サービス・保険",
       "footer.videoReviews": "レビュー",
       "footer.urgent": "緊急購入",
+
+      // Dynamic specs label translations
+      "spec.label.make": "メーカー",
+      "spec.label.model": "モデル",
+      "spec.label.body_color": "ボディカラー",
+      "spec.label.body_type": "ボディタイプ",
+      "spec.label.doors": "ドア数",
+      "spec.label.seats": "乗車定員",
+      "spec.label.dimension": "寸法",
+      "spec.label.m3": "容積 (M3)",
+      "spec.label.transmission": "ミッション",
+      "spec.label.drive_type": "駆動方式",
+      "spec.label.steering": "ハンドル",
+      "spec.label.fuel": "燃料",
+      "spec.label.mileage": "走行距離",
+      "spec.label.engine": "排気量",
+      "spec.label.chassis_no": "車台番号",
+      "spec.label.model_code": "型式",
+      
+      // Dynamic specs value translations
+      "spec.val.white": "ホワイト",
+      "spec.val.black": "ブラック",
+      "spec.val.blue": "ブルー",
+      "spec.val.red": "レッド",
+      "spec.val.silver": "シルバー",
+      "spec.val.grey": "グレー",
+      "spec.val.automatic_at": "AT (オートマ)",
+      "spec.val.manual_mt": "MT (マニュアル)",
+      "spec.val.at": "AT",
+      "spec.val.mt": "MT",
+      "spec.val.2wd": "2WD",
+      "spec.val.4wd": "4WD",
+      "spec.val.right_hand_drive": "右ハンドル",
+      "spec.val.left_hand_drive": "左ハンドル",
+      "spec.val.petrol": "ガソリン",
+      "spec.val.diesel": "ディーゼル",
+      "spec.val.hybrid": "ハイブリッド",
+      "spec.val.electric": "電気",
+
+      // Dynamic options translations
+      "option.air_conditioner": "エアコン",
+      "option.audio_player": "オーディオプレイヤー",
+      "option.navigation_system": "ナビゲーションシステム",
+      "option.power_steering": "パワーステアリング",
+      "option.power_window_all": "全席パワーウィンドウ",
+      "option.push_start": "プッシュスタート",
+      "option.steering_switch": "ステアリングスイッチ",
+      "option.acc": "アダプティブクルーズコントロール",
+      "option.both_power_slide_door": "両側パワースライドドア",
+      "option.cooler": "クーラー",
+      "option.cruise_control": "クルーズコントロール",
+      "option.double_air_conditioner": "ダブルエアコン",
+      "option.left_side_power_slide_door": "左側パワースライドドア",
+      "option.paddle_shift": "パドルシフト",
+      "option.power_back_door": "パワーバックドア",
+      "option.power_seat": "パワーシート",
+      "option.power_window_driver": "運転席パワーウィンドウ",
+      "option.power_window_front": "前席パワーウィンドウ",
+      "option.alloy_wheels": "アルミホイール",
+      "option.aero_front": "フロントエアロ",
+      "option.aero_rear": "リアエアロ",
+      "option.aero_side": "サイドエアロ",
+      "option.grill_guard": "グリルガード",
+      "option.rear_spoiler": "リアスポイラー",
+      "option.wood_combination_steering": "ウッドコンビステアリング",
+      "option.led_light": "LEDライト",
+      "option.carrier_base": "キャリアベース",
+      "option.roof_box": "ルーフボックス",
+      "option.roof_carrier": "ルーフキャリア",
+      "option.roof_rails": "ルーフレール",
+      "option.sun_roof": "サンルーフ",
+      "option.double_sun_roof": "ダブルサンルーフ",
+      "option.glass_roof": "ガラスルーフ",
+      "option.fog_light": "フォグライト",
+      "option.hid_light": "HIDライト",
+      "option.high_roof": "ハイルーフ",
+      "option.new_shape": "新型仕様",
+      "option.slide_glass": "スライドガラス",
+      "option.air_bag": "エアバッグ",
+      "option.back_camera": "バックカメラ",
+      "option.abs": "ABS",
+      "option.around_view_monitor": "アラウンドビューモニター",
+      "option.front_camera": "フロントカメラ",
+      "option.side_camera": "サイドカメラ",
+      "option.corner_sensor": "コーナーセンサー",
+      "option.esc": "横滑り防止装置 (ESC)",
+      "option.auto_door": "オートドア",
+      "option.back_tire": "背面タイヤ",
+      "option.just_low": "ジャストロー",
+      "option.half_leather_seat": "ハーフレザーシート",
+      "option.leather_seat": "レザーシート",
+      "option.same_tire": "同径タイヤ",
+      "option.side_lift_up_seat": "サイドリフトアップシート",
+      "option.sloper": "スローパー",
     },
   };
 
   function t(key, lang) {
     const pack = messages[lang] || messages.en;
     return pack[key] ?? messages.en[key] ?? key;
+  }
+
+  async function translateText(text, targetLang) {
+    const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=${targetLang}&dt=t&q=${encodeURIComponent(text)}`;
+    try {
+      const res = await fetch(url);
+      const data = await res.json();
+      return data[0].map(item => item[0]).join('');
+    } catch (err) {
+      console.error("Translation fetch error:", err);
+      return text;
+    }
   }
 
   function apply(lang) {
@@ -1046,27 +1246,47 @@
     document.querySelectorAll("[data-i18n]").forEach((el) => {
       const key = el.getAttribute("data-i18n");
       if (!key) return;
+      
+      // Store original content if not already stored
+      if (!el.hasAttribute("data-i18n-orig")) {
+        el.setAttribute("data-i18n-orig", el.textContent.trim());
+      }
+
       const value = t(key, code);
-      if (el.hasAttribute("data-i18n-html")) {
-        el.innerHTML = value;
+      if (value === key) {
+        // Translation not found in dictionary, fallback to original value
+        el.textContent = el.getAttribute("data-i18n-orig");
       } else {
-        el.textContent = value;
+        if (el.hasAttribute("data-i18n-html")) {
+          el.innerHTML = value;
+        } else {
+          el.textContent = value;
+        }
       }
     });
 
     document.querySelectorAll("[data-i18n-placeholder]").forEach((el) => {
       const key = el.getAttribute("data-i18n-placeholder");
-      if (key) el.placeholder = t(key, code);
+      if (key) {
+        const value = t(key, code);
+        el.placeholder = value === key ? (el.placeholder || key) : value;
+      }
     });
 
     document.querySelectorAll("[data-i18n-aria]").forEach((el) => {
       const key = el.getAttribute("data-i18n-aria");
-      if (key) el.setAttribute("aria-label", t(key, code));
+      if (key) {
+        const value = t(key, code);
+        el.setAttribute("aria-label", value === key ? (el.getAttribute("aria-label") || key) : value);
+      }
     });
 
     document.querySelectorAll("[data-i18n-aria-label]").forEach((el) => {
       const key = el.getAttribute("data-i18n-aria-label");
-      if (key) el.setAttribute("aria-label", t(key, code));
+      if (key) {
+        const value = t(key, code);
+        el.setAttribute("aria-label", value === key ? (el.getAttribute("aria-label") || key) : value);
+      }
     });
 
     document.querySelectorAll(".hero-slider__dot").forEach((btn, i) => {
@@ -1077,6 +1297,28 @@
     if (pageTitleKey) {
       document.title = t(pageTitleKey, code) + " | Eisen Corporation";
     }
+
+    // Dynamic Paragraph Translation (e.g. database overview description)
+    document.querySelectorAll("[data-translate-paragraph]").forEach(async (el) => {
+      const origText = el.getAttribute("data-orig-text") || el.textContent;
+      if (!origText) return;
+
+      if (code === "en") {
+        el.innerHTML = origText.replace(/\n/g, "<br>");
+      } else {
+        // Japanese
+        const cacheKey = `data-trans-${code}`;
+        if (el.hasAttribute(cacheKey)) {
+          el.innerHTML = el.getAttribute(cacheKey).replace(/\n/g, "<br>");
+        } else {
+          const translated = await translateText(origText, code);
+          if (translated) {
+            el.setAttribute(cacheKey, translated);
+            el.innerHTML = translated.replace(/\n/g, "<br>");
+          }
+        }
+      }
+    });
 
     document.dispatchEvent(new CustomEvent("eisen:language-change", { detail: { lang: code } }));
   }

@@ -1,170 +1,285 @@
-<?php
-$activeTab = ($activeTab ?? 'login') === 'signup' ? 'signup' : 'login';
-?>
-<?php include dirname(__DIR__) . '/front/partials/header.php'; ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login | Eisen Corporation</title>
+  <!-- Google Fonts: Montserrat & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <style>
+    :root {
+      --bg-dark: #050d1a;
+      --bg-card: #0b1528;
+      --primary: #c9a227;
+      --primary-hover: #b08d20;
+      --text-white: #ffffff;
+      --text-gray: #a0aec0;
+      --border-color: #1e2d4a;
+      --error-bg: #4a151b;
+      --error-text: #feb2b2;
+      --success-bg: #1a4a2b;
+      --success-text: #c6f6d5;
+    }
 
-  <main id="main" class="login-page">
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-    <section class="login-page__main section" aria-labelledby="login-page-title">
-      <div class="container login-page__inner">
-        <div class="login-card card">
-          <div class="login-card__head">
-            <h1 id="login-page-title" class="login-card__title">Welcome</h1>
-            <p class="login-card__text">Sign in or create an account to continue.</p>
-          </div>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-white);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+      overflow-x: hidden;
+    }
 
-          <div class="login-tabs" role="tablist" aria-label="Authentication">
-            <button
-              type="button"
-              class="login-tabs__btn<?= $activeTab === 'login' ? ' is-active' : '' ?>"
-              role="tab"
-              id="login-tab-login"
-              aria-selected="<?= $activeTab === 'login' ? 'true' : 'false' ?>"
-              aria-controls="login-panel-login"
-              data-login-tab="login"
-            >Login</button>
-            <button
-              type="button"
-              class="login-tabs__btn<?= $activeTab === 'signup' ? ' is-active' : '' ?>"
-              role="tab"
-              id="login-tab-signup"
-              aria-selected="<?= $activeTab === 'signup' ? 'true' : 'false' ?>"
-              aria-controls="login-panel-signup"
-              data-login-tab="signup"
-            >Sign up</button>
-          </div>
+    .login-container {
+      width: 100%;
+      max-width: 440px;
+      animation: fadeIn 0.6s ease-out;
+    }
 
-          <?php if (isset($flash) && $flash): ?>
-            <div class="login-flash" role="alert">
-              <?= htmlspecialchars($flash['message']) ?>
-            </div>
-          <?php endif; ?>
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
 
-          <div
-            class="login-panel<?= $activeTab === 'login' ? ' is-active' : '' ?>"
-            id="login-panel-login"
-            role="tabpanel"
-            aria-labelledby="login-tab-login"
-            data-login-panel="login"
-            <?= $activeTab !== 'login' ? 'hidden' : '' ?>
-          >
-            <form class="login-form" action="<?= BASE_URL ?>/admin/login" method="POST" novalidate>
-              <div class="form-field">
-                <label class="form-label" for="login-email">Email</label>
-                <input
-                  class="form-control form-control--text"
-                  type="email"
-                  id="login-email"
-                  name="email"
-                  placeholder="you@example.com"
-                  required
-                  autocomplete="email"
-                />
-              </div>
+    .logo-wrapper {
+      text-align: center;
+      margin-bottom: 24px;
+    }
 
-              <div class="form-field">
-                <div class="login-form__label-row">
-                  <label class="form-label" for="login-password">Password</label>
-                  <a class="login-forgot" href="<?= BASE_URL ?>/admin/forgot-password">Forgot password?</a>
-                </div>
-                <input
-                  class="form-control form-control--text"
-                  type="password"
-                  id="login-password"
-                  name="password"
-                  placeholder="Enter your password"
-                  required
-                  autocomplete="current-password"
-                />
-              </div>
+    .logo-img {
+      max-width: 200px;
+      height: auto;
+    }
 
-              <button class="btn btn--primary btn--block login-form__submit" type="submit">Sign in</button>
-            </form>
-          </div>
+    .login-card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 40px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+    }
 
-          <div
-            class="login-panel<?= $activeTab === 'signup' ? ' is-active' : '' ?>"
-            id="login-panel-signup"
-            role="tabpanel"
-            aria-labelledby="login-tab-signup"
-            data-login-panel="signup"
-            <?= $activeTab !== 'signup' ? 'hidden' : '' ?>
-          >
-            <form class="login-form" action="<?= BASE_URL ?>/admin/signup" method="POST" novalidate data-signup-form>
-              <div class="form-field">
-                <label class="form-label" for="signup-name">Full name</label>
-                <input
-                  class="form-control form-control--text"
-                  type="text"
-                  id="signup-name"
-                  name="name"
-                  placeholder="Your name"
-                  required
-                  autocomplete="name"
-                />
-              </div>
+    .login-header {
+      margin-bottom: 30px;
+      text-align: center;
+    }
 
-              <div class="form-field">
-                <label class="form-label" for="signup-email">Email</label>
-                <input
-                  class="form-control form-control--text"
-                  type="email"
-                  id="signup-email"
-                  name="email"
-                  placeholder="you@example.com"
-                  required
-                  autocomplete="email"
-                />
-              </div>
+    .login-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text-white);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
 
-              <div class="form-field">
-                <label class="form-label" for="signup-password">Password</label>
-                <input
-                  class="form-control form-control--text"
-                  type="password"
-                  id="signup-password"
-                  name="password"
-                  placeholder="Create a password"
-                  required
-                  autocomplete="new-password"
-                  minlength="6"
-                />
-              </div>
+    .login-subtitle {
+      color: var(--text-gray);
+      font-size: 14px;
+    }
 
-              <div class="form-field">
-                <label class="form-label" for="signup-password-confirm">Confirm password</label>
-                <input
-                  class="form-control form-control--text"
-                  type="password"
-                  id="signup-password-confirm"
-                  name="password_confirm"
-                  placeholder="Confirm your password"
-                  required
-                  autocomplete="new-password"
-                  minlength="6"
-                />
-              </div>
+    .form-group {
+      margin-bottom: 20px;
+    }
 
-              <button class="btn btn--primary btn--block login-form__submit" type="submit">Create account</button>
-            </form>
-          </div>
+    .form-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-gray);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
 
-          <div class="login-divider" aria-hidden="true"><span>or</span></div>
+    .form-input-wrapper {
+      position: relative;
+    }
 
-          <a class="login-google" href="<?= BASE_URL ?>/admin/auth/google">
-            <svg class="login-google__icon" width="18" height="18" viewBox="0 0 18 18" aria-hidden="true">
-              <path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844a4.14 4.14 0 0 1-1.796 2.716v2.259h2.908c1.702-1.567 2.684-3.875 2.684-6.616z" />
-              <path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z" />
-              <path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z" />
-              <path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z" />
-            </svg>
-            <span>Continue with Google</span>
-          </a>
-        </div>
+    .form-input-icon {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-gray);
+      width: 18px;
+      height: 18px;
+      pointer-events: none;
+    }
+
+    .form-control {
+      width: 100%;
+      background-color: var(--bg-dark);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      color: var(--text-white);
+      padding: 12px 12px 12px 42px;
+      font-size: 14px;
+      transition: all 0.3s ease;
+      outline: none;
+    }
+
+    .form-control:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(201, 162, 39, 0.2);
+    }
+
+    .alert {
+      padding: 12px;
+      border-radius: 6px;
+      font-size: 13px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .alert-error {
+      background-color: var(--error-bg);
+      color: var(--error-text);
+      border: 1px solid rgba(254, 178, 178, 0.2);
+    }
+
+    .alert-success {
+      background-color: var(--success-bg);
+      color: var(--success-text);
+      border: 1px solid rgba(198, 246, 213, 0.2);
+    }
+
+    .btn-submit {
+      width: 100%;
+      background-color: var(--primary);
+      color: var(--bg-dark);
+      border: none;
+      border-radius: 6px;
+      padding: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-submit:hover {
+      background-color: var(--primary-hover);
+    }
+
+    .back-link-wrapper {
+      text-align: center;
+      margin-top: 24px;
+    }
+
+    .back-link {
+      color: var(--text-gray);
+      text-decoration: none;
+      font-size: 13px;
+      transition: color 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .back-link:hover {
+      color: var(--primary);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="login-container">
+    <div class="logo-wrapper">
+      <img src="<?= BASE_URL ?>/public/image/eisen-logo.png" alt="Eisen Corporation" class="logo-img">
+    </div>
+
+    <div class="login-card">
+      <div class="login-header">
+        <h1 class="login-title">Control Room</h1>
+        <p class="login-subtitle">Administrator Portal Access</p>
       </div>
-    </section>
 
-  </main>
+      <?php if (isset($flash) && $flash): ?>
+        <div class="alert alert-error">
+          <i data-lucide="alert-circle" style="width: 18px; height: 18px;"></i>
+          <span><?= htmlspecialchars($flash['message']) ?></span>
+        </div>
+      <?php endif; ?>
 
-  <script src="<?= BASE_URL ?>/public/js/login.js" defer></script>
-<?php include dirname(__DIR__) . '/front/partials/footer.php'; ?>
+      <form action="<?= BASE_URL ?>/admin/login" method="POST" autocomplete="off">
+        <div class="form-group">
+          <label class="form-label" for="admin-email">Email Address</label>
+          <div class="form-input-wrapper">
+            <i data-lucide="mail" class="form-input-icon"></i>
+            <input 
+              type="email" 
+              id="admin-email" 
+              name="email" 
+              class="form-control" 
+              placeholder="admin@eisen.com" 
+              required 
+              autocomplete="email"
+            >
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="admin-password">Password</label>
+          <div class="form-input-wrapper">
+            <i data-lucide="lock" class="form-input-icon"></i>
+            <input 
+              type="password" 
+              id="admin-password" 
+              name="password" 
+              class="form-control" 
+              placeholder="••••••••" 
+              required
+              autocomplete="current-password"
+            >
+          </div>
+        </div>
+
+        <button type="submit" class="btn-submit">
+          <span>Sign In</span>
+          <i data-lucide="arrow-right" style="width: 16px; height: 16px;"></i>
+        </button>
+      </form>
+    </div>
+
+    <div class="back-link-wrapper">
+      <a href="<?= BASE_URL ?>/" class="back-link">
+        <i data-lucide="arrow-left" style="width: 14px; height: 14px;"></i>
+        <span>Back to Marketplace</span>
+      </a>
+    </div>
+  </div>
+
+  <script>
+    // Initialize Lucide Icons
+    lucide.createIcons();
+  </script>
+</body>
+</html>

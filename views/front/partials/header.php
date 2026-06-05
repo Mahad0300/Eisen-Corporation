@@ -55,7 +55,7 @@ if (!function_exists('eisen_nav_is_active')) {
   <header class="site-header">
     <div class="header-brand">
       <div class="container header-brand__inner">
-        <a href="<?= BASE_URL ?>/" class="logo" aria-label="Eisen Corporation home">
+        <a href="<?= BASE_URL ?>/" class="logo notranslate" aria-label="Eisen Corporation home">
           <img
             class="logo__img"
             src="<?= BASE_URL ?>/public/image/eisen-logo.png"
@@ -67,7 +67,7 @@ if (!function_exists('eisen_nav_is_active')) {
         </a>
 
         <div class="header-brand__actions">
-        <div class="header-locale" data-header-locale>
+        <div class="header-locale notranslate" data-header-locale>
           <div class="header-locale__dropdown" data-locale-dropdown="language">
             <label class="visually-hidden" id="header-language-label" data-i18n="locale.language">Language</label>
             <button
@@ -147,18 +147,43 @@ if (!function_exists('eisen_nav_is_active')) {
           </div>
         </div>
 
-        <a
-          class="header-login header-login--desktop"
-          href="<?= BASE_URL ?>/admin/login"
-          data-i18n-aria="nav.loginAria"
-          aria-label="Log in to your account"
-        >
-          <svg class="header-login__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.75" />
-            <path d="M5 20c0-3.314 3.134-6 7-6s7 2.686 7 6" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" />
-          </svg>
-          <span class="header-login__label" data-i18n="nav.login">Login</span>
-        </a>
+        <?php if (\App\Core\Session::get('is_logged_in') === true): ?>
+            <?php if (\App\Core\Session::get('user_role') === 'admin'): ?>
+                <a class="header-login header-login--desktop" href="<?= BASE_URL ?>/admin" aria-label="Go to Admin Dashboard">
+                  <svg class="header-login__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                  <span class="header-login__label">Admin Panel</span>
+                </a>
+                <a class="header-login header-login--desktop" href="<?= BASE_URL ?>/admin/logout" style="margin-left: 15px;" aria-label="Logout">
+                  <span class="header-login__label">Logout</span>
+                </a>
+            <?php else: ?>
+                <div class="header-login header-login--desktop" style="cursor: default;" aria-label="User logged in">
+                  <svg class="header-login__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.75" />
+                    <path d="M5 20c0-3.314 3.134-6 7-6s7 2.686 7 6" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" />
+                  </svg>
+                  <span class="header-login__label" style="font-weight: 600; color: #c9a227;"><?= htmlspecialchars(\App\Core\Session::get('user_name')) ?></span>
+                </div>
+                <a class="header-login header-login--desktop" href="<?= BASE_URL ?>/logout" style="margin-left: 15px;" aria-label="Logout">
+                  <span class="header-login__label">Logout</span>
+                </a>
+            <?php endif; ?>
+        <?php else: ?>
+            <a
+              class="header-login header-login--desktop"
+              href="<?= BASE_URL ?>/login"
+              data-i18n-aria="nav.loginAria"
+              aria-label="Log in to your account"
+            >
+              <svg class="header-login__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.75" />
+                <path d="M5 20c0-3.314 3.134-6 7-6s7 2.686 7 6" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" />
+              </svg>
+              <span class="header-login__label" data-i18n="nav.login">Login</span>
+            </a>
+        <?php endif; ?>
         </div>
       </div>
     </div>
@@ -211,18 +236,34 @@ if (!function_exists('eisen_nav_is_active')) {
           <button class="btn btn--primary header-search__btn" type="submit" data-i18n="search.btn">search</button>
         </form>
 
-        <a
-          class="header-login header-login--mobile"
-          href="<?= BASE_URL ?>/admin/login"
-          data-i18n-aria="nav.loginAria"
-          aria-label="Log in to your account"
-        >
-          <svg class="header-login__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.75" />
-            <path d="M5 20c0-3.314 3.134-6 7-6s7 2.686 7 6" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" />
-          </svg>
-          <span class="visually-hidden" data-i18n="nav.login">Login</span>
-        </a>
+        <?php if (\App\Core\Session::get('is_logged_in') === true): ?>
+            <?php if (\App\Core\Session::get('user_role') === 'admin'): ?>
+                <a class="header-login header-login--mobile" href="<?= BASE_URL ?>/admin" aria-label="Go to Admin Dashboard">
+                  <svg class="header-login__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </a>
+            <?php else: ?>
+                <a class="header-login header-login--mobile" href="<?= BASE_URL ?>/logout" aria-label="Logout">
+                  <svg class="header-login__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M9 21H5a2 2 0 0 0-2 2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </a>
+            <?php endif; ?>
+        <?php else: ?>
+            <a
+              class="header-login header-login--mobile"
+              href="<?= BASE_URL ?>/login"
+              data-i18n-aria="nav.loginAria"
+              aria-label="Log in to your account"
+            >
+              <svg class="header-login__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.75" />
+                <path d="M5 20c0-3.314 3.134-6 7-6s7 2.686 7 6" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" />
+              </svg>
+              <span class="visually-hidden" data-i18n="nav.login">Login</span>
+            </a>
+        <?php endif; ?>
       </div>
     </div>
     <div class="site-nav-backdrop" data-nav-backdrop hidden aria-hidden="true"></div>

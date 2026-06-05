@@ -3,6 +3,7 @@ namespace App\Controllers\Admin;
 
 use App\Core\Controller;
 use App\Core\Session;
+use App\Core\Database;
 
 class AuthController extends Controller {
     
@@ -17,48 +18,47 @@ class AuthController extends Controller {
     }
 
     public function login() {
-        Session::set('is_logged_in', true);
-        Session::set('user_role', 'admin');
-        Session::set('user_name', 'Eisen Admin');
-        Session::set('user_email', trim($_POST['email'] ?? 'admin@eisen.com'));
-
-        $this->redirect('/admin');
-    }
-
-    public function signup() {
-        $name = trim($_POST['name'] ?? '');
         $email = trim($_POST['email'] ?? '');
         $password = $_POST['password'] ?? '';
-        $passwordConfirm = $_POST['password_confirm'] ?? '';
 
-        if ($name === '' || $email === '' || $password === '') {
-            Session::setFlash('error', 'Please fill in all required fields.');
-            $this->redirect('/admin/login?tab=signup');
+        if ($email === '' || $password === '') {
+            Session::setFlash('error', 'Please fill in all fields.');
+            $this->redirect('/admin/login');
             return;
         }
 
-        if ($password !== $passwordConfirm) {
-            Session::setFlash('error', 'Passwords do not match.');
-            $this->redirect('/admin/login?tab=signup');
-            return;
+        try {
+            $db = Database::getConnection();
+            $stmt = $db->prepare("SELECT * FROM users WHERE email = ? LIMIT 1");
+            $stmt->execute([$email]);
+            $user = $stmt->fetch();
+
+            if (!$user || !password_verify($password, $user['password'])) {
+                Session::setFlash('error', 'Invalid email or password.');
+                $this->redirect('/admin/login');
+                return;
+            }
+
+            // Verify if user has an administrative/staff role
+            if (!in_array($user['role'], ['admin', 'finance_officer', 'caller_agent'])) {
+                Session::setFlash('error', 'Access denied. Unauthorized area.');
+                $this->redirect('/admin/login');
+                return;
+            }
+
+            Session::set('is_logged_in', true);
+            Session::set('user_role', $user['role']);
+            Session::set('user_name', $user['name']);
+            Session::set('user_email', $user['email']);
+
+            $this->redirect('/admin');
+        } catch (\Exception $e) {
+            Session::setFlash('error', 'An error occurred during sign in: ' . $e->getMessage());
+            $this->redirect('/admin/login');
         }
-
-        Session::set('is_logged_in', true);
-        Session::set('user_role', 'user');
-        Session::set('user_name', $name);
-        Session::set('user_email', $email);
-
-        $this->redirect('/admin');
     }
 
-    public function googleLogin() {
-        Session::set('is_logged_in', true);
-        Session::set('user_role', 'user');
-        Session::set('user_name', 'Google User');
-        Session::set('user_email', 'user@gmail.com');
 
-        $this->redirect('/admin');
-    }
 
     public function showForgotPasswordForm() {
         $flash = Session::getFlash();

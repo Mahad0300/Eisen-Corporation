@@ -1,85 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     "use strict";
 
-    // ==========================================
-    // 1. Modal Overlay Management
-    // ==========================================
-    const modal = document.getElementById('addCarModal');
-    const openModalBtn = document.getElementById('openAddCarModalBtn');
-    const closeModalBtn = document.getElementById('closeAddCarModalBtn');
-    const cancelModalBtn = document.getElementById('cancelAddCarModalBtn');
-    const form = document.getElementById('addCarForm');
-
-    function openModal() {
-        if (modal) {
-            modal.style.display = 'flex';
-            document.body.style.overflow = 'hidden'; // prevent scrolling behind modal
-        }
-    }
-
-    function closeModal() {
-        if (modal) {
-            modal.style.display = 'none';
-            document.body.style.overflow = '';
-            form.reset();
-            // Reset to first tab
-            switchTab('specs');
-        }
-    }
-
-    if (openModalBtn) openModalBtn.addEventListener('click', openModal);
-    if (closeModalBtn) closeModalBtn.addEventListener('click', closeModal);
-    if (cancelModalBtn) cancelModalBtn.addEventListener('click', closeModal);
-
-    // Close when clicking backdrop
-    if (modal) {
-        modal.addEventListener('click', function(e) {
-            if (e.target === modal) {
-                closeModal();
-            }
-        });
-    }
-
-    // ==========================================
-    // 2. Modal Tab Panel Switching
-    // ==========================================
-    const tabBtns = document.querySelectorAll('.modal-tab-btn');
-    const panels = document.querySelectorAll('.tab-panel');
-
-    function switchTab(tabId) {
-        tabBtns.forEach(btn => {
-            const active = btn.getAttribute('data-tab') === tabId;
-            btn.classList.toggle('active', active);
-        });
-
-        panels.forEach(panel => {
-            const active = panel.id === `panel-${tabId}`;
-            panel.style.display = active ? 'block' : 'none';
-        });
-    }
-
-    tabBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
-            const tabId = this.getAttribute('data-tab');
-            switchTab(tabId);
-        });
-    });
-
-    // Form submit validation simulation
-    if (form) {
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Simulation check
-            const makeVal = document.getElementById('make').value;
-            const modelVal = document.getElementById('model').value;
-            
-            closeModal();
-            
-            toastr.options = { "closeButton": true, "progressBar": true };
-            toastr.success(`Added vehicle "${makeVal} ${modelVal}" to inventory database!`, 'Listing Saved');
-        });
-    }
+    // Modal management logic has been removed as vehicle creation is handled on its own page
 
     // ==========================================
     // 3. Search and Filtering Logic
@@ -146,20 +68,45 @@ document.addEventListener('DOMContentLoaded', function() {
     // 4. Action Button Event Simulations
     // ==========================================
     
+    
     // Featured Switch Handler
     const featuredToggles = document.querySelectorAll('.featured-toggle-btn');
     featuredToggles.forEach(toggle => {
         toggle.addEventListener('change', function() {
             const row = this.closest('tr');
+            const carId = row.getAttribute('data-db-id');
             const carName = row.querySelector('td:nth-child(2) strong').textContent;
             const isFeatured = this.checked;
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
             
-            toastr.options = { "closeButton": true, "timeOut": "2000" };
-            if (isFeatured) {
-                toastr.success(`"${carName}" is now featured on the front homepage.`, 'Featured Status');
-            } else {
-                toastr.info(`"${carName}" removed from homepage featured list.`, 'Featured Status');
-            }
+            const formData = new FormData();
+            formData.append('csrf_token', csrfToken);
+            
+            fetch(window.BASE_URL + '/admin/inventory/toggle-featured/' + carId, {
+                method: 'POST',
+                body: formData
+            })
+            .then(res => {
+                if (!res.ok) throw new Error('CSRF or Network Error');
+                return res.json();
+            })
+            .then(data => {
+                toastr.options = { "closeButton": true, "timeOut": "2000" };
+                if (data.status === 'success') {
+                    if (data.featured) {
+                        toastr.success(`"${carName}" is now featured on the front homepage.`, 'Featured Status');
+                    } else {
+                        toastr.info(`"${carName}" removed from homepage featured list.`, 'Featured Status');
+                    }
+                } else {
+                    toastr.error(data.message || 'Failed to update featured status.', 'Error');
+                    this.checked = !isFeatured; // revert UI
+                }
+            })
+            .catch(err => {
+                toastr.error('CSRF verification failed or network issue.', 'Error');
+                this.checked = !isFeatured; // revert UI
+            });
         });
     });
 
@@ -167,10 +114,11 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.edit-car-btn').forEach(btn => {
         btn.addEventListener('click', function() {
             const row = this.closest('tr');
+            const carId = row.getAttribute('data-db-id');
             const carName = row.querySelector('td:nth-child(2) strong').textContent;
             
-            toastr.info(`Edit Form populated for "${carName}" inside modal layout.`, 'Edit Action');
-            openModal();
+            toastr.info(`Redirecting to edit form for "${carName}"...`, 'Edit Action');
+            window.location.href = window.BASE_URL + '/admin/inventory/edit/' + carId;
         });
     });
 
@@ -229,7 +177,9 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.delete-car-btn').forEach(btn => {
         btn.addEventListener('click', function() {
             const row = this.closest('tr');
+            const carId = row.getAttribute('data-db-id');
             const carName = row.querySelector('td:nth-child(2) strong').textContent;
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
             
             Swal.fire({
                 title: 'Delete Vehicle?',
@@ -241,12 +191,46 @@ document.addEventListener('DOMContentLoaded', function() {
                 confirmButtonText: 'Yes, delete permanently'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    row.remove();
-                    Swal.fire({
-                        title: 'Deleted!',
-                        text: `"${carName}" has been removed from catalog listings.`,
-                        icon: 'success',
-                        confirmButtonColor: 'var(--color-navy-700)'
+                    const formData = new FormData();
+                    formData.append('csrf_token', csrfToken);
+
+                    fetch(window.BASE_URL + '/admin/inventory/delete/' + carId, {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(res => {
+                        if (!res.ok) throw new Error('Network response not ok');
+                        return res.json();
+                    })
+                    .then(data => {
+                        if (data.status === 'success') {
+                            row.remove();
+                            Swal.fire({
+                                title: 'Deleted!',
+                                text: `"${carName}" has been removed from catalog listings.`,
+                                icon: 'success',
+                                confirmButtonColor: 'var(--color-navy-700)'
+                            });
+                            // Reload page to update counts & KPIs
+                            setTimeout(() => {
+                                window.location.reload();
+                            }, 1200);
+                        } else {
+                            Swal.fire({
+                                title: 'Error!',
+                                text: data.message || 'Failed to delete listing.',
+                                icon: 'error',
+                                confirmButtonColor: 'var(--color-navy-700)'
+                            });
+                        }
+                    })
+                    .catch(err => {
+                        Swal.fire({
+                            title: 'Error!',
+                            text: 'Failed to delete listing (CSRF or Network Error).',
+                            icon: 'error',
+                            confirmButtonColor: 'var(--color-navy-700)'
+                        });
                     });
                 }
             });

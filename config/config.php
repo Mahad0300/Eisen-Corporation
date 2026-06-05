@@ -22,3 +22,19 @@ define('ASSET_URL', BASE_URL . '/public/assets');
 define('ROOT_DIR', dirname(__DIR__));
 define('APP_DIR', ROOT_DIR . '/app');
 define('VIEW_DIR', ROOT_DIR . '/views');
+
+// Load local configurations / secrets if they exist
+if (file_exists(__DIR__ . '/config_local.php')) {
+    require_once __DIR__ . '/config_local.php';
+}
+
+// Database Configuration
+if (!defined('DB_HOST')) define('DB_HOST', 'localhost');
+if (!defined('DB_USER')) define('DB_USER', 'root');
+if (!defined('DB_PASS')) define('DB_PASS', '');
+if (!defined('DB_NAME')) define('DB_NAME', 'eisen_db');
+
+// Google OAuth Configuration
+if (!defined('GOOGLE_CLIENT_ID')) define('GOOGLE_CLIENT_ID', 'YOUR_GOOGLE_CLIENT_ID');
+if (!defined('GOOGLE_CLIENT_SECRET')) define('GOOGLE_CLIENT_SECRET', 'YOUR_GOOGLE_CLIENT_SECRET');
+define('GOOGLE_REDIRECT_URI', BASE_URL . '/auth/google/callback');

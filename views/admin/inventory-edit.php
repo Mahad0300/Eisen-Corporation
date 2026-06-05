@@ -1,0 +1,450 @@
+<?php 
+$pageTitle = "Edit Vehicle Listing | Eisen Admin";
+$pageScript = "inventory-new.js"; // Reuse same script for pricing calculator and slot previews
+include dirname(__DIR__) . '/admin/partials/header.php'; 
+?>
+
+<style>
+    .inventory-new-content {
+        padding: 10px 0;
+    }
+    .form-grid-2x {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 24px;
+        align-items: start;
+    }
+    .options-group-card {
+        background: var(--color-white);
+        border: 1px solid var(--color-silver-200);
+        border-radius: var(--radius-md);
+        padding: 20px;
+        margin-bottom: 24px;
+    }
+    .options-group-title {
+        margin: 0 0 16px 0;
+        font-size: 15px;
+        font-weight: 700;
+        color: var(--color-navy-950);
+        border-bottom: 1px solid var(--color-silver-200);
+        padding-bottom: 10px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .checkbox-chips-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 12px;
+    }
+    .checkbox-chip-label {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: var(--color-silver-100);
+        border: 1px solid var(--color-silver-300);
+        border-radius: var(--radius-sm);
+        padding: 10px 14px;
+        cursor: pointer;
+        user-select: none;
+        transition: all var(--transition-fast);
+    }
+    .checkbox-chip-label:hover {
+        background: var(--color-silver-200);
+        border-color: var(--color-silver-400);
+    }
+    .checkbox-chip-label input[type="checkbox"] {
+        width: 16px;
+        height: 16px;
+        accent-color: var(--color-gold-500);
+        cursor: pointer;
+    }
+    .checkbox-chip-label.is-active {
+        background: rgba(201, 162, 39, 0.08);
+        border-color: var(--color-gold-500);
+    }
+    .checkbox-chip-label.is-active .chip-label-text {
+        font-weight: 600;
+        color: var(--color-gold-700);
+    }
+    .pricing-fields-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+    }
+    .photo-slots-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
+        margin-top: 12px;
+    }
+    .photo-slot {
+        aspect-ratio: 1;
+        background: var(--color-silver-100);
+        border: 1px dashed var(--color-silver-300);
+        border-radius: var(--radius-sm);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: var(--color-text-muted);
+        font-size: 11px;
+        position: relative;
+        cursor: move;
+        overflow: hidden;
+        transition: all var(--transition-fast);
+    }
+    .photo-slot:hover {
+        border-color: var(--color-gold-500);
+        background: rgba(201, 162, 39, 0.02);
+    }
+    .photo-slot.drag-over {
+        border-color: var(--color-gold-500);
+        background: rgba(201, 162, 39, 0.08);
+        transform: scale(1.02);
+    }
+    .slot-number {
+        font-size: 9px;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: var(--color-text-muted);
+        z-index: 2;
+        background: rgba(255, 255, 255, 0.85);
+        padding: 1px 5px;
+        border-radius: 10px;
+        border: 1px solid var(--color-silver-200);
+        position: absolute;
+        top: 4px;
+        left: 4px;
+        pointer-events: none;
+    }
+    .slot-preview {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .slot-preview img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    .total-calc-box {
+        background: var(--color-navy-950);
+        color: var(--color-white);
+        border-radius: var(--radius-md);
+        padding: 20px;
+        margin-top: 20px;
+    }
+    .total-calc-title {
+        font-size: 13px;
+        font-weight: 600;
+        text-transform: uppercase;
+        color: var(--color-silver-400);
+        margin: 0 0 8px 0;
+        letter-spacing: 0.5px;
+    }
+    .total-calc-amount {
+        font-size: 28px;
+        font-weight: 800;
+        color: var(--color-gold-500);
+        margin: 0;
+    }
+</style>
+
+<div class="inventory-new-content">
+    <div class="page-header-container mb-30">
+        <div class="header-title-group" style="display: flex; align-items: center; gap: 14px;">
+            <a href="<?= BASE_URL ?>/admin/inventory" class="btn btn-outline btn-sm">
+                <i data-lucide="arrow-left" style="width: 14px; height: 14px; margin-right: 4px;"></i>
+                <span>Back</span>
+            </a>
+            <div>
+                <h1 class="page-title" style="font-size: 20px; margin-bottom: 0;">Edit Vehicle Listing: <?= htmlspecialchars($car['stock_id']) ?></h1>
+                <p style="color: var(--color-text-muted); margin: 2px 0 0 0; font-size: 12px;">Modify vehicle specifications, update C&F price parameters, and manage images gallery.</p>
+            </div>
+        </div>
+    </div>
+
+    <form id="addVehicleDetailedForm" action="<?= BASE_URL ?>/admin/inventory/edit/<?= $car['id'] ?>" method="POST" enctype="multipart/form-data">
+        <?= $this->csrf_field() ?>
+        <input type="hidden" name="exchange_rate" id="exchange_rate_input" value="150">
+
+        <div class="form-grid-2x">
+            
+            <!-- Left Column: Specs and Options Checkboxes -->
+            <div>
+                
+                <!-- Card 1: Specifications -->
+                <div class="card mb-24" style="padding: 24px;">
+                    <h3 class="options-group-title" style="border: none; margin-bottom: 20px; padding: 0;">
+                        <i data-lucide="car" style="color: var(--color-gold-600);"></i>
+                        <span>Vehicle Specifications</span>
+                    </h3>
+
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;">
+                        <div class="form-group">
+                            <label class="form-label" for="make">Make / Manufacturer *</label>
+                            <input class="form-control" type="text" id="make" name="make" value="<?= htmlspecialchars($car['make']) ?>" placeholder="e.g. Honda" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="model">Model *</label>
+                            <input class="form-control" type="text" id="model" name="model" value="<?= htmlspecialchars($car['model']) ?>" placeholder="e.g. Fit 13G F" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="year">Model Year *</label>
+                            <input class="form-control" type="number" id="year" name="year" value="<?= htmlspecialchars($car['year']) ?>" placeholder="e.g. 2018" required>
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;">
+                        <div class="form-group">
+                            <label class="form-label" for="chassis">Chassis VIN *</label>
+                            <input class="form-control" type="text" id="chassis" name="chassis" value="<?= htmlspecialchars($car['chassis_number']) ?>" placeholder="e.g. DBA-GK3" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="grade">Inspection Grade *</label>
+                            <input class="form-control" type="text" id="grade" name="grade" value="<?= htmlspecialchars($car['grade']) ?>" placeholder="e.g. 4.5" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="mileage">Mileage (KM) *</label>
+                            <input class="form-control" type="number" id="mileage" name="mileage" value="<?= htmlspecialchars($car['mileage_km']) ?>" placeholder="e.g. 76000" required>
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;">
+                        <div class="form-group">
+                            <label class="form-label" for="engine">Engine Size (CC) *</label>
+                            <input class="form-control" type="number" id="engine" name="engine" value="<?= htmlspecialchars($car['engine_cc']) ?>" placeholder="e.g. 1300" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="transmission">Transmission *</label>
+                            <select class="form-control" id="transmission" name="transmission" required>
+                                <option value="AT" <?= $car['transmission'] === 'AT' ? 'selected' : '' ?>>Automatic (AT)</option>
+                                <option value="MT" <?= $car['transmission'] === 'MT' ? 'selected' : '' ?>>Manual (MT)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="drive">Drive Train *</label>
+                            <input class="form-control" type="text" id="drive" name="drive" value="<?= htmlspecialchars($car['drive_type']) ?>" placeholder="e.g. 2WD" required>
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;">
+                        <div class="form-group">
+                            <label class="form-label" for="steering">Steering Direction *</label>
+                            <select class="form-control" id="steering" name="steering" required>
+                                <option value="RHD" <?= $car['steering'] === 'RHD' ? 'selected' : '' ?>>Right Hand Drive (RHD)</option>
+                                <option value="LHD" <?= $car['steering'] === 'LHD' ? 'selected' : '' ?>>Left Hand Drive (LHD)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="fuel">Fuel Type *</label>
+                            <select class="form-control" id="fuel" name="fuel" required>
+                                <option value="PETROL" <?= $car['fuel'] === 'PETROL' ? 'selected' : '' ?>>Petrol (Gasoline)</option>
+                                <option value="DIESEL" <?= $car['fuel'] === 'DIESEL' ? 'selected' : '' ?>>Diesel</option>
+                                <option value="HYBRID" <?= $car['fuel'] === 'HYBRID' ? 'selected' : '' ?>>Hybrid</option>
+                                <option value="ELECTRIC" <?= $car['fuel'] === 'ELECTRIC' ? 'selected' : '' ?>>Electric</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="body_type">Body Type *</label>
+                            <select class="form-control" id="body_type" name="body_type" required>
+                                <option value="Hatchback" <?= $car['body_type'] === 'Hatchback' ? 'selected' : '' ?>>Hatchback</option>
+                                <option value="Sedan" <?= $car['body_type'] === 'Sedan' ? 'selected' : '' ?>>Sedan</option>
+                                <option value="SUV" <?= $car['body_type'] === 'SUV' ? 'selected' : '' ?>>SUV</option>
+                                <option value="Van" <?= $car['body_type'] === 'Van' ? 'selected' : '' ?>>Van</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;">
+                        <div class="form-group">
+                            <label class="form-label" for="doors">Doors Count *</label>
+                            <input class="form-control" type="number" id="doors" name="doors" value="<?= htmlspecialchars($car['doors']) ?>" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="seats">Seats Count *</label>
+                            <input class="form-control" type="number" id="seats" name="seats" value="<?= htmlspecialchars($car['seats']) ?>" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="stock_type">Listing Sourcing Type *</label>
+                            <select class="form-control" id="stock_type" name="stock_type" required>
+                                <option value="In-Stock" <?= $car['type'] === 'In-Stock' ? 'selected' : '' ?>>In-Stock Imports</option>
+                                <option value="Auction" <?= $car['type'] === 'Auction' ? 'selected' : '' ?>>Live Auction Lot</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="location">Storage Location *</label>
+                            <input class="form-control" type="text" id="location" name="location" value="<?= htmlspecialchars($car['location']) ?>" required>
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 16px;">
+                        <div class="form-group">
+                            <label class="form-label" for="color">Exterior Color *</label>
+                            <input class="form-control" type="text" id="color" name="color" value="<?= htmlspecialchars($car['color']) ?>" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="dimension">Dimension *</label>
+                            <input class="form-control" type="text" id="dimension" name="dimension" value="<?= htmlspecialchars($car['dimension'] ?? '0.00m × 0.00m × 0.00m') ?>" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="m3">M3 Volume *</label>
+                            <input class="form-control" type="text" id="m3" name="m3" value="<?= htmlspecialchars($car['m3'] ?? '10.167') ?>" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="views">Views Count</label>
+                            <input class="form-control" type="number" id="views" name="views" value="<?= (int)$car['views'] ?>">
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-top: 16px; margin-bottom: 0;">
+                        <label class="form-label" for="description">Overview Description (Optional)</label>
+                        <textarea class="form-control" id="description" name="description" rows="4" placeholder="Enter custom overview paragraph..." style="resize: vertical; min-height: 80px; padding: 10px;"><?= htmlspecialchars($car['description'] ?? '') ?></textarea>
+                    </div>
+                </div>
+
+                <!-- Card 2: Dynamically categorized Option Checklist checkboxes -->
+                <div class="card mb-24" style="padding: 24px;">
+                    <h3 class="options-group-title" style="border: none; margin-bottom: 4px; padding: 0;">
+                        <i data-lucide="check-square" style="color: var(--color-gold-600);"></i>
+                        <span>Car Equipment Options Checklist</span>
+                    </h3>
+                    <p style="font-size: 12px; color: var(--color-text-muted); margin: 0 0 20px 0;">Select all options that are installed in the vehicle. Active options will display with checkmarks on the product page.</p>
+
+                    <?php foreach ($optionGroups as $group): ?>
+                        <div class="options-group-card" style="padding: 16px; border: 1px solid var(--color-silver-200); margin-bottom: 20px;">
+                            <h4 class="options-group-title" style="font-size: 13.5px; border: none; margin-bottom: 12px; padding: 0;">
+                                <i data-lucide="folder" style="width: 14px; height: 14px;"></i>
+                                <span><?= htmlspecialchars($group['title']) ?></span>
+                            </h4>
+                            <div class="checkbox-chips-grid">
+                                <?php foreach ($group['items'] as $item): ?>
+                                    <label class="checkbox-chip-label <?= $item['active'] ? 'is-active' : '' ?>">
+                                        <input type="checkbox" name="options[]" class="car-option-check" value="<?= htmlspecialchars($item['label']) ?>" <?= $item['active'] ? 'checked' : '' ?>>
+                                        <span class="chip-label-text" style="font-size: 12.5px;"><?= htmlspecialchars($item['label']) ?></span>
+                                    </label>
+                                <?php endforeach; ?>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+
+            </div>
+
+            <!-- Right Column: Pricing, Uploads, and Totals -->
+            <div>
+                
+                <!-- Card 3: Pricing Parameters -->
+                <div class="card mb-24" style="padding: 20px;">
+                    <h3 class="options-group-title" style="border: none; margin-bottom: 15px; padding: 0; display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <i data-lucide="dollar-sign" style="color: var(--color-gold-600);"></i>
+                            <span>Pricing Breakdown (USD)</span>
+                        </div>
+                        <select class="form-control" id="pricing_currency_selector" name="pricing_currency_selector" style="width: auto; height: 32px; padding: 2px 8px; font-size: 13px; border-radius: 4px; border: 1px solid var(--color-silver-300);">
+                            <option value="USD">USD ($)</option>
+                            <option value="JPY">JPY (¥)</option>
+                        </select>
+                    </h3>
+
+                    <div class="pricing-fields-grid">
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label class="form-label" for="price_vehicle">Base Vehicle Price (FOB) *</label>
+                            <input class="form-control" type="number" id="price_vehicle" name="price_vehicle" value="<?= (float)$car['fob_price'] ?>" required>
+                        </div>
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label class="form-label" for="price_jpy">Vehicle Price (JPY) *</label>
+                            <input class="form-control" type="number" id="price_jpy" name="price_jpy" value="<?= (float)($car['price_jpy'] ?? ($car['fob_price'] * 150)) ?>" required>
+                        </div>
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label class="form-label" for="price_freight">Estimated Freight Charges</label>
+                            <input class="form-control" type="number" id="price_freight" name="price_freight" value="<?= (float)$car['freight_price'] ?>">
+                        </div>
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label class="form-label" for="price_vanning">Vanning Packaging Cost</label>
+                            <input class="form-control" type="number" id="price_vanning" name="price_vanning" value="<?= (float)$car['vanning_price'] ?>">
+                        </div>
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label class="form-label" for="price_inspection">Inspection Certification Cost</label>
+                            <input class="form-control" type="number" id="price_inspection" name="price_inspection" value="<?= (float)$car['inspection_price'] ?>">
+                        </div>
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label class="form-label" for="price_insurance">Marine Insurance Premium</label>
+                            <input class="form-control" type="number" id="price_insurance" name="price_insurance" value="<?= (float)$car['insurance_price'] ?>">
+                        </div>
+                    </div>
+
+                    <div class="total-calc-box">
+                        <h4 class="total-calc-title">Total Calculated C&F Price</h4>
+                        <p class="total-calc-amount" id="total_price_display">$<?= number_format((float)$car['cf_price']) ?></p>
+                    </div>
+                </div>
+
+                <!-- Card 4: Uploads Dropzone -->
+                <div class="card mb-24" style="padding: 20px;">
+                    <h3 class="options-group-title" style="border: none; margin-bottom: 15px; padding: 0;">
+                        <i data-lucide="image" style="color: var(--color-gold-600);"></i>
+                        <span>Gallery & Documents</span>
+                    </h3>
+
+                    <div class="form-group">
+                        <label class="form-label">Vehicle Photos (Drag and Drop / Upload New)</label>
+                        <div class="upload-dropzone" style="padding: 20px 10px; text-align: center; border: 2px dashed var(--color-silver-300);" onclick="document.getElementById('gallery_uploader').click();">
+                            <i data-lucide="upload-cloud" style="width: 28px; height: 28px; color: var(--color-silver-400); margin-bottom: 6px;"></i>
+                            <p style="margin: 0; font-size: 11.5px; font-weight: 600; color: var(--color-navy-950);">Click to browse new photos</p>
+                            <input type="file" name="images[]" multiple style="display: none;" id="gallery_uploader" accept="image/*">
+                        </div>
+                        <div class="photo-slots-grid" id="sortable-photo-slots">
+                            <?php for ($i = 1; $i <= 8; $i++): 
+                                $existingImg = $existingImages[$i - 1] ?? null;
+                            ?>
+                                <div class="photo-slot" draggable="true" data-index="<?= $i - 1 ?>">
+                                    <span class="slot-number">Slot <?= $i ?></span>
+                                    <div class="slot-preview">
+                                        <?php if ($existingImg): ?>
+                                            <img src="<?= BASE_URL . $existingImg ?>" alt="Preview">
+                                            <input type="hidden" name="existing_images[]" value="<?= htmlspecialchars($existingImg) ?>">
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
+                            <?php endfor; ?>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label class="form-label" for="inspection_pdf">Inspection Sheet PDF (Leave empty to keep existing)</label>
+                        <input class="form-control" type="file" id="inspection_pdf" name="inspection_pdf" accept="application/pdf">
+                        <?php if ($car['damage_report_url']): ?>
+                            <div style="font-size: 11px; margin-top: 6px;">
+                                <i data-lucide="file-text" style="width: 12px; height: 12px; vertical-align: middle;"></i>
+                                <a href="<?= BASE_URL . $car['damage_report_url'] ?>" target="_blank" style="color: var(--color-gold-600); text-decoration: underline;">View Current Inspection Sheet</a>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                </div>
+
+                <!-- Submit / Cancel Controls -->
+                <div class="card" style="padding: 20px;">
+                    <button class="btn btn-gold btn-block mb-10" type="submit" id="saveListingBtn">
+                        <i data-lucide="shield-check" style="width: 16px; height: 16px; margin-right: 4px;"></i>
+                        <span>Update Listing</span>
+                    </button>
+                    <button class="btn btn-outline btn-block" type="button" onclick="window.location.href='<?= BASE_URL ?>/admin/inventory'">
+                        <span>Cancel</span>
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+    </form>
+</div>
+
+<?php include dirname(__DIR__) . '/admin/partials/footer.php'; ?>

@@ -29,7 +29,7 @@ foreach ($cars as $car) {
                 <i data-lucide="refresh-cw"></i>
                 <span>Sync Auction API</span>
             </button>
-            <button class="btn btn-primary" id="openAddCarModalBtn">
+            <button class="btn btn-primary" id="openAddCarModalBtn" onclick="window.location.href='<?= BASE_URL ?>/admin/inventory/new'">
                 <i data-lucide="plus-circle"></i>
                 <span>Add New Vehicle</span>
             </button>
@@ -173,7 +173,7 @@ foreach ($cars as $car) {
                 </thead>
                 <tbody>
                     <?php foreach ($cars as $car): ?>
-                    <tr data-type="<?= $car['type'] ?>" data-status="<?= $car['status'] ?>">
+                    <tr data-db-id="<?= $car['db_id'] ?>" data-type="<?= $car['type'] ?>" data-status="<?= $car['status'] ?>">
                         <td>
                             <?php if ($car['type'] === 'In-Stock'): ?>
                                 <span class="badge badge-success" style="font-size: 10px;"><?= $car['id'] ?></span>
@@ -237,139 +237,5 @@ foreach ($cars as $car) {
     </div>
 </div>
 
-<!-- ==========================================
-     Modal Sheet: Add New Car Form
-     ========================================== -->
-<div class="modal-backdrop" id="addCarModal" style="display: none;">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3 style="margin: 0; font-size: 18px;">Add New Vehicle</h3>
-            <button class="modal-close-btn" id="closeAddCarModalBtn">&times;</button>
-        </div>
-        
-        <form id="addCarForm" onsubmit="event.preventDefault();">
-            <div class="modal-body">
-                <!-- Modal Tabs -->
-                <div class="modal-tabs">
-                    <button class="modal-tab-btn active" type="button" data-tab="specs">Specifications</button>
-                    <button class="modal-tab-btn" type="button" data-tab="pricing">Pricing & Media</button>
-                </div>
-                
-                <!-- Tab Panel 1: Specs -->
-                <div class="tab-panel active" id="panel-specs">
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
-                        <div class="form-group">
-                            <label class="form-label" for="make">Make *</label>
-                            <input class="form-control" type="text" id="make" name="make" placeholder="Toyota, Honda..." required>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label" for="model">Model *</label>
-                            <input class="form-control" type="text" id="model" name="model" placeholder="Aqua, Vezel..." required>
-                        </div>
-                    </div>
-                    
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
-                        <div class="form-group">
-                            <label class="form-label" for="year">Year *</label>
-                            <input class="form-control" type="number" id="year" name="year" placeholder="2023" required>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label" for="chassis">Chassis VIN *</label>
-                            <input class="form-control" type="text" id="chassis" name="chassis" placeholder="NHP10-XXXXXXX" required>
-                        </div>
-                    </div>
-                    
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
-                        <div class="form-group">
-                            <label class="form-label" for="grade">Inspection Grade *</label>
-                            <input class="form-control" type="text" id="grade" name="grade" placeholder="4.5, 5.0, R" required>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label" for="mileage">Mileage (KM) *</label>
-                            <input class="form-control" type="number" id="mileage" name="mileage" placeholder="25000" required>
-                        </div>
-                    </div>
-                    
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
-                        <div class="form-group">
-                            <label class="form-label" for="engine">Engine Size (CC)</label>
-                            <input class="form-control" type="number" id="engine" name="engine" placeholder="1500">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label" for="transmission">Transmission</label>
-                            <select class="form-control" id="transmission" name="transmission">
-                                <option value="Automatic">Automatic</option>
-                                <option value="Manual">Manual</option>
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
-                        <div class="form-group">
-                            <label class="form-label" for="color">Color</label>
-                            <input class="form-control" type="text" id="color" name="color" placeholder="Silver / Black">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label" for="body_type">Body Type</label>
-                            <select class="form-control" id="body_type" name="body_type">
-                                <option>Hatchback</option>
-                                <option>SUV</option>
-                                <option>Sedan</option>
-                                <option>Van</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Tab Panel 2: Pricing & Media -->
-                <div class="tab-panel" id="panel-pricing" style="display: none;">
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
-                        <div class="form-group">
-                            <label class="form-label" for="fob_price">FOB Price (USD) *</label>
-                            <input class="form-control" type="number" id="fob_price" name="fob_price" placeholder="22400" required>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label" for="cf_price">C&F Price (USD)</label>
-                            <input class="form-control" type="number" id="cf_price" name="cf_price" placeholder="Auto-calculated if empty">
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label">Upload Car Photos (Minimum 8 required) *</label>
-                        <div class="upload-dropzone" onclick="document.getElementById('photosUploader').click();">
-                            <i data-lucide="upload-cloud" style="width: 32px; height: 32px; color: var(--color-silver-400); margin-bottom: 8px;"></i>
-                            <p style="margin: 0; font-size: 13px; font-weight: 600; color: var(--color-navy-950);">Drag and drop your photos here, or click to browse</p>
-                            <p style="margin: 4px 0 0 0; font-size: 11px; color: var(--color-text-muted);">Supports JPG, PNG, JPEG up to 10MB per image</p>
-                            <input type="file" multiple style="display: none;" id="photosUploader">
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label">Damage/Inspection Report PDF</label>
-                        <input class="form-control" type="file" name="damage_report">
-                    </div>
-                    
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
-                        <div class="form-group">
-                            <label class="form-label" for="arrival_date">Arrival Date</label>
-                            <input class="form-control" type="date" id="arrival_date" name="arrival_date">
-                        </div>
-                        <div class="form-group">
-                            <label class="checkbox-wrapper" for="featured_checkbox">
-                                <input type="checkbox" name="featured" id="featured_checkbox">
-                                <span>Featured on Homepage</span>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="modal-footer">
-                <button class="btn btn-outline" type="button" id="cancelAddCarModalBtn">Cancel</button>
-                <button class="btn btn-gold" type="submit" id="saveCarBtn">Save Listing</button>
-            </div>
-        </form>
-    </div>
-</div>
 
 <?php include dirname(__DIR__) . '/admin/partials/footer.php'; ?>

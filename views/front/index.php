@@ -192,50 +192,73 @@
         </header>
 
         <ul class="listing-grid">
-          <li>
-            <a href="#" class="listing-card">
-              <div class="listing-card__media">
-                <img src="https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=600&q=80" alt="White compact SUV" width="600" height="400" loading="lazy" />
-              </div>
-              <div class="listing-card__footer">
-                <span class="listing-card__name">Honda Vezel</span>
-                <span class="listing-card__price">$24,500</span>
-              </div>
-            </a>
-          </li>
-          <li>
-            <a href="#" class="listing-card">
-              <div class="listing-card__media">
-                <img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=600&q=80" alt="Blue Ford Mustang coupe" width="600" height="400" loading="lazy" />
-              </div>
-              <div class="listing-card__footer">
-                <span class="listing-card__name">Ford Mustang</span>
-                <span class="listing-card__price">$38,900</span>
-              </div>
-            </a>
-          </li>
-          <li>
-            <a href="#" class="listing-card">
-              <div class="listing-card__media">
-                <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=600&q=80" alt="Black Porsche coupe" width="600" height="400" loading="lazy" />
-              </div>
-              <div class="listing-card__footer">
-                <span class="listing-card__name">Porsche 911</span>
-                <span class="listing-card__price">$89,200</span>
-              </div>
-            </a>
-          </li>
-          <li>
-            <a href="#" class="listing-card">
-              <div class="listing-card__media">
-                <img src="https://images.unsplash.com/photo-1553440569-bcc63803a83d?w=600&q=80" alt="Red Ferrari sports car" width="600" height="400" loading="lazy" />
-              </div>
-              <div class="listing-card__footer">
-                <span class="listing-card__name">Ferrari 488</span>
-                <span class="listing-card__price">$215,000</span>
-              </div>
-            </a>
-          </li>
+          <?php if (!empty($cars)): ?>
+            <?php foreach ($cars as $car): 
+              $carImg = $car['image_url'];
+              if (empty($carImg)) {
+                  $carImg = 'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=600&q=80'; // fallback mock image
+              } else {
+                  $carImg = BASE_URL . $carImg;
+              }
+            ?>
+            <li>
+              <a href="<?= BASE_URL ?>/product/<?= htmlspecialchars($car['stock_id']) ?>" class="listing-card">
+                <div class="listing-card__media">
+                  <img src="<?= htmlspecialchars($carImg) ?>" alt="<?= htmlspecialchars($car['make'] . ' ' . $car['model']) ?>" width="600" height="400" loading="lazy" />
+                </div>
+                <div class="listing-card__footer">
+                  <span class="listing-card__name"><?= htmlspecialchars($car['make'] . ' ' . $car['model']) ?></span>
+                  <span class="listing-card__price">$<?= number_format((float)$car['fob_price']) ?></span>
+                </div>
+              </a>
+            </li>
+            <?php endforeach; ?>
+          <?php else: ?>
+            <li>
+              <a href="#" class="listing-card">
+                <div class="listing-card__media">
+                  <img src="https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=600&q=80" alt="White compact SUV" width="600" height="400" loading="lazy" />
+                </div>
+                <div class="listing-card__footer">
+                  <span class="listing-card__name">Honda Vezel</span>
+                  <span class="listing-card__price">$24,500</span>
+                </div>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="listing-card">
+                <div class="listing-card__media">
+                  <img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=600&q=80" alt="Blue Ford Mustang coupe" width="600" height="400" loading="lazy" />
+                </div>
+                <div class="listing-card__footer">
+                  <span class="listing-card__name">Ford Mustang</span>
+                  <span class="listing-card__price">$38,900</span>
+                </div>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="listing-card">
+                <div class="listing-card__media">
+                  <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=600&q=80" alt="Black Porsche coupe" width="600" height="400" loading="lazy" />
+                </div>
+                <div class="listing-card__footer">
+                  <span class="listing-card__name">Porsche 911</span>
+                  <span class="listing-card__price">$89,200</span>
+                </div>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="listing-card">
+                <div class="listing-card__media">
+                  <img src="https://images.unsplash.com/photo-1553440569-bcc63803a83d?w=600&q=80" alt="Red Ferrari sports car" width="600" height="400" loading="lazy" />
+                </div>
+                <div class="listing-card__footer">
+                  <span class="listing-card__name">Ferrari 488</span>
+                  <span class="listing-card__price">$215,000</span>
+                </div>
+              </a>
+            </li>
+          <?php endif; ?>
         </ul>
 
         <div class="cta-banners__grid" aria-label="Quick actions">
@@ -330,28 +353,28 @@
                   <div class="dealer-logos-marquee">
                     <ul class="dealer-logos dealer-logos--slide">
                       <li class="dealer-logos__item">
-                        <img class="dealer-logos__img" src="image/mira-daihatsu.png" alt="Mira Daihatsu" width="160" height="64" loading="lazy" decoding="async">
+                        <img class="dealer-logos__img" src="<?= BASE_URL ?>/public/image/mira-daihatsu.png" alt="Mira Daihatsu" width="160" height="64" loading="lazy" decoding="async">
                       </li>
                       <li class="dealer-logos__item">
-                        <img class="dealer-logos__img" src="image/toyota.png" alt="Toyota" width="160" height="64" loading="lazy" decoding="async">
+                        <img class="dealer-logos__img" src="<?= BASE_URL ?>/public/image/toyota.png" alt="Toyota" width="160" height="64" loading="lazy" decoding="async">
                       </li>
                       <li class="dealer-logos__item">
-                        <img class="dealer-logos__img" src="image/nissan.png" alt="Nissan" width="160" height="64" loading="lazy" decoding="async">
+                        <img class="dealer-logos__img" src="<?= BASE_URL ?>/public/image/nissan.png" alt="Nissan" width="160" height="64" loading="lazy" decoding="async">
                       </li>
                       <li class="dealer-logos__item">
-                        <img class="dealer-logos__img" src="image/daihatsu.png" alt="Daihatsu" width="160" height="64" loading="lazy" decoding="async">
+                        <img class="dealer-logos__img" src="<?= BASE_URL ?>/public/image/daihatsu.png" alt="Daihatsu" width="160" height="64" loading="lazy" decoding="async">
                       </li>
                       <li class="dealer-logos__item dealer-logos__item--clone" aria-hidden="true">
-                        <img class="dealer-logos__img" src="image/mira-daihatsu.png" alt="" width="160" height="64" loading="lazy" decoding="async">
+                        <img class="dealer-logos__img" src="<?= BASE_URL ?>/public/image/mira-daihatsu.png" alt="" width="160" height="64" loading="lazy" decoding="async">
                       </li>
                       <li class="dealer-logos__item dealer-logos__item--clone" aria-hidden="true">
-                        <img class="dealer-logos__img" src="image/toyota.png" alt="" width="160" height="64" loading="lazy" decoding="async">
+                        <img class="dealer-logos__img" src="<?= BASE_URL ?>/public/image/toyota.png" alt="" width="160" height="64" loading="lazy" decoding="async">
                       </li>
                       <li class="dealer-logos__item dealer-logos__item--clone" aria-hidden="true">
-                        <img class="dealer-logos__img" src="image/nissan.png" alt="" width="160" height="64" loading="lazy" decoding="async">
+                        <img class="dealer-logos__img" src="<?= BASE_URL ?>/public/image/nissan.png" alt="" width="160" height="64" loading="lazy" decoding="async">
                       </li>
                       <li class="dealer-logos__item dealer-logos__item--clone" aria-hidden="true">
-                        <img class="dealer-logos__img" src="image/daihatsu.png" alt="" width="160" height="64" loading="lazy" decoding="async">
+                        <img class="dealer-logos__img" src="<?= BASE_URL ?>/public/image/daihatsu.png" alt="" width="160" height="64" loading="lazy" decoding="async">
                       </li>
                     </ul>
                   </div>
@@ -362,28 +385,28 @@
                   <div class="dealer-logos-marquee">
                     <ul class="dealer-logos dealer-logos--slide">
                       <li class="dealer-logos__item">
-                        <img class="dealer-logos__img" src="image/mira-daihatsu.png" alt="Mira Daihatsu" width="160" height="64" loading="lazy" decoding="async">
+                        <img class="dealer-logos__img" src="<?= BASE_URL ?>/public/image/mira-daihatsu.png" alt="Mira Daihatsu" width="160" height="64" loading="lazy" decoding="async">
                       </li>
                       <li class="dealer-logos__item">
-                        <img class="dealer-logos__img" src="image/toyota.png" alt="Toyota" width="160" height="64" loading="lazy" decoding="async">
+                        <img class="dealer-logos__img" src="<?= BASE_URL ?>/public/image/toyota.png" alt="Toyota" width="160" height="64" loading="lazy" decoding="async">
                       </li>
                       <li class="dealer-logos__item">
-                        <img class="dealer-logos__img" src="image/nissan.png" alt="Nissan" width="160" height="64" loading="lazy" decoding="async">
+                        <img class="dealer-logos__img" src="<?= BASE_URL ?>/public/image/nissan.png" alt="Nissan" width="160" height="64" loading="lazy" decoding="async">
                       </li>
                       <li class="dealer-logos__item">
-                        <img class="dealer-logos__img" src="image/daihatsu.png" alt="Daihatsu" width="160" height="64" loading="lazy" decoding="async">
+                        <img class="dealer-logos__img" src="<?= BASE_URL ?>/public/image/daihatsu.png" alt="Daihatsu" width="160" height="64" loading="lazy" decoding="async">
                       </li>
                       <li class="dealer-logos__item dealer-logos__item--clone" aria-hidden="true">
-                        <img class="dealer-logos__img" src="image/mira-daihatsu.png" alt="" width="160" height="64" loading="lazy" decoding="async">
+                        <img class="dealer-logos__img" src="<?= BASE_URL ?>/public/image/mira-daihatsu.png" alt="" width="160" height="64" loading="lazy" decoding="async">
                       </li>
                       <li class="dealer-logos__item dealer-logos__item--clone" aria-hidden="true">
-                        <img class="dealer-logos__img" src="image/toyota.png" alt="" width="160" height="64" loading="lazy" decoding="async">
+                        <img class="dealer-logos__img" src="<?= BASE_URL ?>/public/image/toyota.png" alt="" width="160" height="64" loading="lazy" decoding="async">
                       </li>
                       <li class="dealer-logos__item dealer-logos__item--clone" aria-hidden="true">
-                        <img class="dealer-logos__img" src="image/nissan.png" alt="" width="160" height="64" loading="lazy" decoding="async">
+                        <img class="dealer-logos__img" src="<?= BASE_URL ?>/public/image/nissan.png" alt="" width="160" height="64" loading="lazy" decoding="async">
                       </li>
                       <li class="dealer-logos__item dealer-logos__item--clone" aria-hidden="true">
-                        <img class="dealer-logos__img" src="image/daihatsu.png" alt="" width="160" height="64" loading="lazy" decoding="async">
+                        <img class="dealer-logos__img" src="<?= BASE_URL ?>/public/image/daihatsu.png" alt="" width="160" height="64" loading="lazy" decoding="async">
                       </li>
                     </ul>
                   </div>
@@ -394,28 +417,28 @@
                   <div class="dealer-logos-marquee">
                     <ul class="dealer-logos dealer-logos--slide">
                       <li class="dealer-logos__item">
-                        <img class="dealer-logos__img" src="image/mira-daihatsu.png" alt="Mira Daihatsu" width="160" height="64" loading="lazy" decoding="async">
+                        <img class="dealer-logos__img" src="<?= BASE_URL ?>/public/image/mira-daihatsu.png" alt="Mira Daihatsu" width="160" height="64" loading="lazy" decoding="async">
                       </li>
                       <li class="dealer-logos__item">
-                        <img class="dealer-logos__img" src="image/toyota.png" alt="Toyota" width="160" height="64" loading="lazy" decoding="async">
+                        <img class="dealer-logos__img" src="<?= BASE_URL ?>/public/image/toyota.png" alt="Toyota" width="160" height="64" loading="lazy" decoding="async">
                       </li>
                       <li class="dealer-logos__item">
-                        <img class="dealer-logos__img" src="image/nissan.png" alt="Nissan" width="160" height="64" loading="lazy" decoding="async">
+                        <img class="dealer-logos__img" src="<?= BASE_URL ?>/public/image/nissan.png" alt="Nissan" width="160" height="64" loading="lazy" decoding="async">
                       </li>
                       <li class="dealer-logos__item">
-                        <img class="dealer-logos__img" src="image/daihatsu.png" alt="Daihatsu" width="160" height="64" loading="lazy" decoding="async">
+                        <img class="dealer-logos__img" src="<?= BASE_URL ?>/public/image/daihatsu.png" alt="Daihatsu" width="160" height="64" loading="lazy" decoding="async">
                       </li>
                       <li class="dealer-logos__item dealer-logos__item--clone" aria-hidden="true">
-                        <img class="dealer-logos__img" src="image/mira-daihatsu.png" alt="" width="160" height="64" loading="lazy" decoding="async">
+                        <img class="dealer-logos__img" src="<?= BASE_URL ?>/public/image/mira-daihatsu.png" alt="" width="160" height="64" loading="lazy" decoding="async">
                       </li>
                       <li class="dealer-logos__item dealer-logos__item--clone" aria-hidden="true">
-                        <img class="dealer-logos__img" src="image/toyota.png" alt="" width="160" height="64" loading="lazy" decoding="async">
+                        <img class="dealer-logos__img" src="<?= BASE_URL ?>/public/image/toyota.png" alt="" width="160" height="64" loading="lazy" decoding="async">
                       </li>
                       <li class="dealer-logos__item dealer-logos__item--clone" aria-hidden="true">
-                        <img class="dealer-logos__img" src="image/nissan.png" alt="" width="160" height="64" loading="lazy" decoding="async">
+                        <img class="dealer-logos__img" src="<?= BASE_URL ?>/public/image/nissan.png" alt="" width="160" height="64" loading="lazy" decoding="async">
                       </li>
                       <li class="dealer-logos__item dealer-logos__item--clone" aria-hidden="true">
-                        <img class="dealer-logos__img" src="image/daihatsu.png" alt="" width="160" height="64" loading="lazy" decoding="async">
+                        <img class="dealer-logos__img" src="<?= BASE_URL ?>/public/image/daihatsu.png" alt="" width="160" height="64" loading="lazy" decoding="async">
                       </li>
                     </ul>
                   </div>

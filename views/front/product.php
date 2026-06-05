@@ -2,11 +2,48 @@
 $v = $vehicle;
 $galleryTotal = count($gallery);
 $galleryFirst = $gallery[0];
-$galleryFirstLarge = "https://images.unsplash.com/{$galleryFirst['src']}?w=1200&q=80";
-$galleryFirstThumb = "https://images.unsplash.com/{$galleryFirst['src']}?w=200&q=80";
+$firstSrc = $galleryFirst['src'];
+if (strpos($firstSrc, 'http') === 0) {
+    $galleryFirstLarge = $firstSrc;
+    $galleryFirstThumb = $firstSrc;
+} elseif (strpos($firstSrc, '/') === 0) {
+    $galleryFirstLarge = BASE_URL . $firstSrc;
+    $galleryFirstThumb = BASE_URL . $firstSrc;
+} else {
+    $galleryFirstLarge = "https://images.unsplash.com/{$firstSrc}?w=1200&q=80";
+    $galleryFirstThumb = "https://images.unsplash.com/{$firstSrc}?w=200&q=80";
+}
 $galleryFirstAlt = "{$v['title']} — {$galleryFirst['label']}";
 include __DIR__ . '/partials/header.php';
 ?>
+<script>
+  window.EisenVehicleData = {
+    year: <?= json_encode($v['year']) ?>,
+    make: <?= json_encode($vehicleDetails[0]['value'] ?? '') ?>,
+    model: <?= json_encode($vehicleDetails[1]['value'] ?? '') ?>,
+    title: <?= json_encode($v['title']) ?>,
+    bodyType: <?= json_encode($v['bodyType']) ?>,
+    location: <?= json_encode($v['location']) ?>,
+    mileageKm: <?= (int)$v['mileageKm'] ?>,
+    engineCc: <?= (int)$v['engineCc'] ?>,
+    fuel: <?= json_encode($v['fuel']) ?>,
+    transmission: <?= json_encode($v['transmission']) ?>,
+    color: <?= json_encode($vehicleDetails[2]['value'] ?? '') ?>,
+    doors: <?= (int)$v['doors'] ?>,
+    seats: <?= (int)$v['seats'] ?>,
+    steering: <?= json_encode($v['steering']) ?>,
+    stockId: <?= json_encode($v['stockId']) ?>,
+  };
+
+  window.EisenPricingData = {
+    vehicle: <?= (int)($pricingBreakdown[0]['jpy'] ?? 0) ?>,
+    freight: <?= (int)($pricingBreakdown[1]['jpy'] ?? 0) ?>,
+    vanning: <?= (int)($pricingBreakdown[2]['jpy'] ?? 0) ?>,
+    inspection: <?= (int)($pricingBreakdown[3]['jpy'] ?? 0) ?>,
+    insurance: <?= (int)($pricingBreakdown[4]['jpy'] ?? 0) ?>,
+    coupon: <?= (int)($pricingBreakdown[5]['jpy'] ?? 0) ?>,
+  };
+</script>
 
   <main id="main" class="product-page">
 
@@ -52,8 +89,17 @@ include __DIR__ . '/partials/header.php';
               </button>
               <ul class="product-gallery__thumbs" data-gallery-thumbs role="tablist" aria-label="Vehicle photos">
                 <?php foreach ($gallery as $index => $photo):
-                  $large = "https://images.unsplash.com/{$photo['src']}?w=1200&q=80";
-                  $thumb = "https://images.unsplash.com/{$photo['src']}?w=200&q=80";
+                  $pSrc = $photo['src'];
+                  if (strpos($pSrc, 'http') === 0) {
+                      $large = $pSrc;
+                      $thumb = $pSrc;
+                  } elseif (strpos($pSrc, '/') === 0) {
+                      $large = BASE_URL . $pSrc;
+                      $thumb = BASE_URL . $pSrc;
+                  } else {
+                      $large = "https://images.unsplash.com/{$pSrc}?w=1200&q=80";
+                      $thumb = "https://images.unsplash.com/{$pSrc}?w=200&q=80";
+                  }
                   $alt = "{$v['title']} — {$photo['label']}";
                   $isActive = $index === 0;
                 ?>
@@ -78,20 +124,14 @@ include __DIR__ . '/partials/header.php';
               </button>
             </div>
 
+            <?php if (!empty($v['description'])): ?>
             <div class="product-gallery-desc">
               <h2 class="product-gallery-desc__title" data-i18n="product.overviewTitle">Overview</h2>
               <div class="product-gallery-desc__body">
-                <p data-i18n="product.description.p1">This 2018 Honda Fit 13G F is a practical Japan-market hatchback ideal for city driving and export. The vehicle is offered from our Kobe inventory with auction-grade documentation available on request.</p>
-                <p data-i18n="product.description.p2">The Fit is known for excellent fuel economy, a compact footprint, and a versatile cabin. This example shows 76,000 km on the odometer with a 1,300 cc petrol engine and smooth automatic transmission — well suited for daily use or resale in overseas markets.</p>
-                <p data-i18n="product.description.p3">Exterior colour is blue with a five-door hatchback body. The vehicle is right-hand drive (RHD) as standard for Japan, with seating for five passengers. Grade and inspection reports from the auction house can be shared before purchase.</p>
-                <p data-i18n="product.description.p4">Eisen Corporation handles sourcing from USS, TAA, JU, and other major Japanese auctions. We arrange inland transport, export documentation, marine insurance, and shipment by RORO or container to ports worldwide including Pakistan, Kenya, Tanzania, and Bangladesh.</p>
-                <p>
-                  <span data-i18n="product.description.p5">Use the Total Price Calculator and estimate form on this page for a C&amp;F breakdown, or contact us via WhatsApp for a personalised quote.</span>
-                  <span data-i18n="product.description.p5Stock"> Stock reference</span>:
-                  <strong><?= htmlspecialchars($v['stockId']) ?></strong> — <?= htmlspecialchars($v['location']) ?>.
-                </p>
+                <p data-translate-paragraph data-orig-text="<?= htmlspecialchars($v['description']) ?>"><?= nl2br(htmlspecialchars($v['description'])) ?></p>
               </div>
             </div>
+            <?php endif; ?>
           </div>
 
           <aside class="product-buybox card" aria-label="Vehicle summary">
@@ -106,13 +146,12 @@ include __DIR__ . '/partials/header.php';
             <h1 id="product-title" class="product-buybox__title" data-page-title="product.pageTitle"><?= htmlspecialchars($v['title']) ?></h1>
             <p class="product-buybox__codes">
               <span><?= htmlspecialchars($v['modelCode']) ?></span>
-              <span><?= htmlspecialchars($v['year']) ?></span>
-              <span data-i18n="product.manufactureYear">Manufacture Year</span>
+              <span><?= htmlspecialchars($v['year']) ?> <span data-i18n="product.manufactureYear">Manufacture Year</span></span>
               <span><?= htmlspecialchars($v['bodyType']) ?></span>
             </p>
 
             <div class="product-buybox__social">
-              <span class="product-buybox__stars" aria-label="5 out of 5 stars">★★★★★</span>
+              <span class="product-buybox__stars" aria-label="<?= htmlspecialchars($v['rating']) ?> out of 5 stars"><?= htmlspecialchars($v['stars']) ?></span>
               <span><strong><?= (int) $v['reviews'] ?></strong> <span data-i18n="product.reviews">Reviews</span></span>
               <span class="product-buybox__stat"><?= (int) $v['views'] ?> <span data-i18n="product.views">views</span></span>
               <span class="product-buybox__stat">♥ <?= (int) $v['favorites'] ?></span>
@@ -139,19 +178,19 @@ include __DIR__ . '/partials/header.php';
               </li>
               <li>
                 <span class="product-quick-specs__label" data-i18n="product.spec.transmission">Transmission</span>
-                <strong><?= htmlspecialchars($v['transmission']) ?></strong>
+                <strong data-i18n="spec.val.<?= strtolower(str_replace([' ', '(', ')'], ['_', '', ''], $v['transmission'])) ?>"><?= htmlspecialchars($v['transmission']) ?></strong>
               </li>
               <li>
                 <span class="product-quick-specs__label" data-i18n="product.spec.drive">Drive</span>
-                <strong><?= htmlspecialchars($v['drive']) ?></strong>
+                <strong data-i18n="spec.val.<?= strtolower($v['drive']) ?>"><?= htmlspecialchars($v['drive']) ?></strong>
               </li>
               <li>
                 <span class="product-quick-specs__label" data-i18n="product.spec.steering">Steering</span>
-                <strong><?= htmlspecialchars($v['steering']) ?></strong>
+                <strong data-i18n="spec.val.<?= strtolower(str_replace([' ', '(', ')'], ['_', '', ''], $v['steering'])) ?>"><?= htmlspecialchars($v['steering']) ?></strong>
               </li>
               <li>
                 <span class="product-quick-specs__label" data-i18n="product.spec.fuel">Fuel</span>
-                <strong><?= htmlspecialchars($v['fuel']) ?></strong>
+                <strong data-i18n="spec.val.<?= strtolower($v['fuel']) ?>"><?= htmlspecialchars($v['fuel']) ?></strong>
               </li>
               <li>
                 <span class="product-quick-specs__label" data-i18n="product.spec.doors">Door</span>
@@ -163,7 +202,11 @@ include __DIR__ . '/partials/header.php';
               </li>
             </ul>
 
-            <a class="btn btn--outline btn--block product-buybox__alert" href="<?= BASE_URL ?>/admin/login" data-i18n="product.discountAlert">Get Discount Alerts After Login</a>
+            <?php if (\App\Core\Session::get('is_logged_in') === true): ?>
+              <button type="button" class="btn btn--outline btn--block product-buybox__alert" id="discountAlertBtn" data-i18n="product.discountAlertLoggedIn">Get Discount Alerts</button>
+            <?php else: ?>
+              <a class="btn btn--outline btn--block product-buybox__alert" href="<?= BASE_URL ?>/login" data-i18n="product.discountAlert">Get Discount Alerts After Login</a>
+            <?php endif; ?>
 
             <div class="product-calculator card">
               <h2 class="product-calculator__title" data-i18n="product.calculatorTitle">Total Price Calculator</h2>
@@ -192,10 +235,18 @@ include __DIR__ . '/partials/header.php';
               <section class="product-section card" aria-labelledby="product-vehicle-details">
                 <h2 id="product-vehicle-details" class="product-section__title" data-i18n="product.vehicleDetails">Vehicle Details</h2>
                 <dl class="product-detail-list">
-                  <?php foreach ($vehicleDetails as $row): ?>
+                  <?php foreach ($vehicleDetails as $row):
+                    $lblKey = "spec.label." . strtolower(str_replace([' ', '&', '/'], '_', $row['label']));
+                    $valKey = "";
+                    if (!is_numeric($row['value']) && strpos($row['value'], '.') === false && !preg_match('/^[0-9]+[a-zA-Z\s]+$/', $row['value'])) {
+                        if (!str_ends_with(strtolower($row['value']), 'cc') && !str_ends_with(strtolower($row['value']), 'km')) {
+                            $valKey = "spec.val." . strtolower(str_replace([' ', '(', ')', '&', '/'], ['_', '', '', '_', '_'], trim($row['value'])));
+                        }
+                    }
+                  ?>
                   <div class="product-detail-list__row">
-                    <dt><?= htmlspecialchars($row['label']) ?></dt>
-                    <dd><?= htmlspecialchars($row['value']) ?></dd>
+                    <dt data-i18n="<?= $lblKey ?>"><?= htmlspecialchars($row['label']) ?></dt>
+                    <dd <?php if ($valKey): ?>data-i18n="<?= $valKey ?>"<?php endif; ?>><?= htmlspecialchars($row['value']) ?></dd>
                   </div>
                   <?php endforeach; ?>
                 </dl>
@@ -204,10 +255,18 @@ include __DIR__ . '/partials/header.php';
               <section class="product-section card" aria-labelledby="product-specifications">
                 <h2 id="product-specifications" class="product-section__title" data-i18n="product.specifications">Specifications</h2>
                 <dl class="product-detail-list">
-                  <?php foreach ($specifications as $row): ?>
+                  <?php foreach ($specifications as $row):
+                    $lblKey = "spec.label." . strtolower(str_replace([' ', '&', '/'], '_', $row['label']));
+                    $valKey = "";
+                    if (!is_numeric($row['value']) && strpos($row['value'], '.') === false && !preg_match('/^[0-9]+[a-zA-Z\s]+$/', $row['value'])) {
+                        if (!str_ends_with(strtolower($row['value']), 'cc') && !str_ends_with(strtolower($row['value']), 'km')) {
+                            $valKey = "spec.val." . strtolower(str_replace([' ', '(', ')', '&', '/'], ['_', '', '', '_', '_'], trim($row['value'])));
+                        }
+                    }
+                  ?>
                   <div class="product-detail-list__row">
-                    <dt><?= htmlspecialchars($row['label']) ?></dt>
-                    <dd><?= htmlspecialchars($row['value']) ?></dd>
+                    <dt data-i18n="<?= $lblKey ?>"><?= htmlspecialchars($row['label']) ?></dt>
+                    <dd <?php if ($valKey): ?>data-i18n="<?= $valKey ?>"<?php endif; ?>><?= htmlspecialchars($row['value']) ?></dd>
                   </div>
                   <?php endforeach; ?>
                 </dl>
@@ -220,10 +279,12 @@ include __DIR__ . '/partials/header.php';
               <div class="product-options-group">
                 <h3 class="product-options-group__title" <?php if (!empty($group['i18n'])): ?>data-i18n="<?= htmlspecialchars($group['i18n']) ?>"<?php endif; ?>><?= htmlspecialchars($group['title']) ?></h3>
                 <ul class="product-options-tags">
-                  <?php foreach ($group['items'] as $item): ?>
+                  <?php foreach ($group['items'] as $item):
+                    $optKey = "option." . strtolower(str_replace([' ', '&', '/'], '_', $item['label']));
+                  ?>
                   <li>
                     <span class="product-options-tag<?= !empty($item['active']) ? ' is-active' : '' ?>">
-                      <span class="product-options-tag__label"><?= htmlspecialchars($item['label']) ?></span>
+                      <span class="product-options-tag__label" data-i18n="<?= $optKey ?>"><?= htmlspecialchars($item['label']) ?></span>
                       <?php if (!empty($item['active'])): ?>
                       <span class="product-options-tag__check" aria-hidden="true">✓</span>
                       <?php endif; ?>
@@ -330,42 +391,35 @@ include __DIR__ . '/partials/header.php';
               <p class="product-recs__subtitle" data-i18n="product.recs.similarSub">Based on this vehicle</p>
             </header>
             <ul class="product-recs-grid">
-              <li>
-                <a href="<?= BASE_URL ?>/product" class="product-rec-card">
-                  <div class="product-rec-card__media">
-                    <img src="https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?w=600&q=80" alt="Toyota Highlander XLE" width="600" height="400" loading="lazy" />
-                  </div>
-                  <div class="product-rec-card__body">
-                    <h3 class="product-rec-card__name">Toyota Highlander XLE</h3>
-                    <p class="product-rec-card__meta"><span class="product-price" data-price-usd="26998">$26,998</span> · 67K km</p>
-                    <p class="product-rec-card__location">USS Tokyo, Japan</p>
-                  </div>
-                </a>
-              </li>
-              <li>
-                <a href="<?= BASE_URL ?>/product" class="product-rec-card">
-                  <div class="product-rec-card__media">
-                    <img src="https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=600&q=80" alt="Honda CR-V EX-L" width="600" height="400" loading="lazy" />
-                  </div>
-                  <div class="product-rec-card__body">
-                    <h3 class="product-rec-card__name">Honda CR-V EX-L</h3>
-                    <p class="product-rec-card__meta"><span class="product-price" data-price-usd="24998">$24,998</span> · 54K km</p>
-                    <p class="product-rec-card__location">USS Osaka, Japan</p>
-                  </div>
-                </a>
-              </li>
-              <li>
-                <a href="<?= BASE_URL ?>/product" class="product-rec-card">
-                  <div class="product-rec-card__media">
-                    <img src="https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=600&q=80" alt="Audi Q5 Premium" width="600" height="400" loading="lazy" />
-                  </div>
-                  <div class="product-rec-card__body">
-                    <h3 class="product-rec-card__name">Audi Q5 Premium</h3>
-                    <p class="product-rec-card__meta"><span class="product-price" data-price-usd="31998">$31,998</span> · 41K km</p>
-                    <p class="product-rec-card__location">TAA Yokohama, Japan</p>
-                  </div>
-                </a>
-              </li>
+              <?php if (!empty($recommendations)): ?>
+                <?php foreach ($recommendations as $rec):
+                  $recImg = $rec['image'];
+                  if (strpos($recImg, 'http') === 0) {
+                      $imgUrl = $recImg;
+                  } elseif (strpos($recImg, '/') === 0) {
+                      $imgUrl = BASE_URL . $recImg;
+                  } else {
+                      $imgUrl = "https://images.unsplash.com/{$recImg}?w=600&q=80";
+                  }
+                ?>
+                <li>
+                  <a href="<?= BASE_URL ?>/product/<?= htmlspecialchars($rec['stockId']) ?>" class="product-rec-card">
+                    <div class="product-rec-card__media">
+                      <img src="<?= htmlspecialchars($imgUrl) ?>" alt="<?= htmlspecialchars($rec['title']) ?>" width="600" height="400" loading="lazy" />
+                    </div>
+                    <div class="product-rec-card__body">
+                      <h3 class="product-rec-card__name"><?= htmlspecialchars($rec['title']) ?></h3>
+                      <p class="product-rec-card__meta">
+                        <span class="product-vehicle-price" data-price-jpy="<?= (int)$rec['priceJpy'] ?>">¥<?= number_format((int)$rec['priceJpy']) ?></span> · <?= number_format((int)($rec['mileageKm'] / 1000)) ?>K km
+                      </p>
+                      <p class="product-rec-card__location"><?= htmlspecialchars($rec['location']) ?></p>
+                    </div>
+                  </a>
+                </li>
+                <?php endforeach; ?>
+              <?php else: ?>
+                <li style="grid-column: 1 / -1; text-align: center; color: var(--text-muted); padding: 2rem;" data-i18n="product.recs.none">No recommendations available at this time.</li>
+              <?php endif; ?>
             </ul>
           </section>
         </div>

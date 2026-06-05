@@ -8,7 +8,7 @@ class Session {
             ini_set('session.use_only_cookies', 1);
             ini_set('session.use_strict_mode', 1);
             ini_set('session.cookie_httponly', 1);
-            ini_set('session.cookie_samesite', 'Strict');
+            ini_set('session.cookie_samesite', 'Lax');
             
             // Only use secure cookies if on HTTPS
             if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') {
@@ -78,8 +78,7 @@ class Session {
 
     // Check if an admin is logged in
     public static function isAdminLoggedIn() {
-        // For UI phase, let's allow bypassing or return true. Let's make it check the session key
-        return (self::get('is_logged_in') === true && self::get('user_role') === 'admin');
+        return (self::get('is_logged_in') === true && in_array(self::get('user_role'), ['admin', 'finance_officer', 'caller_agent']));
     }
 
     /**

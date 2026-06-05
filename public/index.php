@@ -1,6 +1,9 @@
 <?php
 // public/index.php
 
+// Load Composer Autoloader
+require_once dirname(__DIR__) . '/vendor/autoload.php';
+
 // 1. PSR-4 Class Autoloader
 spl_autoload_register(function ($class) {
     $prefix = 'App\\';
@@ -48,17 +51,32 @@ $router->get('/chassis-check', 'Front\ChassisController@index');
 $router->get('/price-calculation', 'Front\PriceCalculationController@index');
 $router->get('/faq/{slug}', 'Front\FaqController@index');
 $router->get('/faq', 'Front\FaqController@index');
+$router->get('/api/listings', 'Front\ListingController@api');
 
-// 5. Admin UI Routes
+// 5. User Authentication Routes
+$router->get('/login', 'Front\UserAuthController@showLoginForm');
+$router->post('/login', 'Front\UserAuthController@login');
+$router->post('/signup/send-otp', 'Front\UserAuthController@sendOtp');
+$router->post('/signup/verify-otp', 'Front\UserAuthController@verifyOtp');
+$router->post('/signup/complete', 'Front\UserAuthController@completeSignup');
+$router->get('/auth/google', 'Front\UserAuthController@googleLogin');
+$router->get('/auth/google/callback', 'Front\UserAuthController@googleCallback');
+$router->get('/logout', 'Front\UserAuthController@logout');
+
+// 6. Admin UI Routes
 $router->get('/admin', 'Admin\DashboardController@index');
 $router->get('/admin/login', 'Admin\AuthController@showLoginForm');
 $router->post('/admin/login', 'Admin\AuthController@login');
-$router->post('/admin/signup', 'Admin\AuthController@signup');
-$router->get('/admin/auth/google', 'Admin\AuthController@googleLogin');
 $router->get('/admin/forgot-password', 'Admin\AuthController@showForgotPasswordForm');
 $router->post('/admin/forgot-password', 'Admin\AuthController@sendForgotPassword');
 $router->get('/admin/logout', 'Admin\AuthController@logout');
 $router->get('/admin/inventory', 'Admin\InventoryController@index');
+$router->get('/admin/inventory/new', 'Admin\InventoryController@create');
+$router->post('/admin/inventory/new', 'Admin\InventoryController@store');
+$router->get('/admin/inventory/edit/{id}', 'Admin\InventoryController@edit');
+$router->post('/admin/inventory/edit/{id}', 'Admin\InventoryController@update');
+$router->post('/admin/inventory/delete/{id}', 'Admin\InventoryController@delete');
+$router->post('/admin/inventory/toggle-featured/{id}', 'Admin\InventoryController@toggleFeatured');
 $router->get('/admin/bids', 'Admin\BidController@index');
 $router->get('/admin/reservations', 'Admin\ReservationController@index');
 $router->get('/admin/customers', 'Admin\CustomerController@index');
