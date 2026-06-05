@@ -76,6 +76,21 @@ class Session {
         return isset($_SESSION['flash_data'][$key]);
     }
 
+    public static function isLoggedIn() {
+        return self::get('is_logged_in') === true;
+    }
+
+    public static function getUserFirstName() {
+        $name = trim((string) self::get('user_name'));
+        if ($name === '') {
+            return '';
+        }
+
+        $parts = preg_split('/\s+/', $name);
+
+        return $parts[0] ?? $name;
+    }
+
     // Check if an admin is logged in
     public static function isAdminLoggedIn() {
         return (self::get('is_logged_in') === true && in_array(self::get('user_role'), ['admin', 'finance_officer', 'caller_agent']));

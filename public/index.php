@@ -52,6 +52,7 @@ $router->get('/price-calculation', 'Front\PriceCalculationController@index');
 $router->get('/faq/{slug}', 'Front\FaqController@index');
 $router->get('/faq', 'Front\FaqController@index');
 $router->get('/api/listings', 'Front\ListingController@api');
+$router->get('/account', 'Front\AccountController@index');
 
 // 5. User Authentication Routes
 $router->get('/login', 'Front\UserAuthController@showLoginForm');

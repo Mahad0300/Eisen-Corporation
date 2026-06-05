@@ -159,13 +159,13 @@ if (!function_exists('eisen_nav_is_active')) {
                   <span class="header-login__label">Logout</span>
                 </a>
             <?php else: ?>
-                <div class="header-login header-login--desktop" style="cursor: default;" aria-label="User logged in">
+                <a class="header-login header-login--desktop header-login--user" href="<?= BASE_URL ?>/account" aria-label="<?= htmlspecialchars(\App\Core\Session::getUserFirstName()) ?> account">
                   <svg class="header-login__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                     <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.75" />
                     <path d="M5 20c0-3.314 3.134-6 7-6s7 2.686 7 6" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" />
                   </svg>
-                  <span class="header-login__label" style="font-weight: 600; color: #c9a227;"><?= htmlspecialchars(\App\Core\Session::get('user_name')) ?></span>
-                </div>
+                  <span class="header-login__label" style="font-weight: 600; color: #c9a227;"><?= htmlspecialchars(\App\Core\Session::getUserFirstName()) ?></span>
+                </a>
                 <a class="header-login header-login--desktop" href="<?= BASE_URL ?>/logout" style="margin-left: 15px;" aria-label="Logout">
                   <span class="header-login__label">Logout</span>
                 </a>
@@ -244,10 +244,12 @@ if (!function_exists('eisen_nav_is_active')) {
                   </svg>
                 </a>
             <?php else: ?>
-                <a class="header-login header-login--mobile" href="<?= BASE_URL ?>/logout" aria-label="Logout">
+                <a class="header-login header-login--mobile header-login--user" href="<?= BASE_URL ?>/account" aria-label="<?= htmlspecialchars(\App\Core\Session::getUserFirstName()) ?> account">
                   <svg class="header-login__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                    <path d="M9 21H5a2 2 0 0 0-2 2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
+                    <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.75" />
+                    <path d="M5 20c0-3.314 3.134-6 7-6s7 2.686 7 6" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" />
                   </svg>
+                  <span class="header-login__label header-login__label--mobile"><?= htmlspecialchars(\App\Core\Session::getUserFirstName()) ?></span>
                 </a>
             <?php endif; ?>
         <?php else: ?>

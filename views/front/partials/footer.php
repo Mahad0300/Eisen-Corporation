@@ -46,18 +46,18 @@
       <div class="site-footer__col">
         <h3 class="site-footer__heading" data-i18n="footer.contact">Contact Us</h3>
         <p class="site-footer__text">
-          <strong>Lorem Ipsum Dolor</strong><br />
-          42 Sit Amet Street<br />
-          Consectetur, Adipiscing 00000, Elit
+          <strong>Eisen Inc.</strong><br />
+          3-22-32 Tanaka, Matsubushi Machi<br />
+          Kitakatsushika Gun, Saitama Prefecture 343-0117
         </p>
         <p class="site-footer__text">
-          <a href="mailto:lorem.ipsum@example.com">lorem.ipsum@example.com</a><br />
-          <a href="tel:+10000000000">+00 000-000-0000</a>
+          <a href="mailto:sales@eisenwheels.com">sales@eisenwheels.com</a><br />
+          <a href="tel:09033508523">090 3350 8523</a>
         </p>
         <p class="site-footer__text">
           <strong data-i18n="footer.hoursTitle">Business hours</strong><br />
-          <span data-i18n="footer.hoursLine1">Lorem – Ipsum: 00:00 – 00:00</span><br />
-          <span data-i18n="footer.hoursLine2">Dolor: Sit amet consectetur</span>
+          <span data-i18n="footer.hoursLine1">Mon – Fri: 09:00 – 18:00 (JST)</span><br />
+          <span data-i18n="footer.hoursLine2">Sat: 09:00 – 13:00 (JST)</span>
         </p>
       </div>
     </div>
@@ -78,5 +78,12 @@
   <script src="<?= BASE_URL ?>/public/js/currency.js" defer></script>
   <script src="<?= BASE_URL ?>/public/js/main.js" defer></script>
   <script src="<?= BASE_URL ?>/public/js/listing.js" defer></script>
+<?php if (!empty($loadAccountScripts)): ?>
+  <?php if (!empty($loadAccountPaymentPicker)): ?>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/litepicker/dist/css/litepicker.css" />
+  <script src="https://cdn.jsdelivr.net/npm/litepicker/dist/litepicker.js" defer></script>
+  <?php endif; ?>
+  <script src="<?= BASE_URL ?>/public/js/account.js" defer></script>
+<?php endif; ?>
 </body>
 </html>
