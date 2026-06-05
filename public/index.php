@@ -53,6 +53,9 @@ $router->get('/faq/{slug}', 'Front\FaqController@index');
 $router->get('/faq', 'Front\FaqController@index');
 $router->get('/api/listings', 'Front\ListingController@api');
 $router->get('/account', 'Front\AccountController@index');
+$router->post('/account/profile', 'Front\AccountController@updateProfile');
+$router->post('/account/consignee', 'Front\AccountController@updateConsignee');
+$router->post('/account/favorites/remove', 'Front\AccountController@removeFavorite');
 
 // 5. User Authentication Routes
 $router->get('/login', 'Front\UserAuthController@showLoginForm');
